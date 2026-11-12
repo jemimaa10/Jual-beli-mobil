@@ -27,3 +27,4 @@ dist-standalone/
 dist/
 node_modules/
 .superpowers/
+/public/_preview

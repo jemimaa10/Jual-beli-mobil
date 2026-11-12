@@ -51,6 +51,10 @@
 @endphp
 
 @section('content')
+@unless ($isCar)
+    {{-- Transaksi kasir berhasil: kosongkan keranjang yang disimpan di browser --}}
+    <script>try { sessionStorage.removeItem('auto18_pos_cart'); } catch (e) {}</script>
+@endunless
 <div class="mx-auto max-w-md px-4 py-8">
     <div class="overflow-hidden rounded-3xl border border-white/10 bg-ink-800 shadow-2xl" x-data="{ note: '' , copy() {
             const text = @js($copyText);

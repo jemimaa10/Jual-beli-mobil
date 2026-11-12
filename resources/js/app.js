@@ -247,4 +247,152 @@ Alpine.data('carSaleForm', ({ price, buyPrice, minDp, rate, requests, old }) => 
     },
 }));
 
+// ---------------------------------------------------------------------------
+// Kasir aksesoris: keranjang di browser, dikirim sebagai form biasa. Server menghitung ulang
+// harga, diskon, pajak, dan stok. Keranjang disimpan di sessionStorage supaya tidak hilang
+// kalau checkout ditolak; halaman nota mengosongkannya setelah transaksi berhasil.
+// ---------------------------------------------------------------------------
+const POS_CART_KEY = 'auto18_pos_cart';
+
+Alpine.data('pos', ({ products, taxEnabled, taxRate }) => ({
+    products,
+    taxEnabled,
+    taxRate: Number(taxRate),
+    search: '',
+    category: 'all',
+    cart: [],
+    discountType: 'nominal',
+    discountValue: '',
+    payOpen: false,
+    method: 'cash',
+    cash: '',
+    customer: 'Pelanggan Umum',
+    bank: 'BCA',
+    rupiah,
+
+    init() {
+        try {
+            const saved = JSON.parse(sessionStorage.getItem(POS_CART_KEY) || 'null');
+            if (saved && Array.isArray(saved.cart)) {
+                // Hanya barang yang masih ada, dan jumlahnya tidak melebihi stok terbaru
+                this.cart = saved.cart
+                    .map((line) => ({ id: line.id, qty: Math.min(Number(line.qty) || 0, this.product(line.id)?.stock ?? 0) }))
+                    .filter((line) => line.qty > 0);
+                this.discountType = saved.discountType === 'percent' ? 'percent' : 'nominal';
+                this.discountValue = saved.discountValue ?? '';
+            }
+        } catch (e) {
+            /* penyimpanan diblokir: keranjang hanya hidup selama halaman terbuka */
+        }
+        this.$watch('cart', () => this.persist());
+        this.$watch('discountType', () => this.persist());
+        this.$watch('discountValue', () => this.persist());
+    },
+
+    persist() {
+        try {
+            sessionStorage.setItem(POS_CART_KEY, JSON.stringify({ cart: this.cart, discountType: this.discountType, discountValue: this.discountValue }));
+        } catch (e) {
+            /* abaikan */
+        }
+    },
+
+    product(id) {
+        return this.products.find((p) => p.id === id);
+    },
+    qtyOf(id) {
+        return this.cart.find((line) => line.id === id)?.qty || 0;
+    },
+    countIn(categoryId) {
+        return this.products.filter((p) => p.category_id === categoryId).length;
+    },
+
+    get filtered() {
+        const q = this.search.trim().toLowerCase();
+        return this.products.filter((p) => {
+            const inCategory = this.category === 'all' || p.category_id === this.category;
+            const matches = !q || p.name.toLowerCase().includes(q) || p.sku.toLowerCase().includes(q) || (p.barcode && p.barcode.includes(q));
+            return inCategory && matches;
+        });
+    },
+    get lines() {
+        return this.cart.map((line) => ({ ...line, product: this.product(line.id) })).filter((line) => line.product);
+    },
+    get count() {
+        return this.cart.reduce((sum, line) => sum + line.qty, 0);
+    },
+    get subtotal() {
+        return this.lines.reduce((sum, line) => sum + line.product.sell_price * line.qty, 0);
+    },
+    get discount() {
+        const v = Number(this.discountValue);
+        const value = Number.isFinite(v) ? v : 0;
+        const raw = this.discountType === 'percent' ? Math.round((this.subtotal * Math.min(100, Math.max(0, value))) / 100) : Math.max(0, value);
+        return Math.min(this.subtotal, raw);
+    },
+    get tax() {
+        return this.taxEnabled ? Math.round(Math.max(0, this.subtotal - this.discount) * (this.taxRate / 100)) : 0;
+    },
+    get total() {
+        return Math.max(0, this.subtotal - this.discount + this.tax);
+    },
+    get cashNumber() {
+        return Number(this.cash) || 0;
+    },
+    get cashEnough() {
+        return this.cashNumber >= this.total;
+    },
+    get quickCash() {
+        const total = this.total;
+        const up = (step) => Math.ceil(total / step) * step;
+        const extra = [...new Set([50000, 100000, 500000, 1000000].map(up))].filter((v) => v > total);
+        return [{ label: 'Uang Pas', value: total }, ...extra.map((v) => ({ label: rupiah(v), value: v }))];
+    },
+    get account() {
+        return { BCA: '8830-1234-56', Mandiri: '1310-0099-8822', BRI: '0021-9988-7766-50' }[this.bank];
+    },
+
+    toast(message) {
+        window.dispatchEvent(new CustomEvent('toast', { detail: { type: 'error', message } }));
+    },
+
+    add(p) {
+        if (p.stock <= 0) return this.toast('Maaf, stok barang ini sedang habis!');
+        const line = this.cart.find((l) => l.id === p.id);
+        if (line) {
+            if (line.qty >= p.stock) return this.toast(`Jumlah melebihi stok yang tersedia (${p.stock})`);
+            line.qty += 1;
+        } else {
+            this.cart.push({ id: p.id, qty: 1 });
+        }
+    },
+    setQty(id, qty) {
+        if (qty <= 0) return this.remove(id);
+        const p = this.product(id);
+        if (p && qty > p.stock) return this.toast(`Jumlah melebihi sisa stok (${p.stock})`);
+        const line = this.cart.find((l) => l.id === id);
+        if (line) line.qty = qty;
+    },
+    remove(id) {
+        this.cart = this.cart.filter((l) => l.id !== id);
+    },
+    clear() {
+        this.cart = [];
+        this.discountType = 'nominal';
+        this.discountValue = '';
+    },
+    openPay() {
+        this.method = 'cash';
+        this.cash = '';
+        this.payOpen = true;
+        this.$nextTick(() => this.$refs.cash?.focus());
+    },
+    submit(event) {
+        if (this.method === 'cash' && !this.cashEnough) {
+            event.preventDefault();
+            this.toast('Nominal uang bayar masih kurang!');
+        }
+    },
+}));
+
 Alpine.start();

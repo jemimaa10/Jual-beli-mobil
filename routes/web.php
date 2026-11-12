@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Public\CarCatalogController;
 use App\Http\Controllers\Showroom\CarController;
 use App\Http\Controllers\Showroom\CarSaleController;
+use App\Http\Controllers\Showroom\PosController;
 use App\Http\Controllers\Showroom\ReceiptController;
 use App\Http\Controllers\Showroom\SellRequestController;
 use App\Http\Controllers\Showroom\TestDriveController;
@@ -47,6 +48,10 @@ Route::middleware('auth')->prefix('showroom')->name('showroom.')->group(function
 
     Route::patch('test-drive/{testDrive}', [TestDriveController::class, 'update'])->name('test-drives.update');
     Route::delete('test-drive/{testDrive}', [TestDriveController::class, 'destroy'])->name('test-drives.destroy');
+
+    // Kasir aksesoris
+    Route::get('kasir', [PosController::class, 'index'])->name('pos');
+    Route::post('kasir', [PosController::class, 'checkout'])->name('pos.checkout');
 
     Route::get('transaksi/{transaction}/nota', [ReceiptController::class, 'show'])->name('receipt');
 });
