@@ -5,7 +5,10 @@ use App\Http\Controllers\Public\CarCatalogController;
 use App\Http\Controllers\Showroom\CarController;
 use App\Http\Controllers\Showroom\CarSaleController;
 use App\Http\Controllers\Showroom\CategoryController;
+use App\Http\Controllers\Showroom\DashboardController;
 use App\Http\Controllers\Showroom\PosController;
+use App\Http\Controllers\Showroom\ReportController;
+use App\Http\Controllers\Showroom\SettingController;
 use App\Http\Controllers\Showroom\ProductController;
 use App\Http\Controllers\Showroom\StockInController;
 use App\Http\Controllers\Showroom\SupplierController;
@@ -36,7 +39,14 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // Panel showroom (wajib login)
 // ---------------------------------------------------------------------------
 Route::middleware('auth')->prefix('showroom')->name('showroom.')->group(function () {
-    Route::view('/', 'showroom.placeholder', ['title' => 'Dashboard'])->name('dashboard');
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Laporan penjualan & pengaturan showroom
+    Route::get('laporan', [ReportController::class, 'index'])->name('reports');
+    Route::get('laporan/export', [ReportController::class, 'export'])->name('reports.export');
+    Route::get('pengaturan', [SettingController::class, 'edit'])->name('settings');
+    Route::put('pengaturan', [SettingController::class, 'update'])->name('settings.update');
+    Route::post('pengaturan/reset', [SettingController::class, 'reset'])->name('settings.reset');
 
     // Stok mobil, penjualan, permintaan jual/tukar tambah, test drive
     Route::resource('mobil', CarController::class)->parameters(['mobil' => 'car'])->except('show')->names('cars');
