@@ -1,103 +1,128 @@
-# AUTO18 — Auto Eighteen 🚗🔴
+# AUTO18 — Auto Eighteen
 
-**Jual / Beli Mobil Second Berkualitas.** Aplikasi web showroom mobil bekas: etalase mobil untuk pembeli, formulir jual & tukar tambah untuk penjual, plus panel showroom lengkap (stok mobil, kasir aksesoris, laporan penjualan).
+**Jual / Beli Mobil Second Berkualitas.** Aplikasi web showroom mobil bekas: etalase mobil untuk pembeli, formulir jual & tukar tambah untuk penjual, dan panel showroom lengkap (stok mobil, kasir aksesoris, laporan penjualan).
 
-Tampilannya mengikuti materi promosi Auto18: latar hitam, garis diagonal merah, dan tipografi tebal huruf besar.
-
----
-
-## ✨ Fitur Utama
-
-### 🚘 Beli Mobil (halaman pembeli)
-- Hero pencarian cepat: kata kunci, tipe bodi, dan rentang harga.
-- Pintasan merek dan tipe bodi lengkap dengan jumlah unit.
-- Filter lengkap: merek (multi-pilih), harga, tipe bodi, transmisi, bahan bakar, tahun, kilometer, lokasi, favorit, dan opsi menampilkan mobil terjual.
-- Urutan: rekomendasi, terbaru, harga, kilometer, dan tahun.
-- Kartu mobil dengan foto, badge status, nilai inspeksi, harga cash, dan estimasi cicilan.
-- Detail mobil: spesifikasi lengkap, fitur, laporan inspeksi 7 kategori, simulasi kredit, booking test drive, dan tombol kontak WhatsApp / call center.
-- Simpan mobil ke **favorit** (tersimpan di browser).
-
-### 💰 Jual Mobil & Tukar Tambah
-- Formulir 3 langkah: data mobil → jadwal inspeksi → data kontak.
-- **Estimasi harga instan** dihitung dari merek, model, tahun, kilometer, transmisi, dan kondisi.
-- Mode tukar tambah: pilih mobil incaran di showroom dan lihat perkiraan tambahan bayar.
-- Permintaan masuk langsung ke panel showroom beserta kode permintaan.
-
-### 🏢 Panel Showroom
-- **Stok Mobil**: tambah/edit/hapus unit, atur status (tersedia, dipesan, terjual), tandai "Pilihan Auto18", pantau modal, harga jual, dan margin. Status "terjual" bisa dibatalkan — transaksinya ditandai "Dibatalkan" dan tidak lagi dihitung di Dashboard/Laporan, tapi mobil tukar tambah yang sudah masuk stok dari penjualan itu tidak ikut ditarik.
-- **Proses Penjualan**: tunai, transfer, atau kredit (pilih leasing, DP, tenor, bunga flat) dengan opsi tukar tambah. Mobil tukar tambah otomatis masuk stok **hanya** kalau diambil dari permintaan tukar tambah yang sudah diinspeksi; tukar tambah yang diisi manual cuma mengurangi sisa bayar dan mobilnya harus ditambahkan sendiri lewat Tambah Mobil.
-- **Permintaan Jual/Tukar Tambah**: jadwalkan inspeksi → catat hasil & penawaran → beli dan masukkan ke stok.
-- **Test Drive**: konfirmasi, selesaikan, atau batalkan jadwal, dengan penanda "hari ini".
-
-### 🧾 Kasir Aksesoris & Perawatan (POS)
-- Penjualan oli, aki, ban, aksesoris interior, perawatan, dan jasa showroom.
-- Keranjang, diskon, PPN opsional, pembayaran tunai/QRIS/transfer, dan cetak struk thermal.
-- Manajemen produk & stok (margin otomatis, peringatan stok menipis) serta suplier & stok masuk.
-
-### 📊 Dashboard & Laporan
-- KPI harian dan KPI showroom (mobil tersedia, terjual bulan ini, permintaan baru, test drive).
-- Grafik omset 7 hari dengan pemisahan penjualan mobil dan aksesoris.
-- Laporan penjualan dengan filter waktu, jenis penjualan, dan metode bayar; ekspor CSV; cetak ulang nota.
-
-### 💾 Penyimpanan
-Semua data tersimpan otomatis di `localStorage` browser (prefix `auto18_`), tanpa perlu database. Tombol reset mengembalikan data demo.
+Dibangun dengan **Laravel 12 (PHP)** dan **MySQL**. Tampilannya mengikuti materi promosi Auto18: latar hitam, garis diagonal merah, dan tipografi tebal huruf besar.
 
 ---
 
-## 🚀 Cara Menjalankan
+## Fitur
+
+### Beli Mobil (publik)
+- Pencarian cepat: kata kunci, tipe bodi, dan rentang harga.
+- Pintasan merek dan tipe bodi dengan jumlah unit.
+- Filter: merek (multi-pilih), harga, tipe bodi, transmisi, bahan bakar, tahun, kilometer, lokasi, favorit, dan mobil terjual.
+- Urutan: rekomendasi, terbaru, harga, kilometer, tahun.
+- Halaman detail: spesifikasi, fitur, laporan inspeksi 7 kategori dengan diagram, simulasi kredit, booking test drive, tombol WhatsApp / call center.
+- Favorit (disimpan di browser, karena pembeli tidak perlu akun).
+
+### Jual Mobil & Tukar Tambah (publik)
+- Formulir 3 langkah: data mobil, jadwal inspeksi, data kontak.
+- Estimasi harga instan dari merek, model, tahun, kilometer, transmisi, dan kondisi.
+- Mode tukar tambah: pilih mobil incaran dan lihat perkiraan tambahan bayar.
+
+### Panel Showroom (wajib login)
+- **Dashboard**: omset & laba hari ini, ringkasan showroom, grafik omset 7 hari (mobil vs aksesoris), stok menipis, transaksi terbaru.
+- **Stok Mobil**: tambah/ubah/hapus unit, status tersedia/dipesan, "Pilihan Auto18", modal, harga jual, margin.
+- **Penjualan mobil**: tunai, transfer, atau kredit (leasing, DP, tenor, bunga flat), diskon, tukar tambah, nota penjualan.
+- **Batalkan penjualan**: transaksi ditandai "Dibatalkan" dan tidak lagi dihitung; mobil kembali tersedia.
+- **Permintaan jual / tukar tambah**: jadwalkan inspeksi, catat penawaran, beli dan masukkan ke stok, atau tolak.
+- **Test drive**: konfirmasi, selesai, batalkan, dengan penanda "Hari Ini".
+- **Kasir Aksesoris**: keranjang, diskon (Rp atau %), PPN opsional, bayar tunai/QRIS/transfer, struk siap cetak.
+- **Produk & Stok**: data produk, kategori, margin otomatis, peringatan stok menipis, ubah stok manual.
+- **Suplier**: data suplier dan pencatatan barang masuk (stok bertambah, harga modal diperbarui).
+- **Laporan**: filter periode/tanggal, jenis, metode bayar; total omset, HPP, laba; ekspor CSV; cetak ulang nota.
+- **Pengaturan**: profil showroom, kontak, nama kasir, kaki struk, PPN, bunga kredit, DP minimal, reset data demo.
+
+---
+
+## Cara Menjalankan
 
 ### Prasyarat
-- [Node.js](https://nodejs.org/) versi 18 ke atas
+- [XAMPP](https://www.apachefriends.org/) dengan PHP 8.2 atau lebih baru dan MySQL/MariaDB
+- [Composer](https://getcomposer.org/)
 
-### Langkah Instalasi
+Node.js **tidak** diperlukan untuk menjalankan aplikasi: berkas CSS/JS hasil build sudah ikut di folder `public/build`.
+
+### Langkah
+1. Jalankan **MySQL** dari XAMPP Control Panel.
+2. Buat database kosong bernama `auto18` (lewat phpMyAdmin, atau perintah di bawah):
+   ```sql
+   CREATE DATABASE auto18 CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+   ```
+3. Di folder proyek:
+   ```bash
+   composer install
+   cp .env.example .env        # Windows: copy .env.example .env
+   php artisan key:generate
+   ```
+   `.env.example` sudah berisi pengaturan XAMPP bawaan (`DB_DATABASE=auto18`, user `root`, tanpa kata sandi). Ubah di `.env` bila MySQL Anda berbeda.
+4. Buat tabel dan isi data demo:
+   ```bash
+   php artisan migrate --seed
+   ```
+5. Jalankan server:
+   ```bash
+   php artisan serve
+   ```
+   Buka alamat yang ditampilkan (biasanya http://127.0.0.1:8000).
+
+### Login Panel Showroom
+| Email | Kata sandi |
+| --- | --- |
+| `admin@auto18.test` | `auto18admin` |
+
+Klik **Masuk Staf** di pojok kanan atas. Halaman Beli Mobil dan Jual Mobil bisa dibuka tanpa login.
+
+### Reset Data Demo
+- Dari aplikasi: **Pengaturan** (ikon roda gigi) lalu **Reset Data Demo**.
+- Dari terminal: `php artisan migrate:fresh --seed`
+
+Tanggal pada data demo selalu relatif terhadap hari seeding, jadi dashboard dan laporan langsung terisi.
+
+---
+
+## Struktur Proyek
+
+| Lokasi | Isi |
+| --- | --- |
+| `routes/web.php` | Semua rute: publik, login, dan panel showroom (`/showroom/...`) |
+| `app/Http/Controllers/Public` | Katalog mobil, booking test drive, formulir jual mobil |
+| `app/Http/Controllers/Showroom` | Dashboard, stok mobil, penjualan, kasir, produk, suplier, laporan, pengaturan |
+| `app/Services` | Aturan bisnis: `CarSaleService`, `RetailSaleService`, `SellRequestService`, `CarPricing`, `CodeGenerator`, `DemoData` |
+| `app/Models` | Model Eloquent (Car, Product, Transaction, dan lainnya) |
+| `database/migrations` | Skema tabel MySQL |
+| `database/seeders` | Data demo (`data/demo.json`) |
+| `resources/views` | Tampilan Blade |
+| `config/auto18.php` | Daftar tetap (merek, tipe bodi, leasing, kategori inspeksi) dan konten brand |
+| `tests` | Pengujian otomatis |
+
+Semua perhitungan uang (total, diskon, pajak, stok, cicilan, status) dilakukan dan divalidasi di PHP di dalam transaksi database. JavaScript (Alpine.js) hanya dipakai untuk interaksi halaman seperti keranjang kasir dan pratinjau simulasi.
+
+## Pengujian
+
 ```bash
-# 1. Clone repository ini
-git clone https://github.com/jemimaa10/Kasir-Pintar.git
-cd Kasir-Pintar
+php artisan test
+```
 
-# 2. Install dependensi
+Pengujian memakai SQLite di memori (ekstensi `pdo_sqlite`, aktif secara bawaan di XAMPP), jadi tidak menyentuh database `auto18`.
+
+## Mengubah Tampilan (opsional)
+
+Hanya diperlukan bila Anda mengubah CSS/JS di `resources/`:
+
+```bash
 npm install
-
-# 3. Jalankan server lokal
-npm run dev
-```
-Buka browser dan akses: **http://localhost:5173/**
-
-### Build Produksi
-```bash
-npm run build            # hasil siap deploy ada di folder dist/
-npm run build:standalone # satu file HTML mandiri: aplikasi-kasir-langsung-buka.html
-```
-File hasil `build:standalone` bisa dibuka langsung dengan klik dua kali, tanpa server (JS, CSS, dan foto mobil ikut ter-inline).
-
----
-
-## 🛠️ Tech Stack
-
-- **Frontend**: React 18
-- **Build Tool**: Vite 6
-- **Styling**: Tailwind CSS 3 (tema kustom `brand` merah & `ink` hitam)
-- **Icons**: Lucide React
-- **Animasi**: Motion (foto mobil "terbang" ke detail, kartu bergeser saat filter, nota "keluar" dari printer + stempel TERJUAL, laporan inspeksi interaktif, langkah Jual Mobil bergeser, penanda tab bergeser, keranjang kasir hidup) — otomatis dimatikan bila "kurangi gerakan" aktif di sistem
-- **Notifikasi**: toast buatan sendiri (`src/utils/toast.js` + `Toaster`) sebagai pengganti kotak `alert()` browser
-- **Angka bergulir**: NumberFlow (harga, cicilan, dan total kasir)
-- **Typography**: Montserrat (judul), Plus Jakarta Sans (teks), JetBrains Mono (angka)
-
-## 📁 Struktur Singkat
-
-```
-src/
-├─ components/     # Navbar, Footer, halaman, modal, dan bagian bergaya poster
-├─ context/        # AppContext: seluruh state & aksi aplikasi
-├─ data/           # data awal (mobil, produk, konten poster) & peta foto mobil
-├─ utils/          # format Rupiah/tanggal, simulasi kredit, estimasi harga mobil
-└─ assets/cars/    # foto mobil + CREDITS.md
+npm run build    # atau: npm run dev
 ```
 
-## 📷 Kredit Foto
+## Tech Stack
 
-Foto mobil berasal dari **Wikimedia Commons** dengan lisensi CC BY-SA 4.0. Daftar penulis, lisensi, dan tautan sumber ada di [`src/assets/cars/CREDITS.md`](src/assets/cars/CREDITS.md) dan ditampilkan pada halaman detail mobil.
+- **Backend**: Laravel 12, PHP 8.2
+- **Database**: MySQL / MariaDB
+- **Tampilan**: Blade, Tailwind CSS 3 (tema `brand` merah & `ink` hitam), Alpine.js
+- **Ikon**: Lucide (blade-lucide-icons)
 
----
+## Kredit Foto
 
-Dibuat untuk Auto18 — Auto Eighteen 🇮🇩
+Foto mobil berasal dari Wikimedia Commons dengan lisensi CC BY-SA 4.0. Rinciannya ada di `public/images/cars/CREDITS.md`.
