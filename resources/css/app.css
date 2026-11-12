@@ -1,0 +1,217 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    color-scheme: dark;
+  }
+  body {
+    @apply bg-ink text-neutral-100 font-sans antialiased selection:bg-brand-600 selection:text-white;
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0b0b0b;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #2a2a2a;
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #e41b1b;
+  }
+}
+
+/* Komponen gaya poster Auto18: hitam, putih, garis diagonal merah */
+@layer components {
+  /* Latar hitam dengan pita diagonal merah seperti poster */
+  .a18-stripes {
+    background-color: #070707;
+    background-image:
+      linear-gradient(118deg, transparent 0 46%, rgba(228, 27, 27, 0.92) 46% 58%, transparent 58% 100%),
+      linear-gradient(62deg, transparent 0 64%, rgba(228, 27, 27, 0.55) 64% 72%, transparent 72% 100%),
+      radial-gradient(ellipse at 50% -10%, #2b2b2b 0%, #0b0b0b 55%, #070707 100%);
+  }
+
+  /* Versi lebih halus untuk banner halaman admin */
+  .a18-stripes-soft {
+    background-color: #0b0b0b;
+    background-image:
+      linear-gradient(118deg, transparent 0 62%, rgba(228, 27, 27, 0.85) 62% 70%, transparent 70% 100%),
+      linear-gradient(118deg, transparent 0 74%, rgba(228, 27, 27, 0.35) 74% 77%, transparent 77% 100%),
+      radial-gradient(ellipse at 0% 0%, #242424 0%, #0b0b0b 60%);
+  }
+
+  /* Judul tebal huruf besar ala poster */
+  .a18-heading {
+    @apply font-display font-black uppercase tracking-tight text-white;
+  }
+
+  /* Kotak outline putih membulat (daftar benefit/tips di poster) */
+  .a18-pill {
+    @apply rounded-2xl border-2 border-white/90 bg-black/60 text-white;
+  }
+
+  /* Kartu gelap standar */
+  .a18-card {
+    @apply rounded-2xl border border-white/10 bg-ink-800;
+  }
+
+  .a18-btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-brand-600 px-4 py-2.5 text-sm font-bold text-white transition-colors hover:bg-brand-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 disabled:cursor-not-allowed disabled:bg-neutral-700 disabled:text-neutral-400;
+  }
+
+  .a18-btn-outline {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border-2 border-white px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-white hover:text-black focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 disabled:cursor-not-allowed disabled:opacity-40;
+  }
+
+  .a18-btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-3 py-2 text-sm font-semibold text-neutral-300 transition-colors hover:bg-white/10 hover:text-white;
+  }
+
+  .a18-input {
+    @apply w-full rounded-xl border border-white/15 bg-ink-900 px-3.5 py-2.5 text-sm text-white placeholder-neutral-500 transition-colors focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30;
+  }
+
+  .a18-label {
+    @apply mb-1.5 block text-xs font-bold uppercase tracking-wider text-neutral-400;
+  }
+
+  /* Angka besar di depan kotak benefit/tips */
+  .a18-number {
+    @apply font-display text-4xl font-black leading-none text-white;
+  }
+
+  /* Stempel tinta karet (SoldStamp): bingkai ganda merah, huruf tebal renggang.
+     Elemen luar = posisi dari pemanggil; transformasi Motion di .a18-stamp-press. */
+  .a18-stamp-root {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .a18-stamp-defs {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+  }
+
+  .a18-stamp-press {
+    display: block;
+  }
+
+  .a18-stamp {
+    --stamp-font: 36px;
+    --stamp-outer: 5px;
+    --stamp-inner: 2px;
+    --stamp-gap: 4px;
+    --stamp-pad-x: 16px;
+    --stamp-pad-y: 9px;
+    --stamp-radius: 7px;
+    --stamp-scale: 1;
+    @apply font-display font-black uppercase;
+    display: block;
+    width: max-content;
+    padding: var(--stamp-gap);
+    border: var(--stamp-outer) solid currentColor;
+    border-radius: var(--stamp-radius);
+    color: #e41b1b;
+    opacity: 0.88;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .a18-stamp__rule {
+    display: block;
+    padding: var(--stamp-pad-y) var(--stamp-pad-x);
+    border: var(--stamp-inner) solid currentColor;
+    border-radius: calc(var(--stamp-radius) * 0.5);
+  }
+
+  .a18-stamp__label {
+    display: block;
+    font-size: calc(var(--stamp-font) * var(--stamp-scale));
+    line-height: 1;
+    letter-spacing: 0.12em;
+    margin-right: -0.12em;
+    white-space: nowrap;
+  }
+
+  /* sm: kartu foto ~290x180, md: foto besar di modal, lg: melintang di struk 320px */
+  .a18-stamp.a18-stamp--sm {
+    --stamp-font: 22px;
+    --stamp-outer: 3px;
+    --stamp-inner: 1px;
+    --stamp-gap: 2px;
+    --stamp-pad-x: 9px;
+    --stamp-pad-y: 5px;
+    --stamp-radius: 4px;
+  }
+
+  .a18-stamp.a18-stamp--md {
+    --stamp-font: 36px;
+    --stamp-outer: 5px;
+    --stamp-inner: 2px;
+    --stamp-gap: 4px;
+    --stamp-pad-x: 16px;
+    --stamp-pad-y: 9px;
+    --stamp-radius: 7px;
+  }
+
+  .a18-stamp.a18-stamp--lg {
+    --stamp-font: 28px;
+    --stamp-outer: 4px;
+    --stamp-inner: 1.5px;
+    --stamp-gap: 3px;
+    --stamp-pad-x: 13px;
+    --stamp-pad-y: 7px;
+    --stamp-radius: 6px;
+  }
+
+  /* Label panjang (mis. DIBATALKAN) sedikit dikecilkan agar muat */
+  .a18-stamp.a18-stamp--long {
+    --stamp-scale: 0.86;
+  }
+}
+
+/* Print styles for thermal receipts */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #printable-receipt, #printable-receipt * {
+    visibility: visible;
+  }
+  /* Animasi "keluar dari printer" tidak boleh menggeser/memotong struk yang dicetak,
+     walau tombol cetak ditekan saat animasi masih berjalan */
+  .a18-print-feed {
+    transform: none !important;
+    overflow: visible !important;
+    margin: 0 !important;
+  }
+  /* Stempel selalu tercetak dalam pose akhirnya, walau dicetak saat masih menunggu /
+     sedang "dihentakkan" (Motion menulis opacity & transform inline) */
+  #printable-receipt .a18-stamp-press {
+    opacity: 1 !important;
+    transform: rotate(-10deg) !important; /* = TILT di SoldStamp.jsx */
+  }
+  #printable-receipt {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 80mm;
+    margin: 0;
+    padding: 8px;
+    font-size: 12px;
+    color: black !important;
+    background: white !important;
+  }
+}
+
+[x-cloak] { display: none !important; }
