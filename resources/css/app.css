@@ -215,3 +215,26 @@
 }
 
 [x-cloak] { display: none !important; }
+
+/* Stempel TERJUAL: pose akhir statis; "dihentakkan" hanya untuk penjualan baru (data-stamp-mode="slam") */
+.a18-stamp-press {
+  opacity: 1;
+  transform: rotate(-10deg);
+}
+@keyframes a18-slam {
+  0% { opacity: 0; transform: scale(2) rotate(-4deg); }
+  25% { opacity: 1; }
+  70% { transform: scale(0.96) rotate(-10deg); }
+  100% { opacity: 1; transform: scale(1) rotate(-10deg); }
+}
+[data-stamp-mode='slam'] .a18-stamp-press {
+  animation: a18-slam 0.45s 0.12s cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-stamp-mode='slam'] .a18-stamp-press { animation: none; }
+}
+
+/* Batang skor inspeksi mengisi dari kiri saat halaman dibuka */
+@keyframes a18-bar { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.a18-bar { transform-origin: left; animation: a18-bar 0.45s cubic-bezier(0.22, 1, 0.36, 1) both; }
+@media (prefers-reduced-motion: reduce) { .a18-bar { animation: none; } }

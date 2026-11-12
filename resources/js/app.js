@@ -1,6 +1,31 @@
 import Alpine from 'alpinejs';
+import { estimate, installment, rupiah, rupiahShort } from './pricing';
 
 window.Alpine = Alpine;
+window.auto18 = { estimate, installment, rupiah, rupiahShort };
+
+// ---------------------------------------------------------------------------
+// Simulasi kredit (kartu di katalog & detail mobil)
+// ---------------------------------------------------------------------------
+Alpine.data('creditSimulator', ({ price = 0, minDp = 20, rate = 7, tenor = 36 } = {}) => ({
+    price,
+    minDp: Math.min(70, Number(minDp)),
+    sliderMax: Math.max(70, Number(minDp)),
+    dp: Math.max(Number(minDp), 20),
+    tenor,
+    rate: Number(rate),
+    tenors: [12, 24, 36, 48, 60],
+    rupiah,
+
+    get result() {
+        return installment({ price: this.price, dpPercent: this.dp, tenorMonths: this.tenor, annualRate: this.rate });
+    },
+
+    setRate(value) {
+        const n = Number(value);
+        this.rate = Number.isFinite(n) ? Math.min(30, Math.max(0, n)) : 0;
+    },
+}));
 
 // ---------------------------------------------------------------------------
 // Favorit mobil: satu-satunya data yang disimpan di browser (tanpa akun pembeli)

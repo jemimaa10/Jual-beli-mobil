@@ -1,12 +1,16 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Public\CarCatalogController;
+use App\Http\Controllers\Public\TestDriveBookingController;
 use Illuminate\Support\Facades\Route;
 
 // ---------------------------------------------------------------------------
 // Publik
 // ---------------------------------------------------------------------------
-Route::view('/', 'public.placeholder', ['title' => 'Beli Mobil'])->name('cars.index');
+Route::get('/', [CarCatalogController::class, 'index'])->name('cars.index');
+Route::get('/mobil/{car}', [CarCatalogController::class, 'show'])->name('cars.show');
+Route::post('/mobil/{car}/test-drive', [TestDriveBookingController::class, 'store'])->name('cars.test-drive');
 Route::view('/jual-mobil', 'public.placeholder', ['title' => 'Jual Mobil'])->name('sell.create');
 
 // ---------------------------------------------------------------------------
