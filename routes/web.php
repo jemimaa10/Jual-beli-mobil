@@ -2,6 +2,11 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Public\CarCatalogController;
+use App\Http\Controllers\Showroom\CarController;
+use App\Http\Controllers\Showroom\CarSaleController;
+use App\Http\Controllers\Showroom\ReceiptController;
+use App\Http\Controllers\Showroom\SellRequestController;
+use App\Http\Controllers\Showroom\TestDriveController;
 use App\Http\Controllers\Public\SellCarController;
 use App\Http\Controllers\Public\TestDriveBookingController;
 use Illuminate\Support\Facades\Route;
@@ -27,4 +32,21 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // ---------------------------------------------------------------------------
 Route::middleware('auth')->prefix('showroom')->name('showroom.')->group(function () {
     Route::view('/', 'showroom.placeholder', ['title' => 'Dashboard'])->name('dashboard');
+
+    // Stok mobil, penjualan, permintaan jual/tukar tambah, test drive
+    Route::resource('mobil', CarController::class)->parameters(['mobil' => 'car'])->except('show')->names('cars');
+    Route::patch('mobil/{car}/status', [CarController::class, 'status'])->name('cars.status');
+    Route::patch('mobil/{car}/unggulan', [CarController::class, 'feature'])->name('cars.feature');
+    Route::get('mobil/{car}/jual', [CarSaleController::class, 'create'])->name('cars.sale.create');
+    Route::post('mobil/{car}/jual', [CarSaleController::class, 'store'])->name('cars.sale.store');
+    Route::post('mobil/{car}/batal-jual', [CarSaleController::class, 'void'])->name('cars.sale.void');
+
+    Route::patch('permintaan/{sellRequest}', [SellRequestController::class, 'update'])->name('requests.update');
+    Route::post('permintaan/{sellRequest}/beli', [SellRequestController::class, 'purchase'])->name('requests.purchase');
+    Route::delete('permintaan/{sellRequest}', [SellRequestController::class, 'destroy'])->name('requests.destroy');
+
+    Route::patch('test-drive/{testDrive}', [TestDriveController::class, 'update'])->name('test-drives.update');
+    Route::delete('test-drive/{testDrive}', [TestDriveController::class, 'destroy'])->name('test-drives.destroy');
+
+    Route::get('transaksi/{transaction}/nota', [ReceiptController::class, 'show'])->name('receipt');
 });

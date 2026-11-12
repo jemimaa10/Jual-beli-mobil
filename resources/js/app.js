@@ -182,4 +182,69 @@ Alpine.data('sellForm', ({ type, step, values, tables, cars, today, serverErrors
     },
 }));
 
+// ---------------------------------------------------------------------------
+// Form "Proses Penjualan" mobil: ringkasan langsung. Server menghitung & memvalidasi ulang semuanya.
+// ---------------------------------------------------------------------------
+Alpine.data('carSaleForm', ({ price, buyPrice, minDp, rate, requests, old }) => ({
+    price,
+    buyPrice,
+    minDp: Number(minDp),
+    requests,
+    method: old.payment_method,
+    discount: old.discount,
+    paid: old.paid_amount,
+    leasing: old.leasing,
+    dp: old.dp_percent === '' ? Math.max(Number(minDp), 20) : Number(old.dp_percent),
+    tenor: Number(old.tenor_months),
+    rate: old.annual_rate === '' ? Number(rate) : Number(old.annual_rate),
+    tenors: [12, 24, 36, 48, 60],
+    useTradeIn: old.use_trade_in,
+    requestId: old.trade_in_request_id,
+    tradeName: old.trade_in_car_name,
+    tradeValue: old.trade_in_value,
+    rupiah,
+
+    get safeDiscount() {
+        const d = Number(this.discount);
+        return Math.min(this.price, Math.max(0, Number.isFinite(d) ? d : 0));
+    },
+    get total() {
+        return this.price - this.safeDiscount;
+    },
+    get appliedTradeIn() {
+        const t = Number(this.tradeValue);
+        return this.useTradeIn ? Math.min(this.total, Math.max(0, Number.isFinite(t) ? t : 0)) : 0;
+    },
+    get amountDue() {
+        return this.total - this.appliedTradeIn;
+    },
+    get received() {
+        return this.paid === '' || this.paid === null ? this.amountDue : Number(this.paid);
+    },
+    get change() {
+        return Math.max(0, (Number.isFinite(this.received) ? this.received : 0) - this.amountDue);
+    },
+    get sim() {
+        return installment({ price: this.amountDue, dpPercent: this.dp, tenorMonths: this.tenor, annualRate: this.rate });
+    },
+    get profit() {
+        return this.total - this.buyPrice;
+    },
+    get quickAmounts() {
+        const due = this.amountDue;
+        return [...new Set([due, Math.ceil(due / 1000000) * 1000000 + 1000000, Math.ceil(due / 5000000) * 5000000 + 5000000])];
+    },
+
+    pickRequest(id) {
+        this.requestId = id;
+        const r = this.requests.find((x) => String(x.id) === String(id));
+        this.tradeName = r ? r.name : '';
+        this.tradeValue = r ? r.value : '';
+    },
+    setRate(value) {
+        const n = Number(value);
+        this.rate = Number.isFinite(n) ? Math.min(30, Math.max(0, n)) : 0;
+    },
+}));
+
 Alpine.start();

@@ -19,7 +19,7 @@
             <feComposite in="speckled" in2="density" operator="in" />
         </filter>
     </svg>
-    <span class="a18-stamp-press">
+    <span class="a18-stamp-press" @if (isset($delay)) style="animation-delay: {{ $delay }}s" @endif>
         <span class="a18-stamp a18-stamp--{{ $size }}{{ $isLong ? ' a18-stamp--long' : '' }}" style="filter: url(#{{ $fid }})">
             <span class="a18-stamp__rule"><span class="a18-stamp__label">{{ $label }}</span></span>
         </span>

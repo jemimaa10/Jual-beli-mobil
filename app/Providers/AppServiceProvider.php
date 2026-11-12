@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Product;
+use App\Models\SellRequest;
 use App\Models\Setting;
+use App\Models\TestDrive;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -28,6 +31,22 @@ class AppServiceProvider extends ServiceProvider
         View::composer('*', function ($view) {
             if (! array_key_exists('store', $view->getData())) {
                 $view->with('store', app('store'));
+            }
+        });
+
+        // Lencana angka di menu panel showroom (hanya dihitung untuk staf yang login)
+        View::composer('partials.navbar', function ($view) {
+            if (! auth()->check()) {
+                return;
+            }
+
+            try {
+                $view->with('navBadges', [
+                    'showroom.cars.index' => SellRequest::where('status', 'new')->count() + TestDrive::where('status', 'pending')->count(),
+                    'showroom.products.index' => Product::whereColumn('stock', '<=', 'min_stock')->count(),
+                ]);
+            } catch (QueryException) {
+                // tabel belum dimigrasi: tanpa lencana
             }
         });
     }

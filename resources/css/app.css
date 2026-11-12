@@ -238,3 +238,8 @@
 @keyframes a18-bar { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 .a18-bar { transform-origin: left; animation: a18-bar 0.45s cubic-bezier(0.22, 1, 0.36, 1) both; }
 @media (prefers-reduced-motion: reduce) { .a18-bar { animation: none; } }
+
+/* Struk "keluar dari printer": kertas turun dari celah, hanya untuk nota yang baru dibuat */
+@keyframes a18-feed { from { transform: translateY(-100%); } to { transform: translateY(0); } }
+.a18-feed-in { animation: a18-feed 0.7s cubic-bezier(0.22, 1, 0.36, 1) both; }
+@media (prefers-reduced-motion: reduce) { .a18-feed-in { animation: none; } }
