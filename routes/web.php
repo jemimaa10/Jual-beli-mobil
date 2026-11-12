@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Public\CarCatalogController;
+use App\Http\Controllers\Public\SellCarController;
 use App\Http\Controllers\Public\TestDriveBookingController;
 use Illuminate\Support\Facades\Route;
 
@@ -11,7 +12,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [CarCatalogController::class, 'index'])->name('cars.index');
 Route::get('/mobil/{car}', [CarCatalogController::class, 'show'])->name('cars.show');
 Route::post('/mobil/{car}/test-drive', [TestDriveBookingController::class, 'store'])->name('cars.test-drive');
-Route::view('/jual-mobil', 'public.placeholder', ['title' => 'Jual Mobil'])->name('sell.create');
+Route::get('/jual-mobil', [SellCarController::class, 'create'])->name('sell.create');
+Route::post('/jual-mobil', [SellCarController::class, 'store'])->name('sell.store');
 
 // ---------------------------------------------------------------------------
 // Login staf showroom (tanpa registrasi publik)

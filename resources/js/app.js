@@ -108,4 +108,78 @@ Alpine.data('toaster', (initial = []) => ({
     },
 }));
 
+// ---------------------------------------------------------------------------
+// Formulir Jual Mobil (3 langkah). Server tetap memvalidasi & menghitung ulang semuanya.
+// ---------------------------------------------------------------------------
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+Alpine.data('sellForm', ({ type, step, values, tables, cars, today, serverErrors }) => ({
+    type,
+    step,
+    f: values,
+    cars,
+    today,
+    errors: {},
+    serverErrors,
+    rupiah,
+
+    get estimate() {
+        return estimate(this.f, tables);
+    },
+    get target() {
+        return this.cars.find((c) => String(c.id) === String(this.f.trade_in_car_id)) || null;
+    },
+    get gap() {
+        return this.target ? Math.max(0, this.target.price - this.estimate.mid) : 0;
+    },
+    get km() {
+        return Number(this.f.mileage || 0).toLocaleString('id-ID');
+    },
+
+    err(key) {
+        return this.errors[key] || this.serverErrors[key] || '';
+    },
+
+    validate(step) {
+        const e = {};
+        if (step === 1) {
+            if (!String(this.f.model).trim()) e.model = 'Model mobil wajib diisi.';
+            if (this.f.mileage === '' || Number(this.f.mileage) < 0) e.mileage = 'Kilometer wajib diisi.';
+            else if (Number(this.f.mileage) > 1000000) e.mileage = 'Kilometer tidak wajar.';
+        }
+        if (step === 2) {
+            if (!this.f.inspection_date) e.inspection_date = 'Tanggal inspeksi wajib dipilih.';
+            else if (this.f.inspection_date < this.today) e.inspection_date = 'Tanggal sudah lewat.';
+            if (this.type === 'trade-in' && !this.f.trade_in_car_id) e.trade_in_car_id = 'Pilih mobil yang ingin ditukar.';
+        }
+        if (step === 3) {
+            if (!String(this.f.customer_name).trim()) e.customer_name = 'Nama wajib diisi.';
+            if (!/^(\+62|62|0)8\d{7,11}$/.test(String(this.f.phone).trim().replace(/[\s().-]/g, ''))) e.phone = 'Nomor HP tidak valid.';
+            if (String(this.f.email).trim() && !EMAIL_RE.test(String(this.f.email).trim())) e.email = 'Email tidak valid.';
+        }
+        this.errors = e;
+        return Object.keys(e).length === 0;
+    },
+
+    next() {
+        this.serverErrors = {};
+        if (this.validate(this.step)) this.step = Math.min(3, this.step + 1);
+    },
+
+    back() {
+        this.step = Math.max(1, this.step - 1);
+    },
+
+    submit(event) {
+        this.serverErrors = {};
+        for (const s of [1, 2, 3]) {
+            if (!this.validate(s)) {
+                this.step = s;
+                event.preventDefault();
+                return;
+            }
+        }
+    },
+}));
+
 Alpine.start();
