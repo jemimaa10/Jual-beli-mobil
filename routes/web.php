@@ -4,7 +4,11 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Public\CarCatalogController;
 use App\Http\Controllers\Showroom\CarController;
 use App\Http\Controllers\Showroom\CarSaleController;
+use App\Http\Controllers\Showroom\CategoryController;
 use App\Http\Controllers\Showroom\PosController;
+use App\Http\Controllers\Showroom\ProductController;
+use App\Http\Controllers\Showroom\StockInController;
+use App\Http\Controllers\Showroom\SupplierController;
 use App\Http\Controllers\Showroom\ReceiptController;
 use App\Http\Controllers\Showroom\SellRequestController;
 use App\Http\Controllers\Showroom\TestDriveController;
@@ -52,6 +56,14 @@ Route::middleware('auth')->prefix('showroom')->name('showroom.')->group(function
     // Kasir aksesoris
     Route::get('kasir', [PosController::class, 'index'])->name('pos');
     Route::post('kasir', [PosController::class, 'checkout'])->name('pos.checkout');
+
+    // Produk & stok, kategori, suplier, barang masuk
+    Route::resource('produk', ProductController::class)->parameters(['produk' => 'product'])->only(['index', 'store', 'update', 'destroy'])->names('products');
+    Route::post('produk/{product}/stok', [ProductController::class, 'adjust'])->name('products.adjust');
+    Route::post('kategori', [CategoryController::class, 'store'])->name('categories.store');
+    Route::delete('kategori/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
+    Route::resource('suplier', SupplierController::class)->parameters(['suplier' => 'supplier'])->only(['index', 'store', 'update', 'destroy'])->names('suppliers');
+    Route::post('stok-masuk', [StockInController::class, 'store'])->name('stock-in');
 
     Route::get('transaksi/{transaction}/nota', [ReceiptController::class, 'show'])->name('receipt');
 });
