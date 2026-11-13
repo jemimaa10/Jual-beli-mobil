@@ -105,7 +105,7 @@
 
 
             {{-- Tabel desktop --}}
-            <div class="mt-3 hidden overflow-x-auto rounded-2xl border border-white/10 md:block">
+            <div class="mt-3 hidden overflow-x-auto rounded-2xl border border-white/10 lg:block">
                 <table class="w-full min-w-[920px] text-sm">
                     <thead class="bg-ink-900 text-left text-[10px] uppercase tracking-wider text-neutral-500">
                         <tr>
@@ -142,7 +142,7 @@
             </div>
 
             {{-- Kartu ponsel --}}
-            <div class="mt-3 space-y-3 md:hidden">
+            <div class="mt-3 space-y-3 lg:hidden">
                 @forelse ($cars as $car)
                     @php $margin = $car->price - $car->buy_price; @endphp
                     <div class="a18-card p-4">

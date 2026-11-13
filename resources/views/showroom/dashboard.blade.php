@@ -46,9 +46,9 @@
         </div>
     @endforeach
 
-    <div class="mt-6 grid gap-6 lg:grid-cols-3">
+    <div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
         {{-- Grafik omset 7 hari --}}
-        <section class="a18-card p-5 lg:col-span-2" x-data="{ mode: 'all', series: @js($series), rupiahShort: window.auto18.rupiahShort,
+        <section class="a18-card min-w-0 p-5 lg:col-span-2" x-data="{ mode: 'all', series: @js($series), rupiahShort: window.auto18.rupiahShort,
                 value(d) { return this.mode === 'car' ? d.car : (this.mode === 'retail' ? d.retail : d.car + d.retail) },
                 get max() { return Math.max(1, ...this.series.map(d => this.value(d))) },
                 get total() { return this.series.reduce((s, d) => s + this.value(d), 0) } }">
@@ -82,15 +82,17 @@
             </div>
 
             {{-- Versi tabel untuk pembaca layar --}}
-            <table class="sr-only">
-                <caption>Omset 7 hari terakhir</caption>
-                <thead><tr><th>Hari</th><th>Mobil</th><th>Aksesoris</th><th>Total</th></tr></thead>
-                <tbody>@foreach ($series as $d)<tr><td>{{ $d['full'] }}</td><td>{{ rupiah($d['car']) }}</td><td>{{ rupiah($d['retail']) }}</td><td>{{ rupiah($d['car'] + $d['retail']) }}</td></tr>@endforeach</tbody>
-            </table>
+            <div class="sr-only">
+                <table>
+                    <caption>Omset 7 hari terakhir</caption>
+                    <thead><tr><th>Hari</th><th>Mobil</th><th>Aksesoris</th><th>Total</th></tr></thead>
+                    <tbody>@foreach ($series as $d)<tr><td>{{ $d['full'] }}</td><td>{{ rupiah($d['car']) }}</td><td>{{ rupiah($d['retail']) }}</td><td>{{ rupiah($d['car'] + $d['retail']) }}</td></tr>@endforeach</tbody>
+                </table>
+            </div>
         </section>
 
         {{-- Stok menipis --}}
-        <section class="a18-card p-5">
+        <section class="a18-card min-w-0 p-5">
             <div class="flex items-center justify-between gap-2">
                 <h2 class="a18-heading text-sm sm:text-base">Stok Menipis</h2>
                 <a href="{{ route('showroom.products.index', ['low' => 1]) }}" class="text-xs font-bold text-brand-400 hover:text-brand-300">Lihat semua</a>
@@ -108,9 +110,9 @@
         </section>
     </div>
 
-    <div class="mt-6 grid gap-6 lg:grid-cols-2">
+    <div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
         {{-- Transaksi terbaru --}}
-        <section class="a18-card p-5">
+        <section class="a18-card min-w-0 p-5">
             <div class="flex items-center justify-between gap-2">
                 <h2 class="a18-heading text-sm sm:text-base">Transaksi Terbaru</h2>
                 <a href="{{ route('showroom.reports') }}" class="text-xs font-bold text-brand-400 hover:text-brand-300">Laporan lengkap</a>
@@ -136,7 +138,7 @@
         </section>
 
         {{-- Aksesoris terlaris --}}
-        <section class="a18-card p-5">
+        <section class="a18-card min-w-0 p-5">
             <h2 class="a18-heading text-sm sm:text-base">Aksesoris Terlaris</h2>
             <ul class="mt-3 divide-y divide-white/10">
                 @forelse ($topProducts as $i => $p)
@@ -151,7 +153,7 @@
         </section>
 
         {{-- Test drive mendatang --}}
-        <section class="a18-card p-5">
+        <section class="a18-card min-w-0 p-5">
             <div class="flex items-center justify-between gap-2">
                 <h2 class="a18-heading text-sm sm:text-base">Test Drive Mendatang</h2>
                 <a href="{{ route('showroom.cars.index', ['tab' => 'testdrive']) }}" class="text-xs font-bold text-brand-400 hover:text-brand-300">Kelola</a>
@@ -169,7 +171,7 @@
         </section>
 
         {{-- Permintaan jual --}}
-        <section class="a18-card p-5">
+        <section class="a18-card min-w-0 p-5">
             <div class="flex items-center justify-between gap-2">
                 <h2 class="a18-heading text-sm sm:text-base">Permintaan Jual &amp; Tukar Tambah</h2>
                 <a href="{{ route('showroom.cars.index', ['tab' => 'requests']) }}" class="text-xs font-bold text-brand-400 hover:text-brand-300">Kelola</a>

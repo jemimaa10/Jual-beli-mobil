@@ -128,7 +128,7 @@
                             <p class="mt-1 text-neutral-400">{{ $car->sold_at ? $car->sold_at->locale('id')->translatedFormat('j M Y') : '-' }}{{ $car->sold_price ? ' · ' . rupiah($car->sold_price) : '' }}</p>
                         </div>
                     @else
-                        <div class="mt-4 space-y-2" x-data="{ booking: {{ $bookingOpen ? 'true' : 'false' }} }">
+                        <div id="booking" class="mt-4 scroll-mt-24 space-y-2" x-data="{ booking: {{ $bookingOpen ? 'true' : 'false' }} }" x-on:open-booking.window="booking = true">
                             @if (session('booking_code'))
                                 <div class="rounded-xl border border-white/15 bg-ink-900 p-4">
                                     <p class="flex items-center gap-1.5 text-sm font-bold text-white"><x-lucide-circle-check class="h-4 w-4 text-brand-500" aria-hidden="true" /> Booking test drive terkirim</p>
@@ -230,4 +230,20 @@
             </div>
         </div>
     </div>
+    {{-- Ponsel & tablet: harga dan tombol booking selalu terlihat (di layar lebar kartu harga sudah di sisi kanan) --}}
+    @unless ($isSold)
+        <div class="fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-ink-900/95 p-3 backdrop-blur-sm lg:hidden">
+            <div class="mx-auto flex max-w-5xl items-center gap-3">
+                <div class="min-w-0 flex-1">
+                    <p class="text-[10px] font-bold uppercase tracking-wider text-neutral-500">Harga Cash</p>
+                    <p class="truncate font-display text-lg font-black text-white">{{ rupiah($car->price) }}</p>
+                </div>
+                <button type="button" class="a18-btn-primary shrink-0 px-5 py-3"
+                        onclick="document.getElementById('booking').scrollIntoView({ behavior: 'smooth', block: 'start' }); window.dispatchEvent(new CustomEvent('open-booking'))">
+                    <x-lucide-calendar-check class="h-4 w-4" /> Test Drive
+                </button>
+            </div>
+        </div>
+        <div class="h-20 lg:hidden" aria-hidden="true"></div>
+    @endunless
 @endsection
