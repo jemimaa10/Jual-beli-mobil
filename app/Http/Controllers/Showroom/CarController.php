@@ -66,7 +66,8 @@ class CarController extends Controller
         }
         match ($stock['sort']) {
             'price' => $cars->orderByDesc('price'),
-            'margin' => $cars->orderByRaw('(price - buy_price) DESC'),
+            // Kolom unsigned: tanpa CAST, MySQL menolak hasil negatif (modal > harga jual) dengan error 1690
+            'margin' => $cars->orderByRaw('(CAST(price AS SIGNED) - CAST(buy_price AS SIGNED)) DESC'),
             'year' => $cars->orderByDesc('year'),
             default => $cars->orderByDesc('created_at')->orderByDesc('id'),
         };

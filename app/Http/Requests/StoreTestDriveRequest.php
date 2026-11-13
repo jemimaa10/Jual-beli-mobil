@@ -19,7 +19,7 @@ class StoreTestDriveRequest extends FormRequest
     {
         return [
             'customer_name' => ['required', 'string', 'max:120'],
-            'phone' => ['required', 'string', new IndonesianPhone],
+            'phone' => ['required', 'string', 'max:40', new IndonesianPhone],
             'date' => ['required', 'date_format:Y-m-d', 'after_or_equal:today'],
             'time' => ['required', Rule::in(self::TIME_SLOTS)],
             'location' => ['required', Rule::in(['showroom', 'rumah'])],

@@ -160,6 +160,11 @@ class CarSaleService
                 if (! $request) {
                     throw new SaleException('Permintaan tukar tambah tidak ditemukan.');
                 }
+                // Hanya permintaan tukar tambah yang masih terbuka; yang ditolak, sudah dibeli,
+                // atau permintaan jual biasa tidak boleh ditarik lewat form penjualan
+                if ($request->type !== 'trade-in' || ! in_array($request->status, ['new', 'scheduled', 'inspected'], true)) {
+                    throw new SaleException('Permintaan tukar tambah ini tidak bisa dipakai.');
+                }
                 $this->requests->purchase($request, $tradeInValue);
             }
 

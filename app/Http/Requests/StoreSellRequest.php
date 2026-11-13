@@ -46,7 +46,7 @@ class StoreSellRequest extends FormRequest
 
             // Langkah 3: kontak
             'customer_name' => ['required', 'string', 'max:120'],
-            'phone' => ['required', 'string', new IndonesianPhone],
+            'phone' => ['required', 'string', 'max:40', new IndonesianPhone],
             'email' => ['nullable', 'email', 'max:120'],
             'notes' => ['nullable', 'string', 'max:500'],
         ];

@@ -26,7 +26,14 @@ class SellRequestService
                 throw new SaleException('Permintaan ini sudah dibeli.');
             }
 
+            if ($request->status === 'rejected') {
+                throw new SaleException('Permintaan yang ditolak tidak bisa dibeli.');
+            }
+
             $buyPrice = $this->positive($offerPrice) ?: ((int) $request->offer_price ?: (int) $request->asking_price);
+            if ($buyPrice <= 0) {
+                throw new SaleException('Isi harga beli terlebih dahulu.');
+            }
             $price = $this->positive($sellPrice) ?: (int) (round(($buyPrice * 1.12) / 500_000) * 500_000);
             $origin = $request->type === 'trade-in' ? 'tukar tambah' : 'pembelian';
 

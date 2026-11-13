@@ -38,6 +38,13 @@
         <a href="{{ route('showroom.cars.create') }}" class="a18-btn-primary shrink-0 px-5 py-3"><x-lucide-plus class="h-4 w-4" /> Tambah Mobil</a>
     </div>
 
+    @if ($errors->any())
+        <div class="mt-4 rounded-lg border border-brand-600/40 bg-brand-600/10 px-3 py-2 text-sm text-brand-300" role="alert">
+            <p class="font-bold">Belum tersimpan. Perbaiki lalu coba lagi:</p>
+            <ul class="mt-1 list-inside list-disc">@foreach (array_unique($errors->all()) as $e)<li>{{ $e }}</li>@endforeach</ul>
+        </div>
+    @endif
+
     {{-- KPI --}}
     <div class="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-6">
         @foreach ($kpis as [$icon, $label, $value, $title, $hint, $href])
