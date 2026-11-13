@@ -77,7 +77,7 @@
                                     class="{{ $iconBtn }} text-neutral-500 hover:bg-brand-600/15 hover:text-brand-400"><x-lucide-log-out class="h-4 w-4" /></button>
                         </form>
                     @else
-                        <a href="{{ route('login') }}" class="a18-btn-ghost !px-2.5 !py-1.5 text-xs"><x-lucide-log-in class="h-4 w-4" /> <span class="hidden sm:inline">Masuk Staf</span></a>
+                        <a href="{{ route('login') }}" class="a18-btn-ghost !px-2.5 !py-1.5 text-xs"><x-lucide-log-in class="h-4 w-4" /> <span class="hidden sm:inline">Login</span></a>
                     @endauth
                 </div>
             </div>

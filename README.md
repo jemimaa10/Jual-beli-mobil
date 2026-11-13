@@ -72,7 +72,7 @@ Node.js **tidak** diperlukan untuk menjalankan aplikasi: berkas CSS/JS hasil bui
 | --- | --- |
 | `admin@auto18.test` | `auto18admin` |
 
-Klik **Masuk Staf** di pojok kanan atas. Halaman Beli Mobil dan Jual Mobil bisa dibuka tanpa login.
+Klik **Login** di pojok kanan atas. Halaman Beli Mobil dan Jual Mobil bisa dibuka tanpa login.
 
 ### Reset Data Demo
 - Dari aplikasi: **Pengaturan** (ikon roda gigi) lalu **Reset Data Demo**.

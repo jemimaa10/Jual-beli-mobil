@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Masuk Staf')
+@section('title', 'Login')
 
 @section('content')
     <section class="a18-stripes-soft">
