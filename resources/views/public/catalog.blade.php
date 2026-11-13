@@ -119,7 +119,7 @@
                 <button type="button" x-on:click="filterOpen = true" class="a18-btn-outline lg:hidden"><x-lucide-sliders-horizontal class="h-4 w-4" /> Filter</button>
                 <div>
                     <label for="sort" class="sr-only">Urutkan</label>
-                    <select id="sort" class="a18-input w-auto" onchange="const u = new URL(location.href); u.searchParams.set('sort', this.value); u.hash = 'daftar-mobil'; location.href = u.toString()">
+                    <select id="sort" class="a18-input w-auto" onchange="const u = new window.URL(window.location.href); u.searchParams.set('sort', this.value); u.hash = 'daftar-mobil'; window.location.href = u.toString()">
                         @foreach ($sortOptions as $id => $label)<option value="{{ $id }}" @selected($filters['sort'] === $id)>{{ $label }}</option>@endforeach
                     </select>
                 </div>
@@ -182,7 +182,7 @@
     </section>
 
     {{-- SIMULASI KREDIT --}}
-    <section class="bg-ink-900 py-14">
+    <section id="simulasi" class="scroll-mt-20 bg-ink-900 py-14">
         <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
             @include('partials.section-heading', ['eyebrow' => 'Hitung Dulu', 'title' => 'Simulasi Cicilan Mobil', 'subtitle' => 'Geser harga mobil dan uang muka untuk memperkirakan cicilan bulanan Anda.'])
             <div class="mt-8 grid gap-6 md:grid-cols-2" x-data="{ price: {{ (int) $medianPrice }}, rupiah: window.auto18.rupiah, setPrice(p) { this.price = p; this.$dispatch('sim-price', p) } }">
@@ -211,7 +211,7 @@
 
     @include('partials.how-it-works', ['title' => 'Cara Beli Mobil di Auto18', 'subtitle' => 'Empat langkah sederhana dari pilih mobil sampai bawa pulang.', 'steps' => config('auto18.how_it_works_buy')])
     @include('partials.benefits-section')
-    @include('partials.tips-section')
+    <div id="tips" class="scroll-mt-20">@include('partials.tips-section')</div>
 
     {{-- CTA JUAL MOBIL --}}
     <section class="a18-stripes py-14">

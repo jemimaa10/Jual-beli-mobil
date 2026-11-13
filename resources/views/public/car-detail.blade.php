@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
 @section('title', car_name($car, true))
+@section('description', car_name($car, true) . ' · ' . rupiah($car->price) . ' · ' . km($car->mileage) . ' · ' . $car->transmission . ' · ' . $car->location . '. Inspeksi ' . $car->inspection_score . '/100.')
+@if ($car->image_src)
+    @section('og_image')<meta property="og:image" content="{{ $car->image_src }}">@endsection
+@endif
 
 @php
     $isSold = $car->status === 'sold';

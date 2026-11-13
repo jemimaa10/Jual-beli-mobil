@@ -1,5 +1,5 @@
 @php
-    $buyLinks = ['Cari Mobil Bekas', 'Simulasi Kredit', 'Booking Test Drive', 'Mobil Favorit', 'Tips Membeli Mobil'];
+    $buyLinks = ['Cari Mobil Bekas' => route('cars.index') . '#daftar-mobil', 'Simulasi Kredit' => route('cars.index') . '#simulasi', 'Booking Test Drive' => route('cars.index') . '#daftar-mobil', 'Mobil Favorit' => route('cars.index', ['favorit' => 1]) . '#daftar-mobil', 'Tips Membeli Mobil' => route('cars.index') . '#tips'];
     $sellLinks = ['Jual Langsung', 'Tukar Tambah', 'Estimasi Harga Instan', 'Jadwalkan Inspeksi'];
     $adminLinks = [
         ['Dashboard', 'showroom.dashboard'],
@@ -41,8 +41,8 @@
             <div class="col-span-1 lg:col-span-2">
                 @include('partials.footer-heading', ['text' => 'Beli Mobil'])
                 <ul class="space-y-2.5">
-                    @foreach ($buyLinks as $label)
-                        <li><a href="{{ route('cars.index') }}" class="group inline-flex items-start gap-1 text-left text-sm text-neutral-400 transition-colors hover:text-white focus:outline-none focus-visible:text-white"><x-lucide-chevron-right class="mt-[3px] h-3.5 w-3.5 shrink-0 text-brand-600 transition-transform group-hover:translate-x-0.5" /><span>{{ $label }}</span></a></li>
+                    @foreach ($buyLinks as $label => $href)
+                        <li><a href="{{ $href }}" class="group inline-flex items-start gap-1 text-left text-sm text-neutral-400 transition-colors hover:text-white focus:outline-none focus-visible:text-white"><x-lucide-chevron-right class="mt-[3px] h-3.5 w-3.5 shrink-0 text-brand-600 transition-transform group-hover:translate-x-0.5" /><span>{{ $label }}</span></a></li>
                     @endforeach
                 </ul>
             </div>

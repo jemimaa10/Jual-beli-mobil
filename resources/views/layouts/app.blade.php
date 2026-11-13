@@ -4,6 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="description" content="@yield('description', 'Jual beli mobil second berkualitas di Auto18: sudah diinspeksi, harga transparan, bisa kredit dan tukar tambah, layanan darurat 24 jam.')">
+    <meta property="og:site_name" content="Auto18">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="@yield('title', 'Auto18')">
+    <meta property="og:description" content="@yield('description', 'Jual beli mobil second berkualitas di Auto18.')">
+    @yield('og_image')
     <title>@yield('title', 'Auto18') &mdash; {{ $store->name }}</title>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23070707'/><text x='32' y='43' text-anchor='middle' font-family='Arial Black,Arial,sans-serif' font-weight='900' font-size='30' font-style='italic' fill='%23e41b1b'>18</text></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
