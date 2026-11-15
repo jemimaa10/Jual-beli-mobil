@@ -87,6 +87,15 @@ class MotorsportThemeTest extends TestCase
         $this->assertNotNull($car->fuel);
     }
 
+    public function test_detail_uses_motorsport_frame_and_keeps_content(): void
+    {
+        $car = Car::where('model', 'Xpander')->firstOrFail();
+        $this->get(route('cars.show', $car))->assertOk()
+            ->assertSee('a18-cut-card', false)
+            ->assertSee('Mesin & Performa')
+            ->assertSee('Jadwal Test Drive');
+    }
+
     public function test_home_keeps_all_six_sort_options(): void
     {
         $html = $this->get(route('cars.index'))->getContent();
