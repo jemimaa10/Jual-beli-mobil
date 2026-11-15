@@ -16,8 +16,7 @@
 <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
     <div class="a18-stripes-soft flex flex-col gap-4 rounded-3xl p-6 sm:flex-row sm:items-center sm:justify-between">
         <div>
-            <span class="text-[10px] font-black uppercase tracking-[0.2em] text-brand-500">Panel Showroom</span>
-            <h1 class="a18-heading mt-1 text-2xl sm:text-3xl">Laporan Penjualan</h1>
+            <h1 class="a18-heading text-3xl sm:text-4xl">Laporan Penjualan</h1>
             <p class="mt-1.5 max-w-xl text-sm text-neutral-400">Riwayat penjualan mobil dan kasir aksesoris. Transaksi yang dibatalkan tetap tercatat tetapi tidak dihitung.</p>
         </div>
         <a href="{{ route('showroom.reports.export', $exportQuery) }}" class="a18-btn-outline shrink-0"><x-lucide-download class="h-4 w-4" /> Ekspor CSV</a>

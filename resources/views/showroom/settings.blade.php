@@ -26,8 +26,7 @@
 @section('content')
 <div class="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
     <div class="a18-stripes-soft rounded-3xl p-6">
-        <span class="text-[10px] font-black uppercase tracking-[0.2em] text-brand-500">Panel Showroom</span>
-        <h1 class="a18-heading mt-1 text-2xl sm:text-3xl">Pengaturan Showroom</h1>
+        <h1 class="a18-heading text-3xl sm:text-4xl">Pengaturan Showroom</h1>
         <p class="mt-1.5 text-sm text-neutral-400">Profil, kontak, kasir &amp; simulasi kredit</p>
     </div>
 

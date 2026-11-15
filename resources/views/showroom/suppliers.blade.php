@@ -19,8 +19,7 @@
 
     <div class="a18-stripes-soft flex flex-col gap-4 rounded-3xl p-6 sm:flex-row sm:items-center sm:justify-between">
         <div>
-            <span class="text-[10px] font-black uppercase tracking-[0.2em] text-brand-500">Panel Showroom</span>
-            <h1 class="a18-heading mt-1 text-2xl sm:text-3xl">Suplier &amp; Stok Masuk</h1>
+            <h1 class="a18-heading text-3xl sm:text-4xl">Suplier &amp; Stok Masuk</h1>
             <p class="mt-1.5 max-w-xl text-sm text-neutral-400">Data pemasok oli, aki, ban, dan aksesoris, serta pencatatan barang yang masuk ke stok.</p>
         </div>
         <div class="flex shrink-0 flex-wrap gap-2">
