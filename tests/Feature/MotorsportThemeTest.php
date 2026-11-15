@@ -96,6 +96,14 @@ class MotorsportThemeTest extends TestCase
             ->assertSee('Jadwal Test Drive');
     }
 
+    public function test_sell_page_has_skewed_stepper(): void
+    {
+        $html = $this->get(route('sell.create'))->assertOk()->getContent();
+        $this->assertStringContainsString('data-step="01"', $html);
+        $this->assertStringContainsString('data-step="03"', $html);
+        $this->assertStringContainsString('a18-skew', $html);
+    }
+
     public function test_home_keeps_all_six_sort_options(): void
     {
         $html = $this->get(route('cars.index'))->getContent();
