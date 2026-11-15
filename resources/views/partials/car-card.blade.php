@@ -13,8 +13,8 @@
     ];
 @endphp
 {{-- Potongan sudut (clip-path) hanya pada lapisan latar & foto, bukan pada <article>, agar ring fokus & glow tidak terpotong --}}
-<article class="group relative flex flex-col transition-shadow hover:shadow-[0_18px_40px_-18px_rgba(228,27,27,0.55)] focus-within:ring-2 focus-within:ring-brand-500 focus-within:ring-offset-2 focus-within:ring-offset-ink">
-    <div class="a18-cut-card absolute inset-0 border border-white/[0.06] bg-ink-800 transition-colors group-hover:bg-ink-700" aria-hidden="true"></div>
+<article class="group relative isolate flex flex-col transition-shadow hover:shadow-[0_18px_40px_-18px_rgba(228,27,27,0.55)] focus-within:ring-2 focus-within:ring-brand-500 focus-within:ring-offset-2 focus-within:ring-offset-ink">
+    <div class="a18-cut-card absolute inset-0 -z-10 border border-white/[0.06] bg-ink-800 transition-colors group-hover:bg-ink-700" aria-hidden="true"></div>
 
     {{-- Foto --}}
     <div class="relative">
@@ -51,8 +51,8 @@
     </div>
 
     {{-- Info --}}
-    <div class="relative -mt-6 flex flex-1 flex-col px-4 pb-4">
-        <div class="flex items-end justify-between gap-3">
+    <div data-card-info class="-mt-6 flex flex-1 flex-col px-4 pb-4">
+        <div class="pointer-events-none relative z-[2] flex items-end justify-between gap-3">
             @if ($car->inspection_score > 0)
                 <span class="flex items-baseline gap-1.5 border border-white/10 bg-ink px-2.5 py-1.5" title="Skor inspeksi {{ $car->inspection_score }}/100">
                     <span class="a18-display text-[26px] leading-none {{ $car->inspection_score >= 95 ? 'text-brand-500' : 'text-white' }}">{{ $car->inspection_score }}</span>

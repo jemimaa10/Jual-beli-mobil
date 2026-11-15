@@ -271,8 +271,8 @@
                         <p class="mt-4 max-w-[560px] text-base leading-relaxed text-white/90">Dapatkan estimasi harga instan, jadwalkan inspeksi, dan terima pembayaran cepat setelah dokumen beres.</p>
                     </div>
                     <div class="flex flex-col gap-3 sm:flex-row md:flex-col">
-                        <a href="{{ route('sell.create') }}" class="a18-cut-tag a18-display flex h-14 items-center justify-center gap-3 bg-ink px-7 text-[22px] text-white transition-colors hover:bg-ink-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-white">Jual Mobil Sekarang <x-lucide-arrow-right class="h-5 w-5" /></a>
-                        <a href="{{ route('cars.index', ['favorit' => 1]) }}#daftar-mobil" class="a18-cut-tag a18-display flex h-14 items-center justify-center gap-3 bg-white px-7 text-[22px] text-ink transition-colors hover:bg-neutral-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-ink"><x-lucide-heart class="h-5 w-5" /> Lihat Favorit Saya</a>
+                        <a href="{{ route('sell.create') }}" class="a18-cut-tag a18-display flex h-14 items-center justify-center gap-3 bg-ink px-7 text-[22px] text-white transition-colors hover:bg-ink-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-white">Jual Mobil Sekarang <x-lucide-arrow-right class="h-5 w-5" /></a>
+                        <a href="{{ route('cars.index', ['favorit' => 1]) }}#daftar-mobil" class="a18-cut-tag a18-display flex h-14 items-center justify-center gap-3 bg-white px-7 text-[22px] text-ink transition-colors hover:bg-neutral-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand-600"><x-lucide-heart class="h-5 w-5" /> Lihat Favorit Saya</a>
                     </div>
                 </div>
             </div>

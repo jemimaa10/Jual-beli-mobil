@@ -178,6 +178,29 @@ class MotorsportThemeTest extends TestCase
             ->assertSee('a18-stamp', false);
     }
 
+    public function test_card_title_link_covers_whole_card_including_photo(): void
+    {
+        $car = Car::where('status', 'available')->firstOrFail();
+        $html = view('partials.car-card', ['car' => $car, 'gridNo' => 1])->render();
+        // Lapisan klik "after:absolute inset-0" pada tautan judul harus menempel ke <article>,
+        // jadi tidak boleh ada pembungkus ber-position (relative/absolute) di antara keduanya.
+        $this->assertMatchesRegularExpression('/<div data-card-info class="(?![^"]*\b(relative|absolute)\b)[^"]*"/', $html);
+    }
+
+    public function test_slanted_buttons_keep_a_visible_focus_ring(): void
+    {
+        $css = file_get_contents(resource_path('css/app.css'));
+        preg_match('/\.a18-btn-primary \{(.*?)\}/s', $css, $m);
+        // clip-path memotong ring di luar kotak, jadi ring fokus harus di dalam (inset)
+        $this->assertStringContainsString('focus-visible:ring-inset', $m[1]);
+        $this->assertStringNotContainsString('ring-offset', $m[1]);
+        $home = $this->get(route('cars.index'))->getContent();
+        preg_match_all('/<a [^>]*class="[^"]*a18-cut-tag[^"]*"/', $home, $links);
+        foreach ($links[0] as $tag) {
+            $this->assertStringContainsString('focus-visible:ring-inset', $tag);
+        }
+    }
+
     public function test_home_keeps_all_six_sort_options(): void
     {
         $html = $this->get(route('cars.index'))->getContent();

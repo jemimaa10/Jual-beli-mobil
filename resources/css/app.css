@@ -103,7 +103,7 @@
   }
 
   .a18-btn-primary {
-    @apply a18-cond a18-cut-tag inline-flex min-h-[2.75rem] items-center justify-center gap-2 bg-brand-600 px-6 py-2 text-base font-extrabold uppercase tracking-wide text-white transition-colors hover:bg-brand-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 focus-visible:ring-offset-ink disabled:cursor-not-allowed disabled:bg-neutral-700 disabled:text-neutral-400;
+    @apply a18-cond a18-cut-tag inline-flex min-h-[2.75rem] items-center justify-center gap-2 bg-brand-600 px-6 py-2 text-base font-extrabold uppercase tracking-wide text-white transition-colors hover:bg-brand-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-white disabled:cursor-not-allowed disabled:bg-neutral-700 disabled:text-neutral-400;
   }
 
   .a18-btn-outline {
