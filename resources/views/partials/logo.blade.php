@@ -2,8 +2,8 @@
     // Wordmark AUTO18 gaya Motorsport: putih polos + "18" merah, miring tebal.
     // showTagline: label samping "Auto / Eighteen" (gaya header) atau di bawah (ukuran lg/xl).
     $sizes = [
-        'sm' => ['word' => 'text-[26px]', 'tagline' => 'text-[10px]'],
-        'md' => ['word' => 'text-[32px]', 'tagline' => 'text-[11px]'],
+        'sm' => ['word' => 'text-[26px]', 'tagline' => 'text-xs'],
+        'md' => ['word' => 'text-[32px]', 'tagline' => 'text-xs'],
         'lg' => ['word' => 'text-[44px]', 'tagline' => 'text-xs'],
         'xl' => ['word' => 'text-6xl', 'tagline' => 'text-sm'],
     ];

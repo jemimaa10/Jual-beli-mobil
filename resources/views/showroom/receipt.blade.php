@@ -56,7 +56,7 @@
     <script>try { sessionStorage.removeItem('auto18_pos_cart'); } catch (e) {}</script>
 @endunless
 <div class="mx-auto max-w-md px-4 py-8">
-    <div class="overflow-hidden rounded-3xl border border-white/10 bg-ink-800 shadow-2xl" x-data="{ note: '' , copy() {
+    <div class="overflow-hidden border border-white/10 border-t-4 border-t-brand-600 bg-ink-800 shadow-2xl" x-data="{ note: '' , copy() {
             const text = @js($copyText);
             if (!navigator.clipboard || !navigator.clipboard.writeText) { this.note = 'Browser ini tidak mengizinkan menyalin otomatis.'; window.dispatchEvent(new CustomEvent('toast', { detail: { type: 'error', message: this.note } })); return; }
             navigator.clipboard.writeText(text).then(() => { this.note = 'Struk teks berhasil disalin ke clipboard!'; window.dispatchEvent(new CustomEvent('toast', { detail: { type: 'success', message: this.note } })); })

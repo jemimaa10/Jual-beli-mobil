@@ -14,7 +14,7 @@
 
 @section('content')
 <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-    <div class="a18-stripes-soft flex flex-col gap-4 rounded-3xl p-6 sm:flex-row sm:items-center sm:justify-between">
+    <div class="a18-stripes-soft border-l-4 border-brand-600 flex flex-col gap-4 p-6 sm:flex-row sm:items-center sm:justify-between">
         <div>
             <h1 class="a18-heading text-3xl sm:text-4xl">Laporan Penjualan</h1>
             <p class="mt-1.5 max-w-xl text-sm text-neutral-400">Riwayat penjualan mobil dan kasir aksesoris. Transaksi yang dibatalkan tetap tercatat tetapi tidak dihitung.</p>
@@ -55,14 +55,14 @@
             <label for="r-to" class="a18-label">Sampai Tanggal</label>
             <input id="r-to" type="date" name="to" value="{{ $filters['to'] }}" class="a18-input">
         </div>
-        <p class="self-end pb-2.5 text-[11px] text-neutral-500 sm:col-span-2 lg:col-span-3">Rentang tanggal, bila diisi, menggantikan pilihan Periode. <a href="{{ route('showroom.reports') }}" class="font-bold text-brand-400 hover:text-brand-300">Reset filter</a></p>
+        <p class="self-end pb-2.5 text-xs text-neutral-500 sm:col-span-2 lg:col-span-3">Rentang tanggal, bila diisi, menggantikan pilihan Periode. <a href="{{ route('showroom.reports') }}" class="font-bold text-brand-400 hover:text-brand-300">Reset filter</a></p>
     </form>
 
     <div class="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
         @foreach ($cards as [$icon, $label, $value, $hint])
             <div class="a18-card min-w-0 p-4">
-                <div class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-neutral-500">@svg('lucide-' . $icon, 'h-3.5 w-3.5 text-brand-500') {{ $label }}</div>
-                <p class="mt-1.5 truncate font-display text-xl font-black text-white" title="{{ rupiah($value) }}">{{ rupiah_short($value) }}</p>
+                <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-neutral-500">@svg('lucide-' . $icon, 'h-3.5 w-3.5 text-brand-500') {{ $label }}</div>
+                <p class="mt-2 truncate a18-display text-3xl leading-none text-white" title="{{ rupiah($value) }}">{{ rupiah_short($value) }}</p>
                 <p class="text-xs text-neutral-500">{{ $hint }}</p>
             </div>
         @endforeach
@@ -73,16 +73,16 @@
         @foreach ([['Omset Mobil', $totals['car'], 'bg-brand-600'], ['Omset Aksesoris', $totals['retail'], 'bg-white/70']] as [$label, $value, $bar])
             <div class="a18-card p-4">
                 <div class="flex items-center justify-between gap-2 text-sm"><span class="text-neutral-400">{{ $label }}</span><span class="font-bold text-white">{{ rupiah($value) }}</span></div>
-                <div class="mt-2 h-1.5 overflow-hidden rounded-full bg-white/10"><div class="h-full rounded-full {{ $bar }}" style="width: {{ round($value / $sum * 100, 1) }}%"></div></div>
-                <p class="mt-1 text-[11px] text-neutral-500">{{ number_format($value / $sum * 100, 1, ',', '.') }}% dari omset</p>
+                <div class="mt-2 h-1.5 overflow-hidden bg-white/10"><div class="h-full {{ $bar }}" style="width: {{ round($value / $sum * 100, 1) }}%"></div></div>
+                <p class="mt-1 text-xs text-neutral-500">{{ number_format($value / $sum * 100, 1, ',', '.') }}% dari omset</p>
             </div>
         @endforeach
     </div>
 
     <p class="mt-6 text-xs text-neutral-500">{{ $transactions->count() }} transaksi ditampilkan</p>
-    <div class="mt-3 overflow-x-auto rounded-2xl border border-white/10">
+    <div class="mt-3 overflow-x-auto border border-white/10">
         <table class="w-full min-w-[900px] text-sm">
-            <thead class="bg-ink-900 text-left text-[10px] uppercase tracking-wider text-neutral-500">
+            <thead class="bg-ink-900 text-left text-xs uppercase tracking-wider text-neutral-500">
                 <tr><th class="px-4 py-3">Tanggal</th><th class="px-4 py-3">Kode</th><th class="px-4 py-3">Jenis</th><th class="px-4 py-3">Pelanggan</th><th class="px-4 py-3">Rincian</th><th class="px-4 py-3">Metode</th><th class="px-4 py-3 text-right">Total</th><th class="px-4 py-3 text-right">Laba</th><th class="px-4 py-3 text-center">Aksi</th></tr>
             </thead>
             <tbody>
@@ -90,8 +90,8 @@
                     @php $void = $t->status === 'void'; @endphp
                     <tr class="border-t border-white/10 transition-colors hover:bg-white/5 {{ $void ? 'opacity-60' : '' }}">
                         <td class="whitespace-nowrap px-4 py-3 text-xs text-neutral-400">{{ $t->date->locale('id')->translatedFormat('j M Y') }}<span class="block text-neutral-500">{{ $t->date->format('H:i') }}</span></td>
-                        <td class="px-4 py-3 font-mono text-xs text-white">{{ $t->code }}@if ($void)<span class="mt-0.5 block font-sans text-[10px] font-bold uppercase text-brand-400">Dibatalkan</span>@endif</td>
-                        <td class="px-4 py-3"><span class="rounded-full border px-2 py-0.5 text-[10px] font-bold uppercase {{ $t->sale_type === 'car' ? 'border-brand-500/40 bg-brand-600/20 text-brand-300' : 'border-white/15 text-neutral-300' }}">{{ $t->sale_type === 'car' ? 'Mobil' : 'Aksesoris' }}</span></td>
+                        <td class="px-4 py-3 a18-cond tracking-wider text-xs text-white">{{ $t->code }}@if ($void)<span class="mt-0.5 block font-sans text-xs font-bold uppercase text-brand-400">Dibatalkan</span>@endif</td>
+                        <td class="px-4 py-3"><span class="a18-cond border px-2 py-0.5 text-xs font-bold uppercase tracking-wide {{ $t->sale_type === 'car' ? 'border-brand-500/40 bg-brand-600/20 text-brand-300' : 'border-white/15 text-neutral-300' }}">{{ $t->sale_type === 'car' ? 'Mobil' : 'Aksesoris' }}</span></td>
                         <td class="px-4 py-3 text-neutral-300">{{ $t->customer_name }}</td>
                         <td class="max-w-[260px] px-4 py-3 text-xs text-neutral-400"><span class="line-clamp-2">{{ $t->items->map(fn ($i) => ($t->sale_type === 'car' ? '' : $i->qty . 'x ') . $i->name)->implode(', ') }}</span></td>
                         <td class="px-4 py-3 text-xs text-neutral-300">{{ $methods[$t->payment_method] ?? $t->payment_method }}</td>

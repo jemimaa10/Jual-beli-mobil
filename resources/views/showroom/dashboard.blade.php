@@ -21,7 +21,7 @@
 
 @section('content')
 <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-    <div class="a18-stripes-soft flex flex-col gap-4 rounded-3xl p-6 sm:flex-row sm:items-center sm:justify-between">
+    <div class="a18-stripes-soft border-l-4 border-brand-600 flex flex-col gap-4 p-6 sm:flex-row sm:items-center sm:justify-between">
         <div>
             <h1 class="a18-heading text-3xl sm:text-4xl">Dashboard Showroom Auto18</h1>
             <p class="mt-1.5 max-w-xl text-sm text-neutral-400">{{ now()->locale('id')->translatedFormat('l, j F Y') }} &middot; ringkasan penjualan mobil, kasir aksesoris, dan aktivitas showroom.</p>
@@ -33,13 +33,13 @@
     </div>
 
     @foreach ([['Performa Hari Ini', $todayCards, 'sm:grid-cols-3'], ['Ringkasan Showroom', $showroomCards, 'sm:grid-cols-2 lg:grid-cols-4']] as [$heading, $cards, $cols])
-        <h2 class="mt-6 font-display text-xs font-black uppercase tracking-[0.2em] text-neutral-500">{{ $heading }}</h2>
+        <h2 class="a18-cond mt-8 flex items-center gap-2 text-sm font-bold uppercase tracking-[0.2em] text-white/55"><span class="a18-skew h-3.5 w-1.5 bg-brand-600" aria-hidden="true"></span>{{ $heading }}</h2>
         <div class="mt-3 grid grid-cols-1 gap-3 {{ $cols }}">
             @foreach ($cards as $c)
-                @if ($c['href'])<a href="{{ $c['href'] }}" class="a18-card min-w-0 p-4 transition-colors hover:border-brand-600">@else<div class="a18-card min-w-0 p-4">@endif
-                    <div class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-neutral-500">@svg('lucide-' . $c['icon'], 'h-3.5 w-3.5 text-brand-500') {{ $c['label'] }}</div>
-                    <p class="mt-1.5 truncate font-display text-2xl font-black text-white" @if ($c['title']) title="{{ $c['title'] }}" @endif>{{ $c['value'] }}</p>
-                    @if ($c['hint'])<p class="text-xs text-neutral-500">{{ $c['hint'] }}</p>@endif
+                @if ($c['href'])<a href="{{ $c['href'] }}" class="a18-card min-w-0 border-l-4 border-l-brand-600 p-4 transition-colors hover:bg-ink-700">@else<div class="a18-card min-w-0 border-l-4 border-l-brand-600 p-4">@endif
+                    <div class="a18-cond flex items-center gap-2 text-[13px] font-bold uppercase tracking-wider text-white/55">@svg('lucide-' . $c['icon'], 'h-4 w-4 text-brand-600') {{ $c['label'] }}</div>
+                    <p data-kpi class="a18-display mt-2 truncate text-4xl leading-none text-white" @if ($c['title']) title="{{ $c['title'] }}" @endif>{{ $c['value'] }}</p>
+                    @if ($c['hint'])<p class="mt-1 text-xs text-white/50">{{ $c['hint'] }}</p>@endif
                 @if ($c['href'])</a>@else</div>@endif
             @endforeach
         </div>
@@ -56,9 +56,9 @@
                     <h2 class="a18-heading text-sm sm:text-base">Tren Omset 7 Hari</h2>
                     <p class="text-xs text-neutral-500">Total <span class="font-bold text-white" x-text="window.auto18.rupiah(total)"></span></p>
                 </div>
-                <div class="flex rounded-xl border border-white/15 p-0.5" role="group" aria-label="Filter jenis omset">
+                <div class="flex border border-white/15 p-0.5" role="group" aria-label="Filter jenis omset">
                     @foreach ([['all', 'Semua'], ['car', 'Mobil'], ['retail', 'Aksesoris']] as [$id, $label])
-                        <button type="button" x-on:click="mode = '{{ $id }}'" x-bind:aria-pressed="mode === '{{ $id }}'" class="rounded-lg px-3 py-1 text-xs font-bold transition-colors" x-bind:class="mode === '{{ $id }}' ? 'bg-brand-600 text-white' : 'text-neutral-400 hover:text-white'">{{ $label }}</button>
+                        <button type="button" x-on:click="mode = '{{ $id }}'" x-bind:aria-pressed="mode === '{{ $id }}'" class="px-3 py-1 text-xs font-bold transition-colors" x-bind:class="mode === '{{ $id }}' ? 'bg-brand-600 text-white' : 'text-neutral-400 hover:text-white'">{{ $label }}</button>
                     @endforeach
                 </div>
             </div>
@@ -66,18 +66,18 @@
             <div class="mt-5 flex h-48 items-end gap-2 sm:gap-3" aria-hidden="true">
                 <template x-for="d in series" :key="d.date">
                     <div class="flex h-full min-w-0 flex-1 flex-col items-center justify-end gap-1.5" x-bind:title="d.full + ': ' + window.auto18.rupiah(value(d))">
-                        <span class="truncate text-[10px] font-bold text-neutral-400" x-text="value(d) ? rupiahShort(value(d)).replace('Rp ', '') : ''"></span>
-                        <div class="flex w-full max-w-[56px] flex-col justify-end overflow-hidden rounded-t-lg bg-white/5 transition-all duration-300" x-bind:style="'height:' + Math.max(2, value(d) / max * 100) + '%'">
+                        <span class="truncate text-xs font-bold text-neutral-400" x-text="value(d) ? rupiahShort(value(d)).replace('Rp ', '') : ''"></span>
+                        <div class="flex w-full max-w-[56px] flex-col justify-end overflow-hidden bg-white/5 transition-all duration-300" x-bind:style="'height:' + Math.max(2, value(d) / max * 100) + '%'">
                             <div class="bg-brand-600" x-show="mode !== 'retail'" x-bind:style="'height:' + (value(d) ? (mode === 'car' ? 100 : d.car / (d.car + d.retail) * 100) : 0) + '%'"></div>
                             <div class="bg-white/70" x-show="mode !== 'car'" x-bind:style="'height:' + (value(d) ? (mode === 'retail' ? 100 : d.retail / (d.car + d.retail) * 100) : 0) + '%'"></div>
                         </div>
-                        <span class="text-[10px] uppercase text-neutral-500" x-text="d.label"></span>
+                        <span class="text-xs uppercase text-neutral-500" x-text="d.label"></span>
                     </div>
                 </template>
             </div>
-            <div class="mt-3 flex gap-4 text-[11px] text-neutral-400">
-                <span class="inline-flex items-center gap-1.5"><span class="h-2.5 w-2.5 rounded-sm bg-brand-600"></span> Penjualan mobil</span>
-                <span class="inline-flex items-center gap-1.5"><span class="h-2.5 w-2.5 rounded-sm bg-white/70"></span> Aksesoris &amp; jasa</span>
+            <div class="mt-3 flex gap-4 text-xs text-neutral-400">
+                <span class="inline-flex items-center gap-1.5"><span class="h-2.5 w-2.5 bg-brand-600"></span> Penjualan mobil</span>
+                <span class="inline-flex items-center gap-1.5"><span class="h-2.5 w-2.5 bg-white/70"></span> Aksesoris &amp; jasa</span>
             </div>
 
             {{-- Versi tabel untuk pembaca layar --}}
@@ -99,8 +99,8 @@
             <ul class="mt-3 divide-y divide-white/10">
                 @forelse ($lowStock as $p)
                     <li class="flex items-center justify-between gap-3 py-2.5 text-sm">
-                        <span class="min-w-0"><span class="block truncate font-semibold text-white">{{ $p->name }}</span><span class="font-mono text-[10px] text-neutral-500">{{ $p->sku }}</span></span>
-                        <span class="shrink-0 rounded-full border px-2 py-0.5 text-[10px] font-bold {{ $p->stock <= 0 ? 'border-brand-500/40 bg-brand-600/20 text-brand-300' : 'border-amber-500/30 bg-amber-500/15 text-amber-300' }}">{{ $p->stock <= 0 ? 'Habis' : 'Sisa ' . $p->stock }}</span>
+                        <span class="min-w-0"><span class="block truncate font-semibold text-white">{{ $p->name }}</span><span class="a18-cond tracking-wider text-xs text-neutral-500">{{ $p->sku }}</span></span>
+                        <span class="shrink-0 border px-2 py-0.5 text-xs font-bold {{ $p->stock <= 0 ? 'border-brand-500/40 bg-brand-600/20 text-brand-300' : 'border-amber-500/30 bg-amber-500/15 text-amber-300' }}">{{ $p->stock <= 0 ? 'Habis' : 'Sisa ' . $p->stock }}</span>
                     </li>
                 @empty
                     <li class="py-6 text-center text-sm text-neutral-500">Semua stok aksesoris aman.</li>
@@ -122,11 +122,11 @@
                         <a href="{{ route('showroom.receipt', $t) }}" class="flex items-center justify-between gap-3 py-2.5 text-sm transition-colors hover:bg-white/5">
                             <span class="min-w-0">
                                 <span class="block truncate font-semibold text-white">{{ $t->sale_type === 'car' ? ($t->items->first()?->name ?? 'Mobil') : $t->items->pluck('name')->implode(', ') }}</span>
-                                <span class="text-[11px] text-neutral-500">{{ $t->code }} &middot; {{ $t->date->locale('id')->translatedFormat('j M H:i') }} &middot; {{ $methodLabel[$t->payment_method] ?? $t->payment_method }}</span>
+                                <span class="text-xs text-neutral-500">{{ $t->code }} &middot; {{ $t->date->locale('id')->translatedFormat('j M H:i') }} &middot; {{ $methodLabel[$t->payment_method] ?? $t->payment_method }}</span>
                             </span>
                             <span class="shrink-0 text-right">
                                 <span class="block font-bold {{ $t->status === 'void' ? 'text-neutral-500 line-through' : 'text-white' }}">{{ rupiah($t->total) }}</span>
-                                @if ($t->status === 'void')<span class="text-[10px] font-bold uppercase text-brand-400">Dibatalkan</span>@endif
+                                @if ($t->status === 'void')<span class="text-xs font-bold uppercase text-brand-400">Dibatalkan</span>@endif
                             </span>
                         </a>
                     </li>
@@ -142,8 +142,8 @@
             <ul class="mt-3 divide-y divide-white/10">
                 @forelse ($topProducts as $i => $p)
                     <li class="flex items-center justify-between gap-3 py-2.5 text-sm">
-                        <span class="flex min-w-0 items-center gap-3"><span class="font-display text-lg font-black text-white/20">{{ $i + 1 }}</span><span class="truncate font-semibold text-white">{{ $p->name }}</span></span>
-                        <span class="shrink-0 text-right"><span class="block font-bold text-white">{{ (int) $p->sold }} terjual</span><span class="text-[11px] text-neutral-500">{{ rupiah($p->revenue) }}</span></span>
+                        <span class="flex min-w-0 items-center gap-3"><span class="a18-display text-lg text-white/20">{{ $i + 1 }}</span><span class="truncate font-semibold text-white">{{ $p->name }}</span></span>
+                        <span class="shrink-0 text-right"><span class="block font-bold text-white">{{ (int) $p->sold }} terjual</span><span class="text-xs text-neutral-500">{{ rupiah($p->revenue) }}</span></span>
                     </li>
                 @empty
                     <li class="py-6 text-center text-sm text-neutral-500">Belum ada penjualan aksesoris.</li>
@@ -160,8 +160,8 @@
             <ul class="mt-3 divide-y divide-white/10">
                 @forelse ($upcomingDrives as $t)
                     <li class="flex items-center justify-between gap-3 py-2.5 text-sm">
-                        <span class="min-w-0"><span class="block truncate font-semibold text-white">{{ $t->car_name }}</span><span class="text-[11px] text-neutral-500">{{ $t->customer_name }} &middot; {{ $day($t->date) }} &middot; {{ $t->time }}</span></span>
-                        @if ($t->date->isToday())<span class="shrink-0 rounded-full bg-brand-600 px-2 py-0.5 text-[10px] font-black uppercase text-white">Hari Ini</span>@endif
+                        <span class="min-w-0"><span class="block truncate font-semibold text-white">{{ $t->car_name }}</span><span class="text-xs text-neutral-500">{{ $t->customer_name }} &middot; {{ $day($t->date) }} &middot; {{ $t->time }}</span></span>
+                        @if ($t->date->isToday())<span class="shrink-0 bg-brand-600 px-2 py-0.5 text-xs font-black uppercase text-white">Hari Ini</span>@endif
                     </li>
                 @empty
                     <li class="py-6 text-center text-sm text-neutral-500">Tidak ada jadwal test drive mendatang.</li>
@@ -179,8 +179,8 @@
                 @forelse ($newRequestList as $r)
                     @php [$sLabel, $sClass] = \App\Http\Controllers\Showroom\CarController::REQUEST_STATUS[$r->status]; @endphp
                     <li class="flex items-center justify-between gap-3 py-2.5 text-sm">
-                        <span class="min-w-0"><span class="block truncate font-semibold text-white">{{ car_name($r, true) }}</span><span class="text-[11px] text-neutral-500">{{ $r->customer_name }} &middot; {{ $r->type === 'trade-in' ? 'Tukar tambah' : 'Jual langsung' }}</span></span>
-                        <span class="shrink-0 rounded-full border px-2 py-0.5 text-[10px] font-bold uppercase {{ $sClass }}">{{ $sLabel }}</span>
+                        <span class="min-w-0"><span class="block truncate font-semibold text-white">{{ car_name($r, true) }}</span><span class="text-xs text-neutral-500">{{ $r->customer_name }} &middot; {{ $r->type === 'trade-in' ? 'Tukar tambah' : 'Jual langsung' }}</span></span>
+                        <span class="shrink-0 border px-2 py-0.5 text-xs font-bold uppercase {{ $sClass }}">{{ $sLabel }}</span>
                     </li>
                 @empty
                     <li class="py-6 text-center text-sm text-neutral-500">Belum ada permintaan jual mobil.</li>

@@ -124,6 +124,60 @@ class MotorsportThemeTest extends TestCase
         $this->get(route('login'))->assertOk()->assertSee('a18-cut-tag', false)->assertSee('Masuk Panel Showroom');
     }
 
+    public function test_staff_pages_have_no_slanted_or_rounded_tables_and_fields(): void
+    {
+        $this->actingAs(User::factory()->create());
+        $car = Car::where('status', 'available')->firstOrFail();
+        $routes = [
+            route('showroom.dashboard'), route('showroom.cars.index'), route('showroom.cars.index', ['tab' => 'requests']),
+            route('showroom.cars.index', ['tab' => 'testdrive']), route('showroom.cars.create'), route('showroom.cars.sale.create', $car),
+            route('showroom.products.index'), route('showroom.suppliers.index'), route('showroom.reports'), route('showroom.settings'), route('showroom.pos'),
+        ];
+        foreach ($routes as $url) {
+            $html = $this->get($url)->assertOk()->getContent();
+            $this->assertDoesNotMatchRegularExpression('/<(table|td|th|input|select|textarea)[^>]*a18-(skew|cut-)/', $html, $url);
+            $this->assertDoesNotMatchRegularExpression('/<(table|input|select|textarea)[^>]*\brounded(-[a-z0-9]+)?\b/', $html, $url);
+        }
+    }
+
+    public function test_dashboard_kpis_use_display_numerals(): void
+    {
+        $this->actingAs(User::factory()->create());
+        $html = $this->get(route('showroom.dashboard'))->assertOk()->getContent();
+        preg_match_all('/<p[^>]*data-kpi[^>]*>/', $html, $m);
+        $this->assertCount(7, $m[0]);
+        foreach ($m[0] as $tag) {
+            $this->assertStringContainsString('a18-display', $tag);
+        }
+    }
+
+    public function test_staff_pages_use_light_touch_rules(): void
+    {
+        $this->actingAs(User::factory()->create());
+        $car = Car::where('status', 'available')->firstOrFail();
+        $routes = [
+            route('showroom.dashboard'), route('showroom.cars.index'), route('showroom.cars.index', ['tab' => 'requests']),
+            route('showroom.cars.index', ['tab' => 'testdrive']), route('showroom.cars.create'), route('showroom.cars.sale.create', $car),
+            route('showroom.products.index'), route('showroom.suppliers.index'), route('showroom.reports', ['period' => 'all']), route('showroom.settings'), route('showroom.pos'),
+        ];
+        foreach ($routes as $url) {
+            $html = $this->get($url)->assertOk()->getContent();
+            $this->assertStringNotContainsString('rounded-3xl', $html, $url);
+            $this->assertStringNotContainsString('font-mono', $html, $url);
+            $this->assertDoesNotMatchRegularExpression('/text-\[(9|10|11)px\]/', $html, $url);
+        }
+    }
+
+    public function test_receipt_keeps_printable_paper_and_stamp(): void
+    {
+        $this->actingAs(User::factory()->create());
+        $car = Car::where('status', 'available')->firstOrFail();
+        $trx = app(\App\Services\CarSaleService::class)->sell($car, ['customer_name' => 'Budi', 'payment_method' => 'transfer']);
+        $this->get(route('showroom.receipt', $trx))->assertOk()
+            ->assertSee('id="printable-receipt"', false)
+            ->assertSee('a18-stamp', false);
+    }
+
     public function test_home_keeps_all_six_sort_options(): void
     {
         $html = $this->get(route('cars.index'))->getContent();

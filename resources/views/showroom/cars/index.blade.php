@@ -29,7 +29,7 @@
 @section('content')
 <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
     {{-- Banner --}}
-    <div class="a18-stripes-soft flex flex-col gap-4 rounded-3xl p-6 sm:flex-row sm:items-center sm:justify-between">
+    <div class="a18-stripes-soft border-l-4 border-brand-600 flex flex-col gap-4 p-6 sm:flex-row sm:items-center sm:justify-between">
         <div>
             <h1 class="a18-heading text-3xl sm:text-4xl">Stok Mobil &amp; Permintaan</h1>
             <p class="mt-1.5 max-w-xl text-sm text-neutral-400">Kelola unit mobil bekas, permintaan jual/tukar tambah pelanggan, dan jadwal test drive.</p>
@@ -38,7 +38,7 @@
     </div>
 
     @if ($errors->any())
-        <div class="mt-4 rounded-lg border border-brand-600/40 bg-brand-600/10 px-3 py-2 text-sm text-brand-300" role="alert">
+        <div class="mt-4 border border-brand-600/40 bg-brand-600/10 px-3 py-2 text-sm text-brand-300" role="alert">
             <p class="font-bold">Belum tersimpan. Perbaiki lalu coba lagi:</p>
             <ul class="mt-1 list-inside list-disc">@foreach (array_unique($errors->all()) as $e)<li>{{ $e }}</li>@endforeach</ul>
         </div>
@@ -48,8 +48,8 @@
     <div class="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-6">
         @foreach ($kpis as [$icon, $label, $value, $title, $hint, $href])
             @if ($href)<a href="{{ $href }}" class="a18-card min-w-0 p-4 text-left transition-colors hover:border-brand-600">@else<div class="a18-card min-w-0 p-4 text-left">@endif
-                <div class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-neutral-500">@svg('lucide-' . $icon, 'h-3.5 w-3.5 text-brand-500') {{ $label }}</div>
-                <p class="mt-1.5 truncate font-display text-xl font-black text-white" @if ($title) title="{{ $title }}" @endif>{{ $value }}</p>
+                <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-neutral-500">@svg('lucide-' . $icon, 'h-3.5 w-3.5 text-brand-500') {{ $label }}</div>
+                <p class="mt-2 truncate a18-display text-3xl leading-none text-white" @if ($title) title="{{ $title }}" @endif>{{ $value }}</p>
                 @if ($hint)<p class="text-xs text-neutral-500">{{ $hint }}</p>@endif
             @if ($href)</a>@else</div>@endif
         @endforeach
@@ -59,9 +59,9 @@
     <div class="mt-6 flex gap-2 overflow-x-auto border-b border-white/10 pb-px">
         @foreach ($tabs as $id => [$label, $icon, $badge])
             <a href="{{ route('showroom.cars.index', ['tab' => $id]) }}" @if ($tab === $id) aria-current="page" @endif
-               class="relative flex shrink-0 items-center gap-2 rounded-t-xl px-4 py-2.5 text-sm font-bold transition-colors {{ $tab === $id ? 'bg-brand-600 text-white' : 'text-neutral-400 hover:bg-white/5 hover:text-white' }}">
+               class="relative flex shrink-0 items-center gap-2 px-4 py-2.5 text-sm font-bold transition-colors {{ $tab === $id ? 'bg-brand-600 text-white' : 'text-neutral-400 hover:bg-white/5 hover:text-white' }}">
                 @svg('lucide-' . $icon, 'h-4 w-4') {{ $label }}
-                @if ($badge > 0)<span class="rounded-full px-1.5 py-0.5 text-[10px] font-black {{ $tab === $id ? 'bg-white text-brand-700' : 'bg-brand-600 text-white' }}">{{ $badge }}</span>@endif
+                @if ($badge > 0)<span class="px-1.5 py-0.5 text-xs font-black {{ $tab === $id ? 'bg-white text-brand-700' : 'bg-brand-600 text-white' }}">{{ $badge }}</span>@endif
             </a>
         @endforeach
     </div>
@@ -104,9 +104,9 @@
 
 
             {{-- Tabel desktop --}}
-            <div class="mt-3 hidden overflow-x-auto rounded-2xl border border-white/10 lg:block">
+            <div class="mt-3 hidden overflow-x-auto border border-white/10 lg:block">
                 <table class="w-full min-w-[920px] text-sm">
-                    <thead class="bg-ink-900 text-left text-[10px] uppercase tracking-wider text-neutral-500">
+                    <thead class="bg-ink-900 text-left text-xs uppercase tracking-wider text-neutral-500">
                         <tr>
                             <th class="px-4 py-3">Mobil</th><th class="px-4 py-3">Spesifikasi</th>
                             <th class="px-3 py-3 text-right">Harga Jual</th><th class="hidden px-3 py-3 text-right 2xl:table-cell">Modal</th>
@@ -119,17 +119,17 @@
                             <tr class="border-t border-white/10 transition-colors hover:bg-white/5">
                                 <td class="px-4 py-3">
                                     <div class="flex items-center gap-3">
-                                        @include('partials.car-image', ['car' => $car, 'class' => 'h-14 w-20 shrink-0 rounded-lg'])
+                                        @include('partials.car-image', ['car' => $car, 'class' => 'h-14 w-20 shrink-0 '])
                                         <div class="min-w-0">
                                             <p class="truncate font-bold text-white">{{ car_name($car) }}</p>
-                                            <p class="font-mono text-[11px] text-neutral-500">{{ $car->code }} &middot; {{ $car->plate ?: 'tanpa plat' }}</p>
+                                            <p class="a18-cond tracking-wider text-xs text-neutral-500">{{ $car->code }} &middot; {{ $car->plate ?: 'tanpa plat' }}</p>
                                         </div>
                                     </div>
                                 </td>
                                 <td class="px-4 py-3 text-xs text-neutral-400">{{ $car->year }} &middot; {{ km($car->mileage) }}<br>{{ $car->transmission }} &middot; {{ $car->fuel }}</td>
                                 <td class="px-3 py-3 text-right font-semibold text-white">{{ rupiah($car->price) }}</td>
                                 <td class="hidden px-3 py-3 text-right text-neutral-400 2xl:table-cell">{{ rupiah($car->buy_price) }}</td>
-                                <td class="px-3 py-3 text-right font-semibold {{ $margin >= 0 ? 'text-emerald-400' : 'text-brand-400' }}">{{ rupiah($margin) }}<span class="block text-[10px] font-normal text-neutral-500">{{ number_format($pct, 1, ',', '.') }}%</span></td>
+                                <td class="px-3 py-3 text-right font-semibold {{ $margin >= 0 ? 'text-emerald-400' : 'text-brand-400' }}">{{ rupiah($margin) }}<span class="block text-xs font-normal text-neutral-500">{{ number_format($pct, 1, ',', '.') }}%</span></td>
                                 <td class="px-3 py-3">@include('showroom.cars._status', ['car' => $car, 'statusClass' => $statusClass])</td>
                                 <td class="px-3 py-3">@include('showroom.cars._actions', ['car' => $car])</td>
                             </tr>
@@ -146,10 +146,10 @@
                     @php $margin = $car->price - $car->buy_price; @endphp
                     <div class="a18-card p-4">
                         <div class="flex gap-3">
-                            @include('partials.car-image', ['car' => $car, 'class' => 'h-16 w-24 shrink-0 rounded-lg'])
+                            @include('partials.car-image', ['car' => $car, 'class' => 'h-16 w-24 shrink-0 '])
                             <div class="min-w-0 flex-1">
                                 <p class="truncate font-bold text-white">{{ car_name($car) }}</p>
-                                <p class="font-mono text-[11px] text-neutral-500">{{ $car->code }}</p>
+                                <p class="a18-cond tracking-wider text-xs text-neutral-500">{{ $car->code }}</p>
                                 <p class="mt-1 text-xs text-neutral-400">{{ $car->year }} &middot; {{ km($car->mileage) }} &middot; {{ $car->transmission }}</p>
                             </div>
                         </div>
@@ -202,11 +202,11 @@
                         <div class="flex flex-wrap items-start justify-between gap-3">
                             <div>
                                 <div class="flex flex-wrap items-center gap-2">
-                                    <span class="font-mono text-xs text-neutral-500">{{ $r->code }}</span>
-                                    <span class="rounded-full border border-white/15 px-2 py-0.5 text-[10px] font-bold uppercase text-neutral-300">{{ $r->type === 'trade-in' ? 'Tukar Tambah' : 'Jual Langsung' }}</span>
-                                    <span class="rounded-full border px-2 py-0.5 text-[10px] font-bold uppercase {{ $sClass }}">{{ $sLabel }}</span>
+                                    <span class="a18-cond tracking-wider text-xs text-neutral-500">{{ $r->code }}</span>
+                                    <span class="border border-white/15 px-2 py-0.5 text-xs font-bold uppercase text-neutral-300">{{ $r->type === 'trade-in' ? 'Tukar Tambah' : 'Jual Langsung' }}</span>
+                                    <span class="a18-cond border px-2 py-0.5 text-xs font-bold uppercase tracking-wide {{ $sClass }}">{{ $sLabel }}</span>
                                 </div>
-                                <h3 class="mt-2 font-display text-base font-black uppercase tracking-wide text-white">{{ car_name($r, true) }}</h3>
+                                <h3 class="a18-display mt-2 text-base text-white">{{ car_name($r, true) }}</h3>
                                 <p class="mt-1 text-xs text-neutral-400">{{ $r->transmission }} &middot; {{ km($r->mileage) }} &middot; {{ $r->color }} &middot; {{ $r->location }} &middot; Kondisi {{ $r->condition }}</p>
                             </div>
                             <div class="text-right text-xs text-neutral-400">
@@ -289,9 +289,9 @@
                         <div class="flex flex-wrap items-start justify-between gap-3">
                             <div class="min-w-0">
                                 <div class="flex flex-wrap items-center gap-2">
-                                    <span class="font-mono text-xs text-neutral-500">{{ $t->code }}</span>
-                                    <span class="rounded-full border px-2 py-0.5 text-[10px] font-bold uppercase {{ $sClass }}">{{ $sLabel }}</span>
-                                    @if ($isToday)<span class="rounded-full bg-brand-600 px-2 py-0.5 text-[10px] font-black uppercase text-white">Hari Ini</span>@endif
+                                    <span class="a18-cond tracking-wider text-xs text-neutral-500">{{ $t->code }}</span>
+                                    <span class="a18-cond border px-2 py-0.5 text-xs font-bold uppercase tracking-wide {{ $sClass }}">{{ $sLabel }}</span>
+                                    @if ($isToday)<span class="bg-brand-600 px-2 py-0.5 text-xs font-black uppercase text-white">Hari Ini</span>@endif
                                 </div>
                                 <p class="mt-1.5 font-bold text-white">
                                     @if ($t->car_id)<a href="{{ route('cars.show', $t->car_id) }}" class="underline decoration-brand-600 underline-offset-4 hover:text-brand-400">{{ $t->car_name }}</a>@else{{ $t->car_name }}@endif
