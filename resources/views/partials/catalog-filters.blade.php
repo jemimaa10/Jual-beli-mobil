@@ -9,13 +9,13 @@
 
     <fieldset>
         <legend class="a18-label">Merek</legend>
-        <div class="max-h-44 space-y-1.5 overflow-y-auto pr-1">
+        <div class="max-h-48 overflow-y-auto pr-1">
             @foreach (config('auto18.brands') as $brand)
                 @if (($brandCounts[$brand] ?? 0) || in_array($brand, $filters['brand'], true))
-                    <label class="flex cursor-pointer items-center gap-2 text-sm text-neutral-300 hover:text-white">
+                    <label class="flex min-h-[2.25rem] cursor-pointer items-center gap-2.5 text-[15px] text-white/80 hover:text-white">
                         <input type="checkbox" name="brand[]" value="{{ $brand }}" @checked(in_array($brand, $filters['brand'], true)) class="h-4 w-4 accent-brand-600">
                         <span class="flex-1">{{ $brand }}</span>
-                        <span class="text-xs text-neutral-500">{{ $brandCounts[$brand] ?? 0 }}</span>
+                        <span class="a18-cond text-sm font-bold text-white/45">{{ $brandCounts[$brand] ?? 0 }}</span>
                     </label>
                 @endif
             @endforeach
@@ -24,12 +24,12 @@
 
     <fieldset>
         <legend class="a18-label">Harga</legend>
-        <div class="space-y-1.5">
-            <label class="flex cursor-pointer items-center gap-2 text-sm text-neutral-300 hover:text-white">
+        <div>
+            <label class="flex min-h-[2.25rem] cursor-pointer items-center gap-2.5 text-[15px] text-white/80 hover:text-white">
                 <input type="radio" name="price" value="" @checked($filters['price'] === '') class="h-4 w-4 accent-brand-600"> Semua harga
             </label>
             @foreach (config('auto18.price_ranges') as $range)
-                <label class="flex cursor-pointer items-center gap-2 text-sm text-neutral-300 hover:text-white">
+                <label class="flex min-h-[2.25rem] cursor-pointer items-center gap-2.5 text-[15px] text-white/80 hover:text-white">
                     <input type="radio" name="price" value="{{ $range['id'] }}" @checked($filters['price'] === $range['id']) class="h-4 w-4 accent-brand-600"> {{ $range['label'] }}
                 </label>
             @endforeach
@@ -83,12 +83,12 @@
         </select>
     </div>
 
-    <div class="space-y-2 border-t border-white/10 pt-4">
-        <label class="flex cursor-pointer items-center gap-2 text-sm text-neutral-300 hover:text-white">
+    <div class="border-t border-white/10 pt-3">
+        <label class="flex min-h-[2.25rem] cursor-pointer items-center gap-2.5 text-[15px] text-white/80 hover:text-white">
             <input type="checkbox" name="favorit" value="1" @checked($filters['favorit']) class="h-4 w-4 accent-brand-600">
             Hanya favorit saya (<span x-data x-text="$store.favorites.count">0</span>)
         </label>
-        <label class="flex cursor-pointer items-center gap-2 text-sm text-neutral-300 hover:text-white">
+        <label class="flex min-h-[2.25rem] cursor-pointer items-center gap-2.5 text-[15px] text-white/80 hover:text-white">
             <input type="checkbox" name="sold" value="1" @checked($filters['sold']) class="h-4 w-4 accent-brand-600"> Tampilkan mobil terjual
         </label>
     </div>

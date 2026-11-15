@@ -17,10 +17,9 @@
                openStockIn(id) { this.supplierId = id || ''; this.rows = [{ product_id: '', qty: 1, buy_price: '' }]; this.stockIn = true } }"
      x-on:keydown.escape.window="form = null; stockIn = false">
 
-    <div class="a18-stripes-soft flex flex-col gap-4 rounded-3xl p-6 sm:flex-row sm:items-center sm:justify-between">
+    <div class="a18-stripes-soft border-l-4 border-brand-600 flex flex-col gap-4 p-6 sm:flex-row sm:items-center sm:justify-between">
         <div>
-            <span class="text-[10px] font-black uppercase tracking-[0.2em] text-brand-500">Panel Showroom</span>
-            <h1 class="a18-heading mt-1 text-2xl sm:text-3xl">Suplier &amp; Stok Masuk</h1>
+            <h1 class="a18-heading text-3xl sm:text-4xl">Suplier &amp; Stok Masuk</h1>
             <p class="mt-1.5 max-w-xl text-sm text-neutral-400">Data pemasok oli, aki, ban, dan aksesoris, serta pencatatan barang yang masuk ke stok.</p>
         </div>
         <div class="flex shrink-0 flex-wrap gap-2">
@@ -30,7 +29,7 @@
     </div>
 
     @if ($errors->any())
-        <div class="mt-4 rounded-lg border border-brand-600/40 bg-brand-600/10 px-3 py-2 text-sm text-brand-300" role="alert">
+        <div class="mt-4 border border-brand-600/40 bg-brand-600/10 px-3 py-2 text-sm text-brand-300" role="alert">
             <p class="font-bold">Belum tersimpan. Perbaiki lalu coba lagi:</p>
             <ul class="mt-1 list-inside list-disc">@foreach (array_unique($errors->all()) as $e)<li>{{ $e }}</li>@endforeach</ul>
         </div>
@@ -42,19 +41,19 @@
             <div class="a18-card flex flex-col p-5">
                 <div class="flex items-start justify-between gap-2">
                     <div class="min-w-0">
-                        <h2 class="font-display text-base font-black uppercase leading-tight tracking-wide text-white">{{ $s->name }}</h2>
+                        <h2 class="a18-display text-base leading-tight text-white">{{ $s->name }}</h2>
                         @if ($s->contact_person)<p class="mt-1 text-xs text-neutral-400">{{ $s->contact_person }}</p>@endif
                     </div>
-                    <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-600/20 text-brand-400"><x-lucide-truck class="h-5 w-5" /></span>
+                    <span class="flex h-10 w-10 shrink-0 items-center justify-center bg-brand-600/20 text-brand-400"><x-lucide-truck class="h-5 w-5" /></span>
                 </div>
                 <ul class="mt-3 space-y-1.5 text-xs text-neutral-400">
                     @if ($s->phone)<li class="flex items-center gap-1.5"><x-lucide-phone class="h-3.5 w-3.5 text-brand-500" /><a href="{{ $tel($s->phone) }}" class="hover:text-white">{{ $s->phone }}</a></li>@endif
                     @if ($s->address)<li class="flex items-start gap-1.5"><x-lucide-map-pin class="mt-0.5 h-3.5 w-3.5 shrink-0 text-brand-500" /><span>{{ $s->address }}</span></li>@endif
                 </ul>
                 @if (count($s->categories ?? []))
-                    <div class="mt-3 flex flex-wrap gap-1.5">@foreach ($s->categories as $c)<span class="rounded-full border border-white/15 px-2 py-0.5 text-[10px] text-neutral-300">{{ $c }}</span>@endforeach</div>
+                    <div class="mt-3 flex flex-wrap gap-1.5">@foreach ($s->categories as $c)<span class="border border-white/15 px-2 py-0.5 text-xs text-neutral-300">{{ $c }}</span>@endforeach</div>
                 @endif
-                @if ($s->products_count)<p class="mt-3 text-[11px] text-neutral-500">{{ $s->products_count }} produk terakhir dipasok dari suplier ini</p>@endif
+                @if ($s->products_count)<p class="mt-3 text-xs text-neutral-500">{{ $s->products_count }} produk terakhir dipasok dari suplier ini</p>@endif
                 <div class="mt-auto flex flex-wrap items-center gap-1 border-t border-white/10 pt-3">
                     <button type="button" x-on:click="openStockIn({{ $s->id }})" class="a18-btn-primary px-3 py-1.5 text-xs"><x-lucide-package-plus class="h-3.5 w-3.5" /> Barang Masuk</button>
                     <button type="button" x-on:click="form = JSON.parse(JSON.stringify(@js($js)))" title="Ubah suplier" aria-label="Ubah suplier" class="a18-btn-ghost px-2"><x-lucide-pencil class="h-4 w-4" /></button>
@@ -70,7 +69,7 @@
     {{-- Modal suplier --}}
     <div x-show="form" x-cloak class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/80 p-4 backdrop-blur-sm" x-on:mousedown.self="form = null">
         <template x-if="form">
-            <form method="POST" x-bind:action="form.id ? @js($updateUrl).replace('__ID__', form.id) : @js(route('showroom.suppliers.store'))" role="dialog" aria-modal="true" aria-label="Form suplier" class="w-full max-w-lg overflow-hidden rounded-3xl border border-white/10 bg-ink-800">
+            <form method="POST" x-bind:action="form.id ? @js($updateUrl).replace('__ID__', form.id) : @js(route('showroom.suppliers.store'))" role="dialog" aria-modal="true" aria-label="Form suplier" class="w-full max-w-lg overflow-hidden border border-white/10 bg-ink-800">
                 @csrf
                 <template x-if="form.id"><input type="hidden" name="_method" value="PUT"></template>
                 <div class="flex items-center justify-between border-b border-white/10 px-5 py-3.5"><h2 class="a18-heading text-base" x-text="form.id ? 'Ubah Data Suplier' : 'Tambah Data Suplier'"></h2>
@@ -91,7 +90,7 @@
 
     {{-- Modal barang masuk --}}
     <div x-show="stockIn" x-cloak class="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/80 p-4 backdrop-blur-sm" x-on:mousedown.self="stockIn = false">
-        <form method="POST" action="{{ route('showroom.stock-in') }}" role="dialog" aria-modal="true" aria-label="Catat barang masuk" class="my-4 w-full max-w-2xl overflow-hidden rounded-3xl border border-white/10 bg-ink-800">
+        <form method="POST" action="{{ route('showroom.stock-in') }}" role="dialog" aria-modal="true" aria-label="Catat barang masuk" class="my-4 w-full max-w-2xl overflow-hidden border border-white/10 bg-ink-800">
             @csrf
             <div class="flex items-center justify-between border-b border-white/10 px-5 py-3.5"><h2 class="a18-heading text-base">Catat Barang Masuk</h2>
                 <button type="button" x-on:click="stockIn = false" aria-label="Tutup" class="a18-btn-ghost px-2"><x-lucide-x class="h-5 w-5" /></button></div>
@@ -109,7 +108,7 @@
                     <span class="a18-label">Produk yang Masuk</span>
                     <div class="space-y-2">
                         <template x-for="(row, i) in rows" :key="i">
-                            <div class="grid grid-cols-12 items-end gap-2 rounded-xl border border-white/10 bg-ink-900 p-3">
+                            <div class="grid grid-cols-12 items-end gap-2 border border-white/10 bg-ink-900 p-3">
                                 <div class="col-span-12 sm:col-span-6">
                                     <label class="a18-label" x-bind:for="'si-p-' + i">Produk</label>
                                     <select x-bind:id="'si-p-' + i" x-bind:name="'items[' + i + '][product_id]'" x-model="row.product_id" x-on:change="pick(row)" required class="a18-input">
@@ -124,11 +123,11 @@
                         </template>
                     </div>
                     <button type="button" x-on:click="rows.push({ product_id: '', qty: 1, buy_price: '' })" class="a18-btn-ghost mt-2 text-xs"><x-lucide-plus class="h-4 w-4" /> Tambah baris produk</button>
-                    <p class="mt-1 text-[11px] text-neutral-500">Kosongkan harga modal bila tidak berubah.</p>
+                    <p class="mt-1 text-xs text-neutral-500">Kosongkan harga modal bila tidak berubah.</p>
                 </div>
 
-                <div class="flex items-center justify-between rounded-xl border border-white/10 bg-ink-900 p-3 text-sm">
-                    <span class="text-neutral-400">Perkiraan nilai faktur</span><span class="font-display text-lg font-black text-white" x-text="rupiah(invoiceTotal)"></span>
+                <div class="flex items-center justify-between border border-white/10 bg-ink-900 p-3 text-sm">
+                    <span class="text-neutral-400">Perkiraan nilai faktur</span><span class="a18-display text-lg text-white" x-text="rupiah(invoiceTotal)"></span>
                 </div>
             </div>
             <div class="flex justify-end gap-2 border-t border-white/10 bg-ink-900 p-4">

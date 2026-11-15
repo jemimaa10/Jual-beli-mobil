@@ -1,38 +1,42 @@
-{{-- Benefit layanan darurat 24 jam, meniru poster "BENEFIT BELI MOBIL DI AUTO 18" --}}
-<section class="a18-stripes relative overflow-hidden py-14 sm:py-16">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="text-center">
-            <h2 class="a18-heading text-2xl leading-tight sm:text-4xl">Benefit <span class="text-brand-500">Beli Mobil</span> di Auto 18</h2>
-            <p class="a18-pill mx-auto mt-4 inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wide sm:text-sm">
-                <span class="text-brand-500" aria-hidden="true">///</span> {{ config('auto18.benefits_subtitle') }} <span class="text-brand-500" aria-hidden="true">///</span>
-            </p>
-        </div>
-
-        <div class="mt-10 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-            @foreach (config('auto18.benefits') as $benefit)
-                <div class="flex items-center gap-3">
-                    <span class="a18-number w-10 shrink-0 text-right text-3xl sm:text-4xl">{{ $benefit['no'] }}</span>
-                    <div class="a18-pill flex min-w-0 flex-1 items-center gap-3 px-4 py-3">
-                        @svg('lucide-' . \Illuminate\Support\Str::kebab($benefit['icon']), 'h-5 w-5 shrink-0 text-brand-500')
-                        <span class="font-display text-sm font-bold uppercase leading-tight tracking-wide">{{ $benefit['title'] }}</span>
-                    </div>
-                </div>
-            @endforeach
-        </div>
-
-        <div class="mt-10 flex flex-col items-center justify-between gap-4 border-t border-white/15 pt-6 sm:flex-row">
-            @if ($store->support_partner)
-                <p class="text-center text-xs uppercase tracking-wide text-neutral-400 sm:text-left">Supported by <span class="font-display text-base font-black tracking-wide text-white">{{ $store->support_partner }}</span></p>
-            @endif
+{{-- Benefit layanan darurat 24 jam (poster "BENEFIT BELI MOBIL DI AUTO 18") --}}
+<section class="relative overflow-hidden border-t border-white/10 bg-ink-900">
+    <div class="a18-checker absolute inset-x-0 top-0 h-3 opacity-80" aria-hidden="true"></div>
+    <div class="mx-auto max-w-7xl px-4 pb-14 pt-16 sm:px-6 md:pb-20 md:pt-20 lg:px-8">
+        <div class="grid items-end gap-6 lg:grid-cols-[1fr_auto]">
+            <div>
+                <span class="a18-eyebrow text-brand-500">{{ config('auto18.benefits_subtitle') }}</span>
+                <h2 class="a18-heading mt-3 text-[40px] leading-[0.92] md:text-[56px]">Benefit <span class="text-brand-600">Beli Mobil</span> di Auto 18</h2>
+            </div>
             @if ($store->call_center)
-                <a href="tel:{{ preg_replace('/[^\d+]/', '', $store->call_center) }}" class="flex items-center gap-3 rounded-2xl bg-brand-600 px-5 py-3 transition-colors hover:bg-brand-500">
-                    <x-lucide-phone class="h-5 w-5 text-white" aria-hidden="true" />
-                    <span class="leading-tight text-white">
-                        <span class="block text-[10px] font-bold uppercase tracking-wider text-white/80">Call Center 24 Jam</span>
-                        <span class="block font-display text-lg font-black">{{ $store->call_center }}</span>
+                <a href="tel:{{ preg_replace('/[^\d+]/', '', $store->call_center) }}" class="group flex h-14 items-center self-start focus:outline-none focus-visible:ring-2 focus-visible:ring-white lg:self-end">
+                    <span class="a18-skew flex h-14 items-center bg-brand-600 px-5 transition-colors group-hover:bg-brand-500">
+                        <span class="a18-unskew flex items-center gap-3 text-white">
+                            <x-lucide-phone class="h-5 w-5" aria-hidden="true" />
+                            <span class="leading-none">
+                                <span class="mb-1 block text-xs font-semibold uppercase tracking-wider text-white/80">Call Center 24 Jam</span>
+                                <span class="a18-display block text-2xl">{{ $store->call_center }}</span>
+                            </span>
+                        </span>
                     </span>
                 </a>
             @endif
         </div>
+
+        <ol class="mt-10 grid grid-cols-1 gap-x-8 border-t border-white/10 sm:grid-cols-2 lg:grid-cols-3">
+            @foreach (config('auto18.benefits') as $benefit)
+                <li class="flex min-h-[3.5rem] items-center gap-4 border-b border-white/10 py-2">
+                    <span class="a18-display w-8 shrink-0 text-[22px] text-brand-600">{{ str_pad($benefit['no'], 2, '0', STR_PAD_LEFT) }}</span>
+                    @svg('lucide-' . \Illuminate\Support\Str::kebab($benefit['icon']), 'h-5 w-5 shrink-0 text-white/45')
+                    <span class="a18-cond text-[17px] font-bold uppercase leading-tight tracking-wide text-white">{{ $benefit['title'] }}</span>
+                </li>
+            @endforeach
+        </ol>
+
+        @if ($store->support_partner)
+            <p class="mt-6 flex items-center gap-2 text-[13px] uppercase tracking-wide text-white/50">
+                <x-lucide-shield-check class="h-4 w-4 text-brand-600" aria-hidden="true" />
+                Supported by <span class="a18-display text-lg tracking-wide text-white">{{ $store->support_partner }}</span>
+            </p>
+        @endif
     </div>
 </section>

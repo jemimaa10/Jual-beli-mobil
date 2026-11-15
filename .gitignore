@@ -28,3 +28,6 @@ dist/
 node_modules/
 .superpowers/
 /public/_preview
+
+# Catatan perencanaan lokal (tidak ikut repo)
+/docs/superpowers/

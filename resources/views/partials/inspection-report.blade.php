@@ -49,17 +49,17 @@
         return $out . '</g>';
     };
 @endphp
-<div class="a18-card p-5" x-data="{ sel: '{{ $lowestKey }}', labels: @js(collect($categories)->pluck('label', 'key')), scores: @js($scores) }">
+<div class="a18-card relative p-5" x-data="{ sel: '{{ $lowestKey }}', labels: @js(collect($categories)->pluck('label', 'key')), scores: @js($scores) }">
     <div class="flex items-center gap-4">
-        <div class="flex h-16 w-16 shrink-0 flex-col items-center justify-center rounded-full border-4 border-brand-600 bg-ink-900">
-            <span class="font-display text-xl font-black leading-none text-white">{{ $car->inspection_score }}</span>
-            <span class="text-[9px] uppercase text-neutral-500">dari 100</span>
+        <div class="a18-cut-tag flex h-16 w-20 shrink-0 flex-col items-center justify-center bg-brand-600">
+            <span class="a18-display text-3xl leading-none text-white">{{ $car->inspection_score }}</span>
+            <span class="a18-cond text-xs font-bold uppercase text-white/80">dari 100</span>
         </div>
         <div>
-            <h3 class="flex items-center gap-1.5 font-display text-sm font-black uppercase tracking-wide text-white">
-                <x-lucide-badge-check class="h-4 w-4 text-brand-500" aria-hidden="true" /> Laporan Inspeksi Auto18
+            <h3 class="a18-display flex items-center gap-2 text-xl text-white">
+                <x-lucide-badge-check class="h-5 w-5 text-brand-600" aria-hidden="true" /> Laporan Inspeksi Auto18
             </h3>
-            <p class="mt-1 text-xs text-neutral-400">Mesin, transmisi, kaki-kaki, kelistrikan, interior, eksterior, dan dokumen diperiksa sebelum dijual.</p>
+            <p class="mt-1 text-[13px] text-white/60">Mesin, transmisi, kaki-kaki, kelistrikan, interior, eksterior, dan dokumen diperiksa sebelum dijual.</p>
         </div>
     </div>
 
@@ -79,8 +79,8 @@
                     @endforeach
                 </g>
             </svg>
-            <p class="mt-3 min-h-[2.5rem] text-center text-xs leading-snug">
-                <span class="block font-bold text-white" x-text="labels[sel]"></span>
+            <p class="mt-3 min-h-[2.5rem] text-center text-[13px] leading-snug">
+                <span class="a18-cond block text-base font-bold uppercase tracking-wide text-white" x-text="labels[sel]"></span>
                 <span class="text-neutral-400"><span class="font-bold text-white" x-text="scores[sel]"></span>/100 &middot; </span>
                 <span class="font-bold" x-bind:class="scores[sel] >= 90 ? 'text-white' : (scores[sel] >= 80 ? 'text-amber-400' : 'text-brand-400')" x-text="scores[sel] >= 90 ? 'Sangat baik' : (scores[sel] >= 80 ? 'Baik' : 'Perlu perhatian')"></span>
             </p>
@@ -91,14 +91,14 @@
                 @php $score = $scores[$category['key']]; @endphp
                 <button type="button" x-on:click="sel = '{{ $category['key'] }}'" x-on:focus="sel = '{{ $category['key'] }}'" x-on:mouseenter="sel = '{{ $category['key'] }}'"
                         x-bind:aria-pressed="sel === '{{ $category['key'] }}'"
-                        class="relative block w-full rounded-lg border border-transparent px-2.5 py-1.5 text-left transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
+                        class="relative block min-h-[2.5rem] w-full border border-transparent px-2.5 py-1.5 text-left transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
                         x-bind:class="sel === '{{ $category['key'] }}' ? '!border-brand-600/80 bg-brand-600/10' : ''">
-                    <span class="flex items-center justify-between text-xs">
-                        <span class="text-neutral-300">{{ $category['label'] }}</span>
-                        <span class="font-bold text-white">{{ $score }}</span>
+                    <span class="flex items-center justify-between text-[13px]">
+                        <span class="text-white/75">{{ $category['label'] }}</span>
+                        <span class="a18-display text-lg leading-none text-white">{{ $score }}</span>
                     </span>
-                    <span class="mt-1 block h-1.5 overflow-hidden rounded-full bg-white/10">
-                        <span class="a18-bar block h-full rounded-full {{ $tone($score)[3] }}" style="width: {{ $score }}%; animation-delay: {{ 0.2 + $i * 0.04 }}s"></span>
+                    <span class="mt-1 block h-1.5 overflow-hidden bg-white/10">
+                        <span class="a18-bar block h-full {{ $tone($score)[3] }}" style="width: {{ $score }}%; animation-delay: {{ 0.2 + $i * 0.04 }}s"></span>
                     </span>
                 </button>
             @endforeach

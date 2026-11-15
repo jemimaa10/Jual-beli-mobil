@@ -22,14 +22,14 @@
 @section('content')
 <div class="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8"
      x-data="carSaleForm({ price: {{ (int) $car->price }}, buyPrice: {{ (int) $car->buy_price }}, minDp: {{ (float) $store->min_dp_percent }}, rate: {{ (float) $store->credit_rate }}, requests: @js($tradeInRequests), old: @js($old) })">
-    <div class="overflow-hidden rounded-3xl border border-white/10 bg-ink-800">
+    <div class="overflow-hidden border border-white/10 bg-ink-800">
         {{-- Header --}}
         <div class="flex items-center justify-between gap-3 border-b border-white/10 p-4">
             <div class="flex min-w-0 items-center gap-3">
-                @include('partials.car-image', ['car' => $car, 'class' => 'h-14 w-20 shrink-0 rounded-lg'])
+                @include('partials.car-image', ['car' => $car, 'class' => 'h-14 w-20 shrink-0 '])
                 <div class="min-w-0">
-                    <p class="text-[10px] font-bold uppercase tracking-wider text-brand-500">Proses Penjualan &middot; {{ $car->code }}</p>
-                    <h1 class="truncate font-display text-base font-black uppercase tracking-wide text-white">{{ car_name($car, true) }}</h1>
+                    <p class="text-xs font-bold uppercase tracking-wider text-brand-500">Proses Penjualan &middot; {{ $car->code }}</p>
+                    <h1 class="a18-display truncate text-base text-white">{{ car_name($car, true) }}</h1>
                     <p class="text-xs text-neutral-400">{{ rupiah($car->price) }}</p>
                 </div>
             </div>
@@ -84,7 +84,7 @@
                     <div class="grid grid-cols-3 gap-2">
                         @foreach ([['cash', 'Tunai', 'banknote'], ['transfer', 'Transfer', 'landmark'], ['credit', 'Kredit', 'credit-card']] as [$id, $label, $icon])
                             <button type="button" x-on:click="method = '{{ $id }}'" x-bind:aria-pressed="method === '{{ $id }}'"
-                                    class="flex flex-col items-center gap-1.5 rounded-xl border px-3 py-3 text-xs font-bold transition-colors"
+                                    class="flex flex-col items-center gap-1.5 border px-3 py-3 text-xs font-bold transition-colors"
                                     x-bind:class="method === '{{ $id }}' ? 'border-brand-500 bg-brand-600 text-white' : 'border-white/15 text-neutral-300 hover:border-white/40 hover:text-white'">
                                 @svg('lucide-' . $icon, 'h-5 w-5') {{ $label }}
                             </button>
@@ -97,13 +97,13 @@
                     <input id="co-paid" name="paid_amount" type="number" min="0" step="100000" x-model="paid" x-bind:placeholder="'Pas ' + rupiah(amountDue)" class="a18-input">
                     <div class="mt-2 flex flex-wrap gap-2">
                         <template x-for="(amount, i) in quickAmounts" :key="amount">
-                            <button type="button" x-on:click="paid = amount" class="rounded-xl border border-white/15 px-3 py-1.5 text-xs font-semibold text-neutral-300 transition-colors hover:border-brand-500 hover:text-white" x-text="i === 0 ? 'Uang Pas' : rupiah(amount)"></button>
+                            <button type="button" x-on:click="paid = amount" class="a18-cond min-h-[2.5rem] border border-white/15 px-3 text-sm font-bold text-neutral-300 transition-colors hover:border-brand-500 hover:text-white" x-text="i === 0 ? 'Uang Pas' : rupiah(amount)"></button>
                         </template>
                     </div>
                     @if ($err('paid_amount'))<p class="mt-1 text-xs text-brand-400">{{ $err('paid_amount') }}</p>@endif
                 </div>
 
-                <div x-show="method === 'transfer'" x-cloak class="rounded-xl border border-white/10 bg-ink-900 p-4 text-sm text-neutral-300">
+                <div x-show="method === 'transfer'" x-cloak class="border border-white/10 bg-ink-900 p-4 text-sm text-neutral-300">
                     <p class="font-bold text-white">Transfer ke rekening showroom</p>
                     <p class="mt-1 text-xs text-neutral-400">Pastikan dana sebesar <span class="font-bold text-white" x-text="rupiah(amountDue)"></span> sudah diterima sebelum menyelesaikan transaksi.</p>
                 </div>
@@ -117,7 +117,7 @@
                         <span class="a18-label mt-3">Tenor</span>
                         <input type="hidden" name="tenor_months" x-bind:value="tenor">
                         <div class="flex flex-wrap gap-2">
-                            <template x-for="t in tenors" :key="t"><button type="button" x-on:click="tenor = t" class="rounded-xl border px-3 py-1.5 text-xs font-bold transition-colors" x-bind:class="tenor === t ? 'border-brand-500 bg-brand-600 text-white' : 'border-white/15 text-neutral-300 hover:border-white/40'" x-text="t + ' bln'"></button></template>
+                            <template x-for="t in tenors" :key="t"><button type="button" x-on:click="tenor = t" class="border px-3 py-1.5 text-xs font-bold transition-colors" x-bind:class="tenor === t ? 'border-brand-500 bg-brand-600 text-white' : 'border-white/15 text-neutral-300 hover:border-white/40'" x-text="t + ' bln'"></button></template>
                         </div>
                         <label for="co-rate" class="a18-label mt-3">Bunga Flat (% / tahun)</label>
                         <input id="co-rate" name="annual_rate" type="number" min="0" max="30" step="0.1" x-bind:value="rate" x-on:input="setRate($event.target.value)" class="a18-input">
@@ -132,7 +132,7 @@
             {{-- Ringkasan --}}
             <div class="lg:sticky lg:top-24 lg:self-start">
                 <div class="a18-card p-5">
-                    <h2 class="font-display text-sm font-black uppercase tracking-wide text-white">Ringkasan</h2>
+                    <h2 class="a18-display text-sm text-white">Ringkasan</h2>
                     <dl class="mt-4 space-y-2 text-sm">
                         <div class="flex items-center justify-between gap-3"><dt class="text-neutral-400">Harga Mobil</dt><dd class="font-semibold text-white">{{ rupiah($car->price) }}</dd></div>
                         <div class="flex items-center justify-between gap-3" x-show="safeDiscount > 0"><dt class="text-neutral-400">Diskon</dt><dd class="font-semibold text-brand-400">&minus; <span x-text="rupiah(safeDiscount)"></span></dd></div>
@@ -140,9 +140,9 @@
                         <div class="flex items-center justify-between gap-3" x-show="appliedTradeIn > 0"><dt class="text-neutral-400">Tukar Tambah</dt><dd class="font-semibold text-brand-400">&minus; <span x-text="rupiah(appliedTradeIn)"></span></dd></div>
                     </dl>
 
-                    <div class="mt-4 rounded-2xl border border-brand-600/40 bg-brand-950/40 p-4">
-                        <p class="text-[10px] font-bold uppercase tracking-wider text-brand-300">Sisa Bayar</p>
-                        <p class="font-display text-2xl font-black text-white" x-text="rupiah(amountDue)"></p>
+                    <div class="mt-4 border border-brand-600/40 bg-brand-950/40 p-4">
+                        <p class="text-xs font-bold uppercase tracking-wider text-brand-300">Sisa Bayar</p>
+                        <p class="a18-display text-2xl text-white" x-text="rupiah(amountDue)"></p>
                     </div>
 
                     <div class="mt-3 flex items-center justify-between text-sm" x-show="method === 'cash'"><span class="text-neutral-400">Kembalian</span><span class="font-bold text-white" x-text="rupiah(change)"></span></div>

@@ -16,10 +16,9 @@
                openEdit(p) { this.form = JSON.parse(JSON.stringify(p)) } }"
      x-on:keydown.escape.window="form = null; adjust = null; catOpen = false">
 
-    <div class="a18-stripes-soft flex flex-col gap-4 rounded-3xl p-6 sm:flex-row sm:items-center sm:justify-between">
+    <div class="a18-stripes-soft border-l-4 border-brand-600 flex flex-col gap-4 p-6 sm:flex-row sm:items-center sm:justify-between">
         <div>
-            <span class="text-[10px] font-black uppercase tracking-[0.2em] text-brand-500">Panel Showroom</span>
-            <h1 class="a18-heading mt-1 text-2xl sm:text-3xl">Produk Aksesoris &amp; Stok</h1>
+            <h1 class="a18-heading text-3xl sm:text-4xl">Produk Aksesoris &amp; Stok</h1>
             <p class="mt-1.5 max-w-xl text-sm text-neutral-400">Kelola barang dan jasa yang dijual di kasir: harga, margin, dan jumlah stok.</p>
         </div>
         <div class="flex shrink-0 flex-wrap gap-2">
@@ -29,17 +28,17 @@
     </div>
 
     @if ($errors->any())
-        <div class="mt-4 rounded-lg border border-brand-600/40 bg-brand-600/10 px-3 py-2 text-sm text-brand-300" role="alert">
+        <div class="mt-4 border border-brand-600/40 bg-brand-600/10 px-3 py-2 text-sm text-brand-300" role="alert">
             <p class="font-bold">Belum tersimpan. Perbaiki lalu coba lagi:</p>
             <ul class="mt-1 list-inside list-disc">@foreach ($errors->all() as $e)<li>{{ $e }}</li>@endforeach</ul>
         </div>
     @endif
 
     <div class="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
-        <div class="a18-card p-4"><p class="text-[10px] font-bold uppercase tracking-wider text-neutral-500">Total Produk</p><p class="mt-1.5 font-display text-xl font-black text-white">{{ $stats['total'] }}</p></div>
-        <a href="{{ route('showroom.products.index', ['low' => 1]) }}" class="a18-card p-4 transition-colors hover:border-brand-600"><p class="text-[10px] font-bold uppercase tracking-wider text-neutral-500">Perlu Restok</p><p class="mt-1.5 font-display text-xl font-black {{ $stats['low'] ? 'text-amber-400' : 'text-white' }}">{{ $stats['low'] }}</p></a>
-        <div class="a18-card p-4"><p class="text-[10px] font-bold uppercase tracking-wider text-neutral-500">Nilai Stok (Modal)</p><p class="mt-1.5 truncate font-display text-xl font-black text-white" title="{{ rupiah($stats['stockValue']) }}">{{ rupiah_short($stats['stockValue']) }}</p></div>
-        <div class="a18-card p-4"><p class="text-[10px] font-bold uppercase tracking-wider text-neutral-500">Nilai Jual Stok</p><p class="mt-1.5 truncate font-display text-xl font-black text-white" title="{{ rupiah($stats['retailValue']) }}">{{ rupiah_short($stats['retailValue']) }}</p></div>
+        <div class="a18-card p-4"><p class="text-xs font-bold uppercase tracking-wider text-neutral-500">Total Produk</p><p class="mt-2 a18-display text-3xl leading-none text-white">{{ $stats['total'] }}</p></div>
+        <a href="{{ route('showroom.products.index', ['low' => 1]) }}" class="a18-card p-4 transition-colors hover:border-brand-600"><p class="text-xs font-bold uppercase tracking-wider text-neutral-500">Perlu Restok</p><p class="mt-2 a18-display text-3xl leading-none {{ $stats['low'] ? 'text-amber-400' : 'text-white' }}">{{ $stats['low'] }}</p></a>
+        <div class="a18-card p-4"><p class="text-xs font-bold uppercase tracking-wider text-neutral-500">Nilai Stok (Modal)</p><p class="mt-2 truncate a18-display text-3xl leading-none text-white" title="{{ rupiah($stats['stockValue']) }}">{{ rupiah_short($stats['stockValue']) }}</p></div>
+        <div class="a18-card p-4"><p class="text-xs font-bold uppercase tracking-wider text-neutral-500">Nilai Jual Stok</p><p class="mt-2 truncate a18-display text-3xl leading-none text-white" title="{{ rupiah($stats['retailValue']) }}">{{ rupiah_short($stats['retailValue']) }}</p></div>
     </div>
 
     <form method="GET" action="{{ route('showroom.products.index') }}" class="mt-6 flex flex-wrap items-end gap-3" onchange="this.requestSubmit()">
@@ -61,9 +60,9 @@
 
     <p class="mt-3 text-xs text-neutral-500">{{ $products->count() }} produk ditampilkan</p>
 
-    <div class="mt-3 overflow-x-auto rounded-2xl border border-white/10">
+    <div class="mt-3 overflow-x-auto border border-white/10">
         <table class="w-full min-w-[860px] text-sm">
-            <thead class="bg-ink-900 text-left text-[10px] uppercase tracking-wider text-neutral-500">
+            <thead class="bg-ink-900 text-left text-xs uppercase tracking-wider text-neutral-500">
                 <tr>
                     <th class="px-4 py-3 font-bold">SKU &amp; Barcode</th><th class="px-4 py-3 font-bold">Nama Produk</th><th class="px-4 py-3 font-bold">Kategori</th>
                     <th class="px-4 py-3 text-right font-bold">Harga Modal</th><th class="px-4 py-3 text-right font-bold">Harga Jual</th><th class="px-4 py-3 text-right font-bold">Margin Laba</th>
@@ -78,18 +77,18 @@
                         $js = ['id' => $p->id, 'sku' => $p->sku, 'name' => $p->name, 'category_id' => $p->category_id ?? '', 'unit' => $p->unit, 'buy_price' => (int) $p->buy_price, 'sell_price' => (int) $p->sell_price, 'stock' => (int) $p->stock, 'min_stock' => (int) $p->min_stock, 'barcode' => $p->barcode ?? ''];
                     @endphp
                     <tr class="border-t border-white/10 transition-colors hover:bg-white/5">
-                        <td class="px-4 py-3"><span class="font-mono text-xs text-white">{{ $p->sku }}</span><span class="block font-mono text-[10px] text-neutral-500">{{ $p->barcode ?: '-' }}</span></td>
+                        <td class="px-4 py-3"><span class="a18-cond tracking-wider text-xs text-white">{{ $p->sku }}</span><span class="block a18-cond tracking-wider text-xs text-neutral-500">{{ $p->barcode ?: '-' }}</span></td>
                         <td class="px-4 py-3 font-semibold text-white">{{ $p->name }}</td>
                         <td class="px-4 py-3 text-xs text-neutral-400">{{ $p->category?->name ?: 'Tanpa kategori' }}</td>
                         <td class="px-4 py-3 text-right text-neutral-400">{{ rupiah($p->buy_price) }}</td>
                         <td class="px-4 py-3 text-right font-semibold text-white">{{ rupiah($p->sell_price) }}</td>
-                        <td class="px-4 py-3 text-right font-semibold {{ $margin >= 0 ? 'text-emerald-400' : 'text-brand-400' }}">{{ rupiah($margin) }}<span class="block text-[10px] font-normal text-neutral-500">{{ number_format($pct, 1, ',', '.') }}%</span></td>
+                        <td class="px-4 py-3 text-right font-semibold {{ $margin >= 0 ? 'text-emerald-400' : 'text-brand-400' }}">{{ rupiah($margin) }}<span class="block text-xs font-normal text-neutral-500">{{ number_format($pct, 1, ',', '.') }}%</span></td>
                         <td class="px-4 py-3 text-center">
                             <button type="button" x-on:click="adjust = { id: {{ $p->id }}, name: @js($p->name), stock: {{ (int) $p->stock }}, unit: @js($p->unit), delta: '' }" title="Klik untuk ubah stok manual"
-                                    class="rounded-lg border px-2.5 py-1 text-xs font-bold transition-colors hover:border-brand-500 {{ $p->stock <= 0 ? 'border-brand-500/40 bg-brand-600/20 text-brand-300' : ($p->isLowStock() ? 'border-amber-500/30 bg-amber-500/15 text-amber-300' : 'border-white/15 text-white') }}">
+                                    class="a18-cond min-h-[2.5rem] border px-3 text-sm font-bold transition-colors hover:border-brand-500 {{ $p->stock <= 0 ? 'border-brand-500/40 bg-brand-600/20 text-brand-300' : ($p->isLowStock() ? 'border-amber-500/30 bg-amber-500/15 text-amber-300' : 'border-white/15 text-white') }}">
                                 {{ $p->stock }} {{ $p->unit }}
                             </button>
-                            @if ($p->isLowStock())<span class="mt-1 block text-[10px] font-bold text-amber-400">Stok menipis</span>@endif
+                            @if ($p->isLowStock())<span class="mt-1 block text-xs font-bold text-amber-400">Stok menipis</span>@endif
                         </td>
                         <td class="px-4 py-3">
                             <div class="flex items-center justify-center gap-1">
@@ -109,7 +108,7 @@
     {{-- Modal tambah / ubah produk --}}
     <div x-show="form" x-cloak class="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/80 p-4 backdrop-blur-sm" x-on:mousedown.self="form = null">
         <template x-if="form">
-            <form method="POST" x-bind:action="form.id ? @js($updateUrl).replace('__ID__', form.id) : @js(route('showroom.products.store'))" role="dialog" aria-modal="true" aria-label="Form produk" class="my-4 w-full max-w-2xl overflow-hidden rounded-3xl border border-white/10 bg-ink-800">
+            <form method="POST" x-bind:action="form.id ? @js($updateUrl).replace('__ID__', form.id) : @js(route('showroom.products.store'))" role="dialog" aria-modal="true" aria-label="Form produk" class="my-4 w-full max-w-2xl overflow-hidden border border-white/10 bg-ink-800">
                 @csrf
                 <template x-if="form.id"><input type="hidden" name="_method" value="PUT"></template>
                 <div class="flex items-center justify-between gap-3 border-b border-white/10 px-5 py-3.5">
@@ -140,7 +139,7 @@
     {{-- Modal ubah stok manual --}}
     <div x-show="adjust" x-cloak class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm" x-on:mousedown.self="adjust = null">
         <template x-if="adjust">
-            <form method="POST" x-bind:action="@js($adjustUrl).replace('__ID__', adjust.id)" role="dialog" aria-modal="true" aria-label="Ubah stok manual" class="w-full max-w-md overflow-hidden rounded-3xl border border-white/10 bg-ink-800">
+            <form method="POST" x-bind:action="@js($adjustUrl).replace('__ID__', adjust.id)" role="dialog" aria-modal="true" aria-label="Ubah stok manual" class="w-full max-w-md overflow-hidden border border-white/10 bg-ink-800">
                 @csrf
                 <div class="border-b border-white/10 px-5 py-3.5"><h2 class="a18-heading text-base">Ubah Stok Manual</h2><p class="mt-0.5 text-xs text-neutral-400" x-text="adjust.name"></p></div>
                 <div class="space-y-3 p-5">
@@ -159,7 +158,7 @@
 
     {{-- Modal kategori --}}
     <div x-show="catOpen" x-cloak class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm" x-on:mousedown.self="catOpen = false">
-        <div role="dialog" aria-modal="true" aria-label="Kelola kategori" class="w-full max-w-md overflow-hidden rounded-3xl border border-white/10 bg-ink-800">
+        <div role="dialog" aria-modal="true" aria-label="Kelola kategori" class="w-full max-w-md overflow-hidden border border-white/10 bg-ink-800">
             <div class="flex items-center justify-between border-b border-white/10 px-5 py-3.5"><h2 class="a18-heading text-base">Kategori Produk</h2>
                 <button type="button" x-on:click="catOpen = false" aria-label="Tutup" class="a18-btn-ghost px-2"><x-lucide-x class="h-5 w-5" /></button></div>
             <div class="space-y-3 p-5">

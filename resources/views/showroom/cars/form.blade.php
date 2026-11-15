@@ -25,7 +25,7 @@
         @if ($isEdit) @method('PUT') @endif
 
         @if ($errors->any())
-            <p class="rounded-lg border border-brand-600/40 bg-brand-600/10 px-3 py-2 text-sm text-brand-300" role="alert">Ada isian yang perlu diperbaiki. Periksa pesan di bawah kolom yang bertanda merah.</p>
+            <p class="border border-brand-600/40 bg-brand-600/10 px-3 py-2 text-sm text-brand-300" role="alert">Ada isian yang perlu diperbaiki. Periksa pesan di bawah kolom yang bertanda merah.</p>
         @endif
 
         {{-- Info dasar --}}

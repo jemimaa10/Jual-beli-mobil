@@ -40,18 +40,19 @@
 @section('content')
 @if ($submitted)
     {{-- Layar sukses --}}
-    <section class="a18-stripes py-14">
+    <section class="a18-stripes py-14 md:py-20">
         <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-            <div class="a18-card p-6 sm:p-8">
-                <div class="flex items-center gap-3">
-                    <span class="flex h-12 w-12 items-center justify-center rounded-full bg-brand-600 text-white"><x-lucide-circle-check class="h-6 w-6" aria-hidden="true" /></span>
+            <div class="a18-card relative p-6 sm:p-8">
+                <div class="absolute -top-px left-0 h-[3px] w-28 bg-brand-600" aria-hidden="true"></div>
+                <div class="flex items-center gap-4">
+                    <span class="a18-cut-tag flex h-14 w-16 shrink-0 items-center justify-center bg-brand-600 text-white"><x-lucide-circle-check class="h-7 w-7" aria-hidden="true" /></span>
                     <div>
-                        <h1 class="a18-heading text-xl sm:text-2xl">Permintaan Terkirim</h1>
-                        <p class="text-sm text-neutral-400">Kode permintaan <span class="font-mono font-bold text-white">{{ $submitted->code }}</span></p>
+                        <h1 class="a18-heading text-4xl leading-none sm:text-5xl">Permintaan Terkirim</h1>
+                        <p class="mt-1 text-sm text-white/60">Kode permintaan <span class="a18-cond font-bold tracking-wider text-white">{{ $submitted->code }}</span></p>
                     </div>
                 </div>
 
-                <dl class="mt-6 space-y-3 border-t border-white/10 pt-5 text-sm">
+                <dl class="mt-6 space-y-3 border-t border-white/10 pt-5 text-[15px]">
                     <div class="flex justify-between gap-4"><dt class="text-neutral-400">Mobil</dt><dd class="text-right font-semibold text-white">{{ car_name($submitted, true) }}</dd></div>
                     <div class="flex justify-between gap-4"><dt class="text-neutral-400">Jenis</dt><dd class="font-semibold text-white">{{ $label($submitted->type) }}</dd></div>
                     <div class="flex justify-between gap-4"><dt class="text-neutral-400">Estimasi Harga</dt><dd class="text-right font-semibold text-white">{{ rupiah($submitted->estimate_low) }} &ndash; {{ rupiah($submitted->estimate_high) }}</dd></div>
@@ -77,17 +78,23 @@
             type: @js(old('type', 'sell')), step: {{ $startStep }}, values: @js($values), tables: @js($tables), cars: @js($targetCars),
             today: '{{ now()->toDateString() }}', serverErrors: @js($serverErrors) })">
         {{-- Hero --}}
-        <section class="a18-stripes">
-            <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-14 lg:px-8">
-                <h1 class="a18-heading text-3xl leading-tight sm:text-5xl">Jual Mobil Anda dengan <span class="text-brand-500">Harga Terbaik</span></h1>
-                <p class="mt-3 max-w-xl text-sm text-neutral-300 sm:text-base">Isi data mobil, dapatkan estimasi harga instan, lalu jadwalkan inspeksi. Bisa jual langsung atau tukar tambah dengan mobil di showroom.</p>
+        <section class="a18-speedlines relative overflow-hidden bg-ink">
+            <div class="a18-cut-hero absolute inset-y-0 right-0 hidden w-[calc(34%+16px)] bg-white lg:block" aria-hidden="true"></div>
+            <div class="a18-cut-hero absolute inset-y-0 right-0 hidden w-[calc(34%+6px)] bg-ink lg:block" aria-hidden="true"></div>
+            <div class="a18-cut-hero absolute inset-y-0 right-0 hidden w-[34%] bg-brand-600 lg:block" aria-hidden="true">
+                <div class="a18-stripes-white absolute inset-0 opacity-[0.12]"></div>
+            </div>
+            <div class="relative mx-auto max-w-7xl px-4 pb-12 pt-10 sm:px-6 md:pb-16 md:pt-14 lg:px-8">
+                <span class="a18-eyebrow"><span class="a18-stripes-red h-3 w-10" aria-hidden="true"></span>Jual / Tukar Tambah</span>
+                <h1 class="a18-heading mt-4 max-w-3xl text-[44px] leading-[0.9] sm:text-6xl lg:text-[72px]">Jual Mobil Anda dengan <span class="text-brand-600">Harga Terbaik</span></h1>
+                <p class="mt-5 max-w-xl text-base leading-relaxed text-white/70 md:text-[17px]">Isi data mobil, dapatkan estimasi harga instan, lalu jadwalkan inspeksi. Bisa jual langsung atau tukar tambah dengan mobil di showroom.</p>
 
-                <div class="mt-6 inline-flex rounded-2xl border border-white/15 bg-black/60 p-1">
+                <div class="mt-7 inline-flex gap-2">
                     @foreach ([['sell', 'Jual Langsung', 'sparkles'], ['trade-in', 'Tukar Tambah', 'arrow-left-right']] as [$id, $text, $icon])
                         <button type="button" x-on:click="type = '{{ $id }}'; errors = {}" x-bind:aria-pressed="type === '{{ $id }}'"
-                                class="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-bold transition-colors"
-                                x-bind:class="type === '{{ $id }}' ? 'bg-brand-600 text-white' : 'text-neutral-300 hover:text-white'">
-                            @svg('lucide-' . $icon, 'h-4 w-4') {{ $text }}
+                                class="a18-skew inline-flex h-12 items-center border px-5 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
+                                x-bind:class="type === '{{ $id }}' ? 'border-white bg-white text-ink' : 'border-white/20 bg-ink-800 text-white/75 hover:border-white/60 hover:text-white'">
+                            <span class="a18-unskew a18-cond flex items-center gap-2 text-lg font-bold uppercase tracking-wide">@svg('lucide-' . $icon, 'h-4 w-4') {{ $text }}</span>
                         </button>
                     @endforeach
                 </div>
@@ -98,22 +105,23 @@
         {{-- Form --}}
         <section class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
             <div class="grid gap-6 lg:grid-cols-[1.6fr_1fr]">
-                <form method="POST" action="{{ route('sell.store') }}" x-on:submit="submit($event)" novalidate class="a18-card p-5 sm:p-6">
+                <form method="POST" action="{{ route('sell.store') }}" x-on:submit="submit($event)" novalidate class="a18-card relative p-5 sm:p-6">
+                    <div class="absolute -top-px left-0 h-[3px] w-28 bg-brand-600" aria-hidden="true"></div>
                     @csrf
                     <input type="hidden" name="type" x-bind:value="type">
 
                     {{-- Stepper --}}
-                    <ol class="flex items-center gap-2">
+                    <ol class="flex items-center gap-2" aria-label="Langkah pengisian">
                         @foreach ([[1, 'Data Mobil', 'clipboard-list'], [2, 'Jadwal Inspeksi', 'calendar-check'], [3, 'Data Kontak', 'user-round']] as [$no, $text, $icon])
-                            <li class="flex flex-1 items-center gap-2">
-                                <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border text-sm font-black transition-colors duration-200"
-                                      x-bind:class="step === {{ $no }} ? 'border-brand-500 bg-brand-600 text-white' : (step > {{ $no }} ? 'border-white/40 bg-white/10 text-white' : 'border-white/15 text-neutral-500')">
-                                    <span x-show="step <= {{ $no }}">@svg('lucide-' . $icon, 'h-4 w-4')</span>
-                                    <span x-show="step > {{ $no }}" x-cloak><x-lucide-circle-check class="h-4 w-4" /></span>
+                            <li class="flex flex-1 items-center gap-2" x-bind:aria-current="step === {{ $no }} ? 'step' : null">
+                                <span data-step="{{ str_pad($no, 2, '0', STR_PAD_LEFT) }}" class="a18-skew flex h-10 w-12 shrink-0 items-center justify-center border transition-colors duration-200"
+                                      x-bind:class="step === {{ $no }} ? 'border-brand-600 bg-brand-600 text-white' : (step > {{ $no }} ? 'border-white bg-white text-ink' : 'border-white/20 text-white/50')">
+                                    <span class="a18-unskew a18-display text-xl leading-none" x-show="step <= {{ $no }}">{{ str_pad($no, 2, '0', STR_PAD_LEFT) }}</span>
+                                    <span class="a18-unskew" x-show="step > {{ $no }}" x-cloak><x-lucide-check class="h-5 w-5" /></span>
                                 </span>
-                                <span class="hidden text-xs font-bold uppercase tracking-wide transition-colors duration-200 sm:block" x-bind:class="step < {{ $no }} ? 'text-neutral-500' : 'text-white'">{{ $text }}</span>
+                                <span class="a18-cond hidden text-base font-bold uppercase tracking-wide transition-colors duration-200 sm:block" x-bind:class="step < {{ $no }} ? 'text-white/60' : 'text-white'">{{ $text }}</span>
                                 @if ($no < 3)
-                                    <span class="relative h-px flex-1 bg-white/10" aria-hidden="true"><span class="absolute inset-0 origin-left bg-brand-600 transition-transform duration-300" x-bind:style="step > {{ $no }} ? 'transform: scaleX(1)' : 'transform: scaleX(0)'"></span></span>
+                                    <span class="relative h-[3px] flex-1 bg-white/10" aria-hidden="true"><span class="absolute inset-0 origin-left bg-brand-600 transition-transform duration-300" x-bind:style="step > {{ $no }} ? 'transform: scaleX(1)' : 'transform: scaleX(0)'"></span></span>
                                 @endif
                             </li>
                         @endforeach
@@ -171,8 +179,8 @@
                                 <legend class="a18-label">Kondisi Mobil</legend>
                                 <div class="grid grid-cols-2 gap-2 sm:grid-cols-4">
                                     @foreach (config('auto18.conditions') as $c)
-                                        <label class="cursor-pointer rounded-xl border px-3 py-2.5 text-center text-xs font-bold transition-colors"
-                                               x-bind:class="f.condition === '{{ $c }}' ? 'border-brand-500 bg-brand-600 text-white' : 'border-white/15 text-neutral-300 hover:border-white/40'">
+                                        <label class="a18-cond flex min-h-[2.75rem] cursor-pointer items-center justify-center border px-3 text-center text-[15px] font-bold uppercase tracking-wide transition-colors focus-within:ring-2 focus-within:ring-brand-500"
+                                               x-bind:class="f.condition === '{{ $c }}' ? 'border-brand-600 bg-brand-600 text-white' : 'border-white/15 text-white/75 hover:border-white/40'">
                                             <input type="radio" name="condition" value="{{ $c }}" class="sr-only" x-model="f.condition"> {{ $c }}
                                         </label>
                                     @endforeach
@@ -201,8 +209,8 @@
                                 <div class="flex flex-wrap gap-2">
                                     @foreach ($timeSlots as $slot)
                                         <button type="button" x-on:click="f.inspection_time = '{{ $slot }}'" x-bind:aria-pressed="f.inspection_time === '{{ $slot }}'"
-                                                class="rounded-xl border px-3 py-1.5 text-xs font-bold transition-colors"
-                                                x-bind:class="f.inspection_time === '{{ $slot }}' ? 'border-brand-500 bg-brand-600 text-white' : 'border-white/15 text-neutral-300 hover:border-white/40 hover:text-white'">{{ $slot }}</button>
+                                                class="a18-cond min-h-[2.5rem] border px-3 text-[15px] font-bold tracking-wide transition-colors"
+                                                x-bind:class="f.inspection_time === '{{ $slot }}' ? 'border-brand-600 bg-brand-600 text-white' : 'border-white/15 text-white/75 hover:border-white/40 hover:text-white'">{{ $slot }}</button>
                                     @endforeach
                                 </div>
                                 <p class="mt-1 text-xs text-brand-400" x-show="err('inspection_time')" x-text="err('inspection_time')"></p>
@@ -216,8 +224,8 @@
                                 </select>
                                 <p class="mt-1 text-xs text-brand-400" x-show="err('trade_in_car_id')" x-text="err('trade_in_car_id')"></p>
 
-                                <div x-show="target" x-cloak class="mt-3 flex items-center gap-3 rounded-xl border border-white/10 bg-ink-900 p-3">
-                                    <img x-show="target && target.image" x-bind:src="target && target.image" alt="" class="h-16 w-24 shrink-0 rounded-lg object-cover">
+                                <div x-show="target" x-cloak class="mt-3 flex items-center gap-3 border border-white/10 bg-ink p-3">
+                                    <img x-show="target && target.image" x-bind:src="target && target.image" alt="" class="a18-cut-img h-16 w-24 shrink-0 object-cover">
                                     <div class="min-w-0">
                                         <p class="truncate text-sm font-bold text-white" x-text="target && target.name"></p>
                                         <p class="text-xs text-neutral-400" x-text="target && rupiah(target.price)"></p>
@@ -251,8 +259,8 @@
                                 </div>
                             </div>
 
-                            <div class="rounded-2xl border border-white/10 bg-ink-900 p-4">
-                                <h2 class="font-display text-sm font-black uppercase tracking-wide text-white">Ringkasan</h2>
+                            <div class="border-l-4 border-brand-600 bg-ink p-4">
+                                <h2 class="a18-display text-xl text-white">Ringkasan</h2>
                                 <dl class="mt-3 space-y-2 text-sm">
                                     <div class="flex justify-between gap-4"><dt class="text-neutral-400">Mobil</dt><dd class="text-right font-semibold text-white" x-text="[f.brand, f.model, f.variant, f.year].filter(Boolean).join(' ')"></dd></div>
                                     <div class="flex justify-between gap-4"><dt class="text-neutral-400">Kilometer</dt><dd class="font-semibold text-white" x-text="km + ' km'"></dd></div>
@@ -264,7 +272,7 @@
                     </div>
 
                     {{-- Navigasi langkah --}}
-                    <div class="mt-5 flex items-center justify-between gap-3 border-t border-white/10 pt-5">
+                    <div class="mt-6 flex items-center justify-between gap-3 border-t border-white/10 pt-5">
                         <button type="button" x-on:click="back()" x-bind:disabled="step === 1" class="a18-btn-ghost"><x-lucide-arrow-left class="h-4 w-4" /> Kembali</button>
                         <button type="button" x-show="step < 3" x-on:click="next()" class="a18-btn-primary">Lanjut <x-lucide-arrow-right class="h-4 w-4" /></button>
                         <button type="submit" x-show="step === 3" x-cloak class="a18-btn-primary"><x-lucide-circle-check class="h-4 w-4" /> Kirim Permintaan</button>
@@ -273,20 +281,21 @@
 
                 {{-- Panel estimasi --}}
                 <aside class="lg:sticky lg:top-28 lg:self-start">
-                    <div class="a18-card p-5">
-                        <p class="text-[10px] font-bold uppercase tracking-wider text-brand-500">Estimasi Harga</p>
-                        <p class="mt-1 font-display text-2xl font-black leading-tight text-white"><span x-text="rupiah(estimate.low)"></span><span class="text-neutral-500"> &ndash; </span><span x-text="rupiah(estimate.high)"></span></p>
-                        <p class="mt-2 text-xs text-neutral-400" x-text="f.brand + ' ' + (f.model || '(model belum diisi)') + ' ' + f.year + ' · ' + km + ' km · ' + f.condition"></p>
+                    <div class="a18-card relative overflow-hidden p-5">
+                        <div class="absolute inset-x-0 top-0 h-[3px] bg-brand-600" aria-hidden="true"></div>
+                        <span class="a18-eyebrow text-brand-500">Estimasi Harga</span>
+                        <p class="a18-display mt-2 text-[32px] leading-[0.95] text-white"><span x-text="rupiah(estimate.low)"></span><span class="text-white/40"> &ndash; </span><br class="hidden lg:block"><span x-text="rupiah(estimate.high)"></span></p>
+                        <p class="mt-3 text-[13px] text-white/60" x-text="f.brand + ' ' + (f.model || '(model belum diisi)') + ' ' + f.year + ' · ' + km + ' km · ' + f.condition"></p>
 
-                        <p class="mt-4 flex items-start gap-1.5 rounded-xl border border-white/10 bg-ink-900 p-3 text-xs leading-relaxed text-neutral-400">
-                            <x-lucide-info class="mt-0.5 h-3.5 w-3.5 shrink-0 text-brand-500" aria-hidden="true" />
+                        <p class="mt-4 flex items-start gap-2 border border-white/10 bg-ink p-3 text-[13px] leading-relaxed text-white/60">
+                            <x-lucide-info class="mt-0.5 h-4 w-4 shrink-0 text-brand-600" aria-hidden="true" />
                             Angka ini perkiraan otomatis dari merek, tipe, tahun, kilometer, dan kondisi. Harga final ditentukan setelah inspeksi langsung dan tidak mengikat.
                         </p>
 
                         <div x-show="type === 'trade-in' && target" x-cloak class="mt-4 border-t border-white/10 pt-4">
                             <p class="a18-label">Perkiraan Tambahan Bayar</p>
-                            <p class="font-display text-xl font-black text-brand-500" x-text="rupiah(gap)"></p>
-                            <p class="mt-1 text-xs text-neutral-500"><span x-text="target && target.name"></span> dikurangi estimasi mobil Anda.</p>
+                            <p class="a18-display text-3xl leading-none text-brand-500" x-text="rupiah(gap)"></p>
+                            <p class="mt-1 text-[13px] text-white/50"><span x-text="target && target.name"></span> dikurangi estimasi mobil Anda.</p>
                         </div>
                     </div>
                 </aside>

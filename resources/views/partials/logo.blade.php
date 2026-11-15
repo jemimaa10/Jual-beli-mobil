@@ -1,22 +1,26 @@
 @php
+    // Wordmark AUTO18 gaya Motorsport: putih polos + "18" merah, miring tebal.
+    // showTagline: label samping "Auto / Eighteen" (gaya header) atau di bawah (ukuran lg/xl).
     $sizes = [
-        'sm' => ['word' => 'text-xl', 'tagline' => 'text-[7px]', 'line' => 'w-2.5'],
-        'md' => ['word' => 'text-2xl', 'tagline' => 'text-[8px]', 'line' => 'w-3'],
-        'lg' => ['word' => 'text-4xl', 'tagline' => 'text-[11px]', 'line' => 'w-5'],
-        'xl' => ['word' => 'text-6xl', 'tagline' => 'text-sm', 'line' => 'w-8'],
+        'sm' => ['word' => 'text-[26px]', 'tagline' => 'text-xs'],
+        'md' => ['word' => 'text-[32px]', 'tagline' => 'text-xs'],
+        'lg' => ['word' => 'text-[44px]', 'tagline' => 'text-xs'],
+        'xl' => ['word' => 'text-6xl', 'tagline' => 'text-sm'],
     ];
-    $s = $sizes[$size ?? 'md'] ?? $sizes['md'];
+    $key = $size ?? 'md';
+    $s = $sizes[$key] ?? $sizes['md'];
     $showTagline = $showTagline ?? true;
+    $stacked = in_array($key, ['lg', 'xl'], true);
 @endphp
-<div class="inline-flex select-none flex-col items-center leading-none {{ $class ?? '' }}" aria-label="Auto18 - Auto Eighteen">
-    <div class="font-display font-black italic tracking-tighter {{ $s['word'] }}">
-        <span class="bg-gradient-to-b from-white via-neutral-200 to-neutral-500 bg-clip-text pr-0.5 text-transparent drop-shadow-[0_2px_0_rgba(0,0,0,0.9)]">AUTO</span><span class="bg-gradient-to-b from-brand-400 via-brand-600 to-brand-800 bg-clip-text pr-1 text-transparent drop-shadow-[0_2px_0_rgba(0,0,0,0.9)]">18</span>
-    </div>
+<div class="inline-flex select-none leading-none {{ $stacked ? 'flex-col items-start' : 'items-center' }} {{ $class ?? '' }}" aria-label="Auto18 - Auto Eighteen">
+    <span class="a18-display pr-0.5 tracking-tight text-white {{ $s['word'] }}">AUTO<span class="text-brand-600">18</span></span>
     @if ($showTagline)
-        <div class="mt-1 flex items-center gap-1 font-display font-bold uppercase tracking-[0.3em] text-neutral-300 {{ $s['tagline'] }}">
-            <span class="h-px bg-neutral-400 {{ $s['line'] }}"></span>
-            <span>Auto Eighteen</span>
-            <span class="h-px bg-neutral-400 {{ $s['line'] }}"></span>
-        </div>
+        @if ($stacked)
+            <span class="a18-cond mt-2 flex items-center gap-2 font-semibold uppercase tracking-[0.3em] text-white/50 {{ $s['tagline'] }}">
+                <span class="h-1.5 w-6 bg-brand-600" aria-hidden="true"></span>Auto Eighteen
+            </span>
+        @else
+            <span class="a18-cond ml-3 border-l border-white/15 pl-3 font-semibold uppercase leading-tight tracking-[0.3em] text-white/50 {{ $s['tagline'] }}">Auto<br>Eighteen</span>
+        @endif
     @endif
 </div>

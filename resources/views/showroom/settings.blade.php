@@ -25,9 +25,8 @@
 
 @section('content')
 <div class="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
-    <div class="a18-stripes-soft rounded-3xl p-6">
-        <span class="text-[10px] font-black uppercase tracking-[0.2em] text-brand-500">Panel Showroom</span>
-        <h1 class="a18-heading mt-1 text-2xl sm:text-3xl">Pengaturan Showroom</h1>
+    <div class="a18-stripes-soft border-l-4 border-brand-600 p-6">
+        <h1 class="a18-heading text-3xl sm:text-4xl">Pengaturan Showroom</h1>
         <p class="mt-1.5 text-sm text-neutral-400">Profil, kontak, kasir &amp; simulasi kredit</p>
     </div>
 
@@ -35,7 +34,7 @@
         @csrf @method('PUT')
 
         @if ($errors->any())
-            <p class="rounded-lg border border-brand-600/40 bg-brand-600/10 px-3 py-2 text-sm text-brand-300" role="alert">Belum tersimpan. Periksa kolom yang bertanda merah.</p>
+            <p class="border border-brand-600/40 bg-brand-600/10 px-3 py-2 text-sm text-brand-300" role="alert">Belum tersimpan. Periksa kolom yang bertanda merah.</p>
         @endif
 
         <section>
@@ -45,7 +44,7 @@
                     <div class="{{ in_array($f['name'], ['address', 'tagline'], true) ? 'sm:col-span-2' : '' }}">
                         <label for="st-{{ $f['name'] }}" class="a18-label">{{ $f['label'] }}</label>
                         <input id="st-{{ $f['name'] }}" name="{{ $f['name'] }}" type="{{ $f['type'] }}" value="{{ $v($f['name']) }}" @if ($f['placeholder']) placeholder="{{ $f['placeholder'] }}" @endif class="a18-input">
-                        @if ($f['hint'])<p class="mt-1 text-[11px] text-neutral-500">{{ $f['hint'] }}</p>@endif
+                        @if ($f['hint'])<p class="mt-1 text-xs text-neutral-500">{{ $f['hint'] }}</p>@endif
                         @error($f['name'])<p class="mt-1 text-xs text-brand-400">{{ $message }}</p>@enderror
                     </div>
                 @endforeach
@@ -83,17 +82,17 @@
                 <div>
                     <label for="st-rate" class="a18-label">Bunga Flat</label>
                     <input id="st-rate" name="credit_rate" type="number" min="0" max="30" step="0.1" x-model.number="rate" class="a18-input">
-                    <p class="mt-1 text-[11px] text-neutral-500">Persen flat per tahun</p>
+                    <p class="mt-1 text-xs text-neutral-500">Persen flat per tahun</p>
                     @error('credit_rate')<p class="mt-1 text-xs text-brand-400">{{ $message }}</p>@enderror
                 </div>
                 <div>
                     <label for="st-dp" class="a18-label">DP Minimal</label>
                     <input id="st-dp" name="min_dp_percent" type="number" min="0" max="90" step="1" x-model.number="dp" class="a18-input">
-                    <p class="mt-1 text-[11px] text-neutral-500">Persen dari harga mobil</p>
+                    <p class="mt-1 text-xs text-neutral-500">Persen dari harga mobil</p>
                     @error('min_dp_percent')<p class="mt-1 text-xs text-brand-400">{{ $message }}</p>@enderror
                 </div>
             </div>
-            <p class="mt-3 rounded-xl border border-white/10 bg-ink-900 p-3 text-xs text-neutral-400">Contoh: mobil Rp 200.000.000, tenor 36 bulan &rarr; DP <span class="font-bold text-white" x-text="window.auto18.rupiah(sim.dpAmount)"></span>, cicilan <span class="font-bold text-white" x-text="window.auto18.rupiah(sim.monthly)"></span>/bulan.</p>
+            <p class="mt-3 border border-white/10 bg-ink-900 p-3 text-xs text-neutral-400">Contoh: mobil Rp 200.000.000, tenor 36 bulan &rarr; DP <span class="font-bold text-white" x-text="window.auto18.rupiah(sim.dpAmount)"></span>, cicilan <span class="font-bold text-white" x-text="window.auto18.rupiah(sim.monthly)"></span>/bulan.</p>
         </section>
 
         <div class="flex justify-end border-t border-white/10 pt-4">
@@ -103,7 +102,7 @@
 
     <div class="a18-card mt-6 flex flex-col gap-3 border-brand-600/40 p-5 sm:flex-row sm:items-center sm:justify-between">
         <div>
-            <h2 class="font-display text-sm font-black uppercase tracking-wide text-white">Reset Data Demo</h2>
+            <h2 class="a18-display text-sm text-white">Reset Data Demo</h2>
             <p class="mt-1 text-xs text-neutral-400">Menghapus semua mobil, produk, suplier, permintaan, test drive, transaksi, dan pengaturan, lalu mengisi ulang dengan data demo awal. Akun staf tidak berubah. Tidak bisa dibatalkan.</p>
         </div>
         <form method="POST" action="{{ route('showroom.settings.reset') }}" onsubmit="return confirm('Kembalikan semua data ke demo awal? Semua perubahan akan hilang dan tidak bisa dibatalkan.')">
