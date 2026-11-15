@@ -22,7 +22,7 @@
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="flex h-16 items-center gap-3 md:h-[72px] md:gap-8">
             <a href="{{ route('cars.index') }}" title="Beranda Auto18" aria-label="Beranda Auto18"
-               class="shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500">
+               class="flex h-11 shrink-0 items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500">
                 @include('partials.logo', ['size' => 'sm', 'showTagline' => false, 'class' => 'md:hidden'])
                 @include('partials.logo', ['size' => 'md', 'showTagline' => false, 'class' => 'hidden md:inline-flex lg:hidden'])
                 @include('partials.logo', ['size' => 'md', 'class' => 'hidden lg:inline-flex'])

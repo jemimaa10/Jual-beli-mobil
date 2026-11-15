@@ -85,7 +85,7 @@
                         <td class="px-4 py-3 text-right font-semibold {{ $margin >= 0 ? 'text-emerald-400' : 'text-brand-400' }}">{{ rupiah($margin) }}<span class="block text-xs font-normal text-neutral-500">{{ number_format($pct, 1, ',', '.') }}%</span></td>
                         <td class="px-4 py-3 text-center">
                             <button type="button" x-on:click="adjust = { id: {{ $p->id }}, name: @js($p->name), stock: {{ (int) $p->stock }}, unit: @js($p->unit), delta: '' }" title="Klik untuk ubah stok manual"
-                                    class="border px-2.5 py-1 text-xs font-bold transition-colors hover:border-brand-500 {{ $p->stock <= 0 ? 'border-brand-500/40 bg-brand-600/20 text-brand-300' : ($p->isLowStock() ? 'border-amber-500/30 bg-amber-500/15 text-amber-300' : 'border-white/15 text-white') }}">
+                                    class="a18-cond min-h-[2.5rem] border px-3 text-sm font-bold transition-colors hover:border-brand-500 {{ $p->stock <= 0 ? 'border-brand-500/40 bg-brand-600/20 text-brand-300' : ($p->isLowStock() ? 'border-amber-500/30 bg-amber-500/15 text-amber-300' : 'border-white/15 text-white') }}">
                                 {{ $p->stock }} {{ $p->unit }}
                             </button>
                             @if ($p->isLowStock())<span class="mt-1 block text-xs font-bold text-amber-400">Stok menipis</span>@endif

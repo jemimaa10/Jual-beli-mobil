@@ -5,7 +5,7 @@
         <form method="POST" action="{{ route('showroom.cars.sale.void', $car) }}"
               onsubmit="return confirm('Batalkan status terjual?\n\nTransaksi penjualannya akan ditandai &quot;Dibatalkan&quot; dan tidak lagi dihitung di omset/laba Dashboard &amp; Laporan (tetap tercatat di riwayat). Mobil ini kembali berstatus Tersedia.\n\nKalau penjualan ini memakai tukar tambah, mobil lama yang sudah masuk stok TIDAK ikut ditarik kembali.')">
             @csrf
-            <button type="submit" class="block text-xs text-neutral-500 underline hover:text-brand-400">Batalkan status terjual</button>
+            <button type="submit" class="inline-flex min-h-[2.5rem] items-center text-xs text-neutral-500 underline hover:text-brand-400">Batalkan status terjual</button>
         </form>
     </div>
 @else

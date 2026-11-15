@@ -27,6 +27,7 @@
     <div class="mt-6 grid grid-cols-1 items-start gap-6 lg:grid-cols-12">
         {{-- Katalog --}}
         <div class="space-y-4 lg:col-span-7 xl:col-span-8">
+            <h2 class="sr-only">Katalog Produk</h2>
             <div class="a18-card space-y-3 p-4">
                 <div class="relative">
                     <x-lucide-search class="pointer-events-none absolute left-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-neutral-500" aria-hidden="true" />
@@ -34,10 +35,10 @@
                     <button type="button" x-show="search" x-cloak x-on:click="search = ''" aria-label="Hapus pencarian" class="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-neutral-500 transition-colors hover:text-white"><x-lucide-x class="h-4 w-4" /></button>
                 </div>
                 <div class="flex items-center gap-2 overflow-x-auto pb-1">
-                    <button type="button" x-on:click="category = 'all'" x-bind:aria-pressed="category === 'all'" class="whitespace-nowrap px-3 py-1.5 text-xs font-bold transition-colors"
+                    <button type="button" x-on:click="category = 'all'" x-bind:aria-pressed="category === 'all'" class="a18-cond min-h-[2.5rem] whitespace-nowrap px-3 text-sm font-bold uppercase tracking-wide transition-colors"
                             x-bind:class="category === 'all' ? 'bg-brand-600 text-white' : 'bg-white/5 text-neutral-400 hover:bg-white/10 hover:text-white'">Semua ({{ count($products) }})</button>
                     @foreach ($categories as $cat)
-                        <button type="button" x-on:click="category = {{ $cat->id }}" x-bind:aria-pressed="category === {{ $cat->id }}" class="whitespace-nowrap px-3 py-1.5 text-xs font-bold transition-colors"
+                        <button type="button" x-on:click="category = {{ $cat->id }}" x-bind:aria-pressed="category === {{ $cat->id }}" class="a18-cond min-h-[2.5rem] whitespace-nowrap px-3 text-sm font-bold uppercase tracking-wide transition-colors"
                                 x-bind:class="category === {{ $cat->id }} ? 'bg-brand-600 text-white' : 'bg-white/5 text-neutral-400 hover:bg-white/10 hover:text-white'">{{ $cat->name }} (<span x-text="countIn({{ $cat->id }})"></span>)</button>
                     @endforeach
                 </div>

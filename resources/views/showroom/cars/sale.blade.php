@@ -97,7 +97,7 @@
                     <input id="co-paid" name="paid_amount" type="number" min="0" step="100000" x-model="paid" x-bind:placeholder="'Pas ' + rupiah(amountDue)" class="a18-input">
                     <div class="mt-2 flex flex-wrap gap-2">
                         <template x-for="(amount, i) in quickAmounts" :key="amount">
-                            <button type="button" x-on:click="paid = amount" class="border border-white/15 px-3 py-1.5 text-xs font-semibold text-neutral-300 transition-colors hover:border-brand-500 hover:text-white" x-text="i === 0 ? 'Uang Pas' : rupiah(amount)"></button>
+                            <button type="button" x-on:click="paid = amount" class="a18-cond min-h-[2.5rem] border border-white/15 px-3 text-sm font-bold text-neutral-300 transition-colors hover:border-brand-500 hover:text-white" x-text="i === 0 ? 'Uang Pas' : rupiah(amount)"></button>
                         </template>
                     </div>
                     @if ($err('paid_amount'))<p class="mt-1 text-xs text-brand-400">{{ $err('paid_amount') }}</p>@endif

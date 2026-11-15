@@ -58,7 +58,7 @@
                 </div>
                 <div class="flex border border-white/15 p-0.5" role="group" aria-label="Filter jenis omset">
                     @foreach ([['all', 'Semua'], ['car', 'Mobil'], ['retail', 'Aksesoris']] as [$id, $label])
-                        <button type="button" x-on:click="mode = '{{ $id }}'" x-bind:aria-pressed="mode === '{{ $id }}'" class="px-3 py-1 text-xs font-bold transition-colors" x-bind:class="mode === '{{ $id }}' ? 'bg-brand-600 text-white' : 'text-neutral-400 hover:text-white'">{{ $label }}</button>
+                        <button type="button" x-on:click="mode = '{{ $id }}'" x-bind:aria-pressed="mode === '{{ $id }}'" class="a18-cond min-h-[2.5rem] px-3 text-sm font-bold uppercase tracking-wide transition-colors" x-bind:class="mode === '{{ $id }}' ? 'bg-brand-600 text-white' : 'text-neutral-400 hover:text-white'">{{ $label }}</button>
                     @endforeach
                 </div>
             </div>
@@ -94,7 +94,7 @@
         <section class="a18-card min-w-0 p-5">
             <div class="flex items-center justify-between gap-2">
                 <h2 class="a18-heading text-sm sm:text-base">Stok Menipis</h2>
-                <a href="{{ route('showroom.products.index', ['low' => 1]) }}" class="text-xs font-bold text-brand-400 hover:text-brand-300">Lihat semua</a>
+                <a href="{{ route('showroom.products.index', ['low' => 1]) }}" class="a18-cond inline-flex min-h-[2.5rem] items-center text-sm font-bold uppercase tracking-wide text-brand-500 hover:text-brand-400">Lihat semua</a>
             </div>
             <ul class="mt-3 divide-y divide-white/10">
                 @forelse ($lowStock as $p)
@@ -114,7 +114,7 @@
         <section class="a18-card min-w-0 p-5">
             <div class="flex items-center justify-between gap-2">
                 <h2 class="a18-heading text-sm sm:text-base">Transaksi Terbaru</h2>
-                <a href="{{ route('showroom.reports') }}" class="text-xs font-bold text-brand-400 hover:text-brand-300">Laporan lengkap</a>
+                <a href="{{ route('showroom.reports') }}" class="a18-cond inline-flex min-h-[2.5rem] items-center text-sm font-bold uppercase tracking-wide text-brand-500 hover:text-brand-400">Laporan lengkap</a>
             </div>
             <ul class="mt-3 divide-y divide-white/10">
                 @forelse ($recent as $t)
@@ -155,7 +155,7 @@
         <section class="a18-card min-w-0 p-5">
             <div class="flex items-center justify-between gap-2">
                 <h2 class="a18-heading text-sm sm:text-base">Test Drive Mendatang</h2>
-                <a href="{{ route('showroom.cars.index', ['tab' => 'testdrive']) }}" class="text-xs font-bold text-brand-400 hover:text-brand-300">Kelola</a>
+                <a href="{{ route('showroom.cars.index', ['tab' => 'testdrive']) }}" class="a18-cond inline-flex min-h-[2.5rem] items-center text-sm font-bold uppercase tracking-wide text-brand-500 hover:text-brand-400">Kelola</a>
             </div>
             <ul class="mt-3 divide-y divide-white/10">
                 @forelse ($upcomingDrives as $t)
@@ -173,7 +173,7 @@
         <section class="a18-card min-w-0 p-5">
             <div class="flex items-center justify-between gap-2">
                 <h2 class="a18-heading text-sm sm:text-base">Permintaan Jual &amp; Tukar Tambah</h2>
-                <a href="{{ route('showroom.cars.index', ['tab' => 'requests']) }}" class="text-xs font-bold text-brand-400 hover:text-brand-300">Kelola</a>
+                <a href="{{ route('showroom.cars.index', ['tab' => 'requests']) }}" class="a18-cond inline-flex min-h-[2.5rem] items-center text-sm font-bold uppercase tracking-wide text-brand-500 hover:text-brand-400">Kelola</a>
             </div>
             <ul class="mt-3 divide-y divide-white/10">
                 @forelse ($newRequestList as $r)
