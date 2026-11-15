@@ -104,6 +104,26 @@ class MotorsportThemeTest extends TestCase
         $this->assertStringContainsString('a18-skew', $html);
     }
 
+    public function test_404_uses_outline_numeral(): void
+    {
+        $this->get('/halaman-yang-tidak-ada')->assertNotFound()->assertSee('a18-outline-num', false);
+    }
+
+    public function test_standalone_error_pages_use_new_fonts_without_vite(): void
+    {
+        foreach (['errors.500', 'errors.503'] as $view) {
+            $html = view($view)->render();
+            $this->assertStringContainsString('Barlow+Condensed', $html, $view);
+            $this->assertStringContainsString('#070708', $html, $view);
+            $this->assertStringNotContainsString('/build/', $html, $view);
+        }
+    }
+
+    public function test_login_page_uses_motorsport_card(): void
+    {
+        $this->get(route('login'))->assertOk()->assertSee('a18-cut-tag', false)->assertSee('Masuk Panel Showroom');
+    }
+
     public function test_home_keeps_all_six_sort_options(): void
     {
         $html = $this->get(route('cars.index'))->getContent();
