@@ -119,7 +119,7 @@
                                     <span class="a18-unskew a18-display text-xl leading-none" x-show="step <= {{ $no }}">{{ str_pad($no, 2, '0', STR_PAD_LEFT) }}</span>
                                     <span class="a18-unskew" x-show="step > {{ $no }}" x-cloak><x-lucide-check class="h-5 w-5" /></span>
                                 </span>
-                                <span class="a18-cond hidden text-base font-bold uppercase tracking-wide transition-colors duration-200 sm:block" x-bind:class="step < {{ $no }} ? 'text-white/45' : 'text-white'">{{ $text }}</span>
+                                <span class="a18-cond hidden text-base font-bold uppercase tracking-wide transition-colors duration-200 sm:block" x-bind:class="step < {{ $no }} ? 'text-white/60' : 'text-white'">{{ $text }}</span>
                                 @if ($no < 3)
                                     <span class="relative h-[3px] flex-1 bg-white/10" aria-hidden="true"><span class="absolute inset-0 origin-left bg-brand-600 transition-transform duration-300" x-bind:style="step > {{ $no }} ? 'transform: scaleX(1)' : 'transform: scaleX(0)'"></span></span>
                                 @endif

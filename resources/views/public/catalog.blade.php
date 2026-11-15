@@ -21,7 +21,7 @@
             [count(config('auto18.inspection_categories')), "Kategori\ninspeksi", false],
             [24, "Jam layanan\ndarurat", false],
         ];
-        $chip = 'a18-skew flex h-11 shrink-0 items-stretch transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500';
+        $chipClass = 'a18-skew flex h-11 shrink-0 items-stretch transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500';
     @endphp
 
     {{-- HERO --}}
@@ -104,8 +104,8 @@
             <dl class="mx-auto grid max-w-7xl grid-cols-2 px-4 sm:px-6 lg:grid-cols-4 lg:px-8">
                 @foreach ($stats as $i => [$value, $label, $red])
                     <div class="flex items-center gap-4 border-white/10 py-5 lg:py-6 {{ $i % 2 === 0 ? 'border-r pr-4' : 'pl-4' }} {{ $i < 2 ? 'border-b lg:border-b-0' : '' }} {{ $i > 0 ? 'lg:px-6' : '' }} {{ $i === 1 ? 'lg:border-r' : '' }}">
-                        <dd class="a18-display order-first text-5xl leading-none lg:text-[64px] {{ $red ? 'text-brand-600' : 'text-white' }}">{{ $value }}</dd>
                         <dt class="a18-cond whitespace-pre-line text-sm font-bold uppercase leading-tight tracking-wide text-white/80 lg:text-base">{{ $label }}</dt>
+                        <dd class="a18-display order-first text-5xl leading-none lg:text-[64px] {{ $red ? 'text-brand-600' : 'text-white' }}">{{ $value }}</dd>
                     </div>
                 @endforeach
             </dl>
@@ -122,7 +122,7 @@
                         @if ($brandCounts[$brand] ?? 0)
                             @php $on = in_array($brand, $filters['brand'], true); @endphp
                             <a href="{{ $toggleBrand($brand) }}" aria-pressed="{{ $on ? 'true' : 'false' }}"
-                               class="{{ $chip }} {{ $on ? 'bg-white text-ink' : 'border border-white/15 bg-ink-800 text-white hover:border-white/50' }}">
+                               class="{{ $chipClass }} {{ $on ? 'bg-white text-ink' : 'border border-white/15 bg-ink-800 text-white hover:border-white/50' }}">
                                 <span class="a18-unskew a18-cond flex items-center px-4 text-base font-bold uppercase tracking-wide">{{ $brand }}</span>
                                 <span class="flex items-center px-3 {{ $on ? 'bg-brand-600 text-white' : 'bg-ink-600 text-white' }}"><span class="a18-unskew a18-display text-lg">{{ $brandCounts[$brand] }}</span></span>
                             </a>
@@ -137,7 +137,7 @@
                         @if ($bodyCounts[$type] ?? 0)
                             @php $on = $filters['body'] === $type; @endphp
                             <a href="{{ $toggleBody($type) }}" aria-pressed="{{ $on ? 'true' : 'false' }}"
-                               class="{{ $chip }} {{ $on ? 'bg-white text-ink' : 'border border-white/15 bg-ink-800 text-white hover:border-white/50' }}">
+                               class="{{ $chipClass }} {{ $on ? 'bg-white text-ink' : 'border border-white/15 bg-ink-800 text-white hover:border-white/50' }}">
                                 <span class="a18-unskew a18-cond flex items-center gap-2 px-4 text-base font-bold uppercase tracking-wide"><x-lucide-car class="h-4 w-4" aria-hidden="true" /> {{ $type }}</span>
                                 <span class="flex items-center px-3 {{ $on ? 'bg-brand-600 text-white' : 'bg-ink-600 text-white' }}"><span class="a18-unskew a18-display text-lg">{{ $bodyCounts[$type] }}</span></span>
                             </a>

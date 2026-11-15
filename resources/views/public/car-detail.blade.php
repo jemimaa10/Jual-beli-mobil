@@ -130,7 +130,7 @@
                 <div class="a18-card relative p-5">
                     <div class="absolute -top-px left-0 h-[3px] w-24 bg-brand-600" aria-hidden="true"></div>
                     <p class="a18-cond text-xs font-semibold uppercase tracking-widest text-white/55">Harga Cash</p>
-                    <p class="a18-display text-4xl leading-none {{ $isSold ? 'text-white/50 line-through decoration-2' : 'text-white' }}">{{ rupiah($car->price) }}</p>
+                    <p class="a18-display text-4xl leading-none {{ $isSold ? 'text-white/50' : 'text-white' }}">{{ rupiah($car->price) }}</p>
                     @unless ($isSold)
                         <div class="-mx-5 mt-4 flex items-center justify-between gap-3 bg-white px-5 py-3 text-ink">
                             <span class="a18-cond text-xs font-semibold uppercase tracking-widest text-ink/60">Cicilan mulai</span>

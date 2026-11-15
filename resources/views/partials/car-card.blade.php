@@ -19,7 +19,7 @@
     {{-- Foto --}}
     <div class="relative">
         <div class="a18-cut-card"><div class="a18-cut-img relative overflow-hidden">
-            @include('partials.car-image', ['car' => $car, 'class' => 'aspect-[4/3] w-full', 'imgClass' => 'transition-transform duration-500 group-hover:scale-[1.04] ' . ($isSold || $isBooked ? 'grayscale opacity-60' : '')])
+            @include('partials.car-image', ['car' => $car, 'class' => 'aspect-[4/3] w-full', 'imgClass' => 'transition-transform duration-500 group-hover:scale-[1.04] ' . ($isSold ? 'grayscale opacity-60' : '')])
             <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/55 via-transparent to-transparent" aria-hidden="true"></div>
             @if ($isSold)
                 <div class="pointer-events-none absolute inset-0 flex items-center justify-center">
@@ -78,7 +78,7 @@
 
         <div class="-mx-4 -mb-4 mt-auto flex items-stretch border-t border-white/10 pt-0">
             <div class="min-w-0 flex-1 px-4 py-3">
-                <p class="a18-display truncate text-2xl leading-none {{ $isSold ? 'text-white/50 line-through decoration-2' : 'text-white' }}">{{ rupiah($car->price) }}</p>
+                <p class="a18-display truncate text-2xl leading-none {{ $isSold ? 'text-white/50' : 'text-white' }}">{{ rupiah($car->price) }}</p>
                 @if (! $isSold)
                     <p class="mt-1 text-[13px] text-white/70">Cicilan mulai <b class="font-semibold text-white">{{ rupiah_short($monthly) }}</b>/bln</p>
                 @elseif ($car->sold_price > 0)

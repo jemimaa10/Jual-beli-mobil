@@ -201,6 +201,50 @@ class MotorsportThemeTest extends TestCase
         }
     }
 
+    public function test_home_stats_put_label_before_number_for_screen_readers(): void
+    {
+        $html = $this->get(route('cars.index'))->getContent();
+        preg_match_all('/<(dt|dd)\b/', $html, $m);
+        $this->assertNotEmpty($m[1]);
+        $this->assertSame('dt', $m[1][0]);
+        for ($i = 0; $i < count($m[1]); $i += 2) {
+            $this->assertSame(['dt', 'dd'], [$m[1][$i], $m[1][$i + 1] ?? null]);
+        }
+    }
+
+    public function test_layout_loads_upright_black_weight_of_barlow_condensed(): void
+    {
+        $this->get(route('cars.index'))->assertSee('family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;0,900;', false);
+    }
+
+    public function test_sell_stepper_upcoming_labels_have_readable_contrast(): void
+    {
+        $this->get(route('sell.create'))->assertDontSee("'text-white/45'", false);
+    }
+
+    public function test_booked_card_photo_stays_in_colour(): void
+    {
+        $car = Car::where('status', 'booked')->firstOrFail();
+        $html = view('partials.car-card', ['car' => $car, 'gridNo' => 1])->render();
+        $this->assertStringNotContainsString('grayscale', $html);
+    }
+
+    public function test_sold_prices_are_not_struck_through(): void
+    {
+        $car = Car::where('status', 'available')->firstOrFail();
+        $car->update(['status' => 'sold', 'sold_price' => 230_000_000, 'sold_at' => now()->subDay()]);
+        $card = view('partials.car-card', ['car' => $car->fresh(), 'gridNo' => 1])->render();
+        $this->assertStringNotContainsString('line-through', $card);
+        $this->get(route('cars.show', $car))->assertOk()->assertDontSee('line-through', false);
+    }
+
+    public function test_active_filter_chips_and_brand_chips_render_together(): void
+    {
+        $html = $this->get(route('cars.index', ['brand' => ['Honda']]))->assertOk()->getContent();
+        $this->assertMatchesRegularExpression('/<a [^>]*aria-label="Hapus filter[^"]*Honda/', $html);
+        $this->assertMatchesRegularExpression('/<a [^>]*aria-pressed="true"[^>]*class="a18-skew/s', $html);
+    }
+
     public function test_home_keeps_all_six_sort_options(): void
     {
         $html = $this->get(route('cars.index'))->getContent();
