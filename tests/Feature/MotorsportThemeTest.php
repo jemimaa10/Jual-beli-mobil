@@ -68,4 +68,29 @@ class MotorsportThemeTest extends TestCase
         $html = view('partials.car-card', ['car' => $car, 'gridNo' => 2])->render();
         $this->assertMatchesRegularExpression('/bg-amber-400[^"]*"[^>]*>\s*(<span[^>]*>\s*)?Dipesan/', $html);
     }
+
+    public function test_home_has_motorsport_sections_and_server_ordered_grid(): void
+    {
+        $html = $this->get(route('cars.index', ['sort' => 'price_asc']))->assertOk()->getContent();
+        foreach (['a18-cut-hero', 'a18-checker', 'a18-stripes-red'] as $cls) {
+            $this->assertStringContainsString($cls, $html);
+        }
+        preg_match_all('/data-grid-no="(\d+)"/', $html, $m);
+        $this->assertNotEmpty($m[1]);
+        $this->assertSame(range(1, count($m[1])), array_map('intval', $m[1]));
+    }
+
+    public function test_featured_car_panel_shows_score_and_fuel(): void
+    {
+        $car = $this->get(route('cars.index'))->viewData('featuredCar');
+        $this->assertNotNull($car->inspection_score);
+        $this->assertNotNull($car->fuel);
+    }
+
+    public function test_home_keeps_all_six_sort_options(): void
+    {
+        $html = $this->get(route('cars.index'))->getContent();
+        preg_match('/<select[^>]*name="sort"[^>]*>(.*?)<\/select>/s', $html, $m);
+        $this->assertSame(6, substr_count($m[1] ?? '', '<option'));
+    }
 }

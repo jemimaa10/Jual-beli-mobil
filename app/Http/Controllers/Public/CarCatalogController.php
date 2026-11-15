@@ -33,7 +33,7 @@ class CarCatalogController extends Controller
 
         $cars = $this->query($filters)->get();
 
-        $unsold = Car::query()->notSold()->get(['id', 'brand', 'body_type', 'price', 'is_featured', 'status', 'model', 'image_key', 'image_url', 'location', 'year', 'variant']);
+        $unsold = Car::query()->notSold()->get(['id', 'brand', 'body_type', 'price', 'is_featured', 'status', 'model', 'image_key', 'image_url', 'location', 'year', 'variant', 'fuel', 'inspection_score', 'color', 'color_hex']);
 
         $prices = $unsold->pluck('price')->sort()->values();
 
