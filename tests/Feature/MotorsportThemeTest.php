@@ -43,4 +43,29 @@ class MotorsportThemeTest extends TestCase
             $this->assertSame(1, substr_count($html, 'Panel Showroom</'), $r);
         }
     }
+
+    public function test_card_shows_grid_number_and_keeps_focus_ring_unclipped(): void
+    {
+        $html = $this->get(route('cars.index'))->assertOk()->getContent();
+        $this->assertStringContainsString('data-grid-no="01"', $html);
+        $this->assertDoesNotMatchRegularExpression('/<article[^>]*a18-cut-/', $html);
+        $this->assertMatchesRegularExpression('/<article[^>]*focus-within:ring-2/', $html);
+    }
+
+    public function test_sold_card_keeps_stamp_and_sold_price_without_installment(): void
+    {
+        $car = Car::where('status', 'available')->firstOrFail();
+        $car->update(['status' => 'sold', 'sold_price' => 230_000_000, 'sold_at' => now()->subDay()]);
+        $html = view('partials.car-card', ['car' => $car->fresh(), 'gridNo' => 1])->render();
+        $this->assertStringContainsString('TERJUAL', $html);
+        $this->assertStringContainsString('Terjual Rp 230.000.000', $html);
+        $this->assertStringNotContainsString('Cicilan mulai', $html);
+    }
+
+    public function test_booked_card_shows_amber_dipesan_label(): void
+    {
+        $car = Car::where('status', 'booked')->firstOrFail();
+        $html = view('partials.car-card', ['car' => $car, 'gridNo' => 2])->render();
+        $this->assertMatchesRegularExpression('/bg-amber-400[^"]*"[^>]*>\s*(<span[^>]*>\s*)?Dipesan/', $html);
+    }
 }

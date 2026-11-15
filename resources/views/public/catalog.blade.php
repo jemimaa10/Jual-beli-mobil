@@ -157,7 +157,7 @@
                     <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
                         @foreach ($cars as $car)
                             <div class="grid" x-show="!favOnly || $store.favorites.has({{ $car->id }})" @if ($filters['favorit']) x-cloak @endif>
-                                @include('partials.car-card', ['car' => $car])
+                                @include('partials.car-card', ['car' => $car, 'gridNo' => $loop->iteration])
                             </div>
                         @endforeach
                     </div>
